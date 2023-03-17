@@ -1,11 +1,17 @@
-﻿namespace PVGym.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PVGym.Models
 {
     public class AvailableClass
     {
-        public int Id { get; set; }
+        [Required]
+        public Guid Id { get; set; }
+        [Required]
         public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
+        [Required]
         public int Limit { get; set; }
+        [Required]
         public int Duration { get; set; }
 
     }

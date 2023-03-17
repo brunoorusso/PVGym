@@ -10,93 +10,88 @@ using PVGym.Models;
 
 namespace PVGym.Controllers
 {
-    public class MembersController : Controller
+    public class WorkoutsController : Controller
     {
         private readonly PVGymContext _context;
 
-        public MembersController(PVGymContext context)
+        public WorkoutsController(PVGymContext context)
         {
             _context = context;
         }
 
-        // GET: Members
+        // GET: Workouts
         public async Task<IActionResult> Index()
         {
-              return _context.Member != null ? 
-                          View(await _context.Member.ToListAsync()) :
-                          Problem("Entity set 'PVGymContext.Member'  is null.");
+              return _context.Workout != null ? 
+                          View(await _context.Workout.ToListAsync()) :
+                          Problem("Entity set 'PVGymContext.Workout'  is null.");
         }
 
-        // GET: Members/Details/5
+        // GET: Workouts/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
-            if (id == null || _context.Member == null)
+            if (id == null || _context.Workout == null)
             {
                 return NotFound();
             }
 
-            var member = await _context.Member
-                .FirstOrDefaultAsync(m => m.MemberId == id);
-            if (member == null)
+            var workout = await _context.Workout
+                .FirstOrDefaultAsync(m => m.WorkoutId == id);
+            if (workout == null)
             {
                 return NotFound();
             }
 
-            return View(member);
+            return View(workout);
         }
 
-        // GET: Members/Create
+        // GET: Workouts/Create
         public IActionResult Create()
         {
-            PopulateViewData();
             return View();
         }
 
-        // POST: Members/Create
+        // POST: Workouts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MemberId,VAT,PlanType")] Member member)
+        public async Task<IActionResult> Create([Bind("WorkoutId,Name")] Workout workout)
         {
             if (ModelState.IsValid)
             {
-                member.MemberId = Guid.NewGuid();
-                _context.Add(member);
+                workout.WorkoutId = Guid.NewGuid();
+                _context.Add(workout);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            PopulateViewData();
-            return View(member);
+            return View(workout);
         }
 
-        // GET: Members/Edit/5
+        // GET: Workouts/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == null || _context.Member == null)
+            if (id == null || _context.Workout == null)
             {
                 return NotFound();
             }
 
-            var member = await _context.Member.FindAsync(id);
-            if (member == null)
+            var workout = await _context.Workout.FindAsync(id);
+            if (workout == null)
             {
                 return NotFound();
             }
-
-            PopulateViewData();
-            return View(member);
+            return View(workout);
         }
 
-        // POST: Members/Edit/5
+        // POST: Workouts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("MemberId,VAT,PlanType")] Member member)
+        public async Task<IActionResult> Edit(Guid id, [Bind("WorkoutId,Name")] Workout workout)
         {
-            if (id != member.MemberId)
+            if (id != workout.WorkoutId)
             {
                 return NotFound();
             }
@@ -105,12 +100,12 @@ namespace PVGym.Controllers
             {
                 try
                 {
-                    _context.Update(member);
+                    _context.Update(workout);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MemberExists(member.MemberId))
+                    if (!WorkoutExists(workout.WorkoutId))
                     {
                         return NotFound();
                     }
@@ -121,56 +116,49 @@ namespace PVGym.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-
-            PopulateViewData();
-            return View(member);
+            return View(workout);
         }
 
-        // GET: Members/Delete/5
+        // GET: Workouts/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (id == null || _context.Member == null)
+            if (id == null || _context.Workout == null)
             {
                 return NotFound();
             }
 
-            var member = await _context.Member
-                .FirstOrDefaultAsync(m => m.MemberId == id);
-            if (member == null)
+            var workout = await _context.Workout
+                .FirstOrDefaultAsync(m => m.WorkoutId == id);
+            if (workout == null)
             {
                 return NotFound();
             }
 
-            return View(member);
+            return View(workout);
         }
 
-        // POST: Members/Delete/5
+        // POST: Workouts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            if (_context.Member == null)
+            if (_context.Workout == null)
             {
-                return Problem("Entity set 'PVGymContext.Member'  is null.");
+                return Problem("Entity set 'PVGymContext.Workout'  is null.");
             }
-            var member = await _context.Member.FindAsync(id);
-            if (member != null)
+            var workout = await _context.Workout.FindAsync(id);
+            if (workout != null)
             {
-                _context.Member.Remove(member);
+                _context.Workout.Remove(workout);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MemberExists(Guid id)
+        private bool WorkoutExists(Guid id)
         {
-          return (_context.Member?.Any(e => e.MemberId == id)).GetValueOrDefault();
-        }
-
-        private void PopulateViewData()
-        {
-            ViewData["PlanType"] = new SelectList(Enum.GetValues<Plantype>().Select(c => new { Value = (int)c, Name = c.ToString() }), "Value", "Name");
+          return (_context.Workout?.Any(e => e.WorkoutId == id)).GetValueOrDefault();
         }
     }
 }

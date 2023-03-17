@@ -12,17 +12,47 @@ using PVGym.Data;
 namespace PVGym.Migrations
 {
     [DbContext(typeof(PVGymContext))]
-    [Migration("20230315004638_Initial")]
+    [Migration("20230316142248_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.14")
+                .HasAnnotation("ProductVersion", "6.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("ExerciseWorkout", b =>
+                {
+                    b.Property<Guid>("ExercisesExerciseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("WorkoutsWorkoutId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ExercisesExerciseId", "WorkoutsWorkoutId");
+
+                    b.HasIndex("WorkoutsWorkoutId");
+
+                    b.ToTable("ExerciseWorkout");
+                });
+
+            modelBuilder.Entity("MemberPlan", b =>
+                {
+                    b.Property<Guid>("MemberId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PlansPlanId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("MemberId", "PlansPlanId");
+
+                    b.HasIndex("PlansPlanId");
+
+                    b.ToTable("MemberPlan");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -161,6 +191,21 @@ namespace PVGym.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("PlanWorkout", b =>
+                {
+                    b.Property<Guid>("PlansPlanId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("WorkoutsWorkoutId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PlansPlanId", "WorkoutsWorkoutId");
+
+                    b.HasIndex("WorkoutsWorkoutId");
+
+                    b.ToTable("PlanWorkout");
+                });
+
             modelBuilder.Entity("PVGym.Areas.Identity.Data.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -228,11 +273,9 @@ namespace PVGym.Migrations
 
             modelBuilder.Entity("PVGym.Models.Evaluation", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("BMI")
                         .HasColumnType("decimal(18,2)");
@@ -243,8 +286,8 @@ namespace PVGym.Migrations
                     b.Property<decimal>("Height")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("MemberId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("MemberId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Weight")
                         .HasColumnType("decimal(18,2)");
@@ -258,92 +301,111 @@ namespace PVGym.Migrations
 
             modelBuilder.Entity("PVGym.Models.Exercise", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("ExerciseId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("WorkoutId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WorkoutId");
+                    b.HasKey("ExerciseId");
 
                     b.ToTable("Exercise");
                 });
 
             modelBuilder.Entity("PVGym.Models.Member", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("MemberId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("PlanType")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("PlanType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("VAT")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("MemberId");
 
                     b.ToTable("Member");
+
+                    b.HasData(
+                        new
+                        {
+                            MemberId = new Guid("9f2bb40a-faca-48f3-83bb-db72d1fd6e4f"),
+                            PlanType = 0,
+                            VAT = 222222213
+                        },
+                        new
+                        {
+                            MemberId = new Guid("35a52fa5-76bf-4a60-952e-5429ae74c82f"),
+                            PlanType = 1,
+                            VAT = 234234586
+                        });
                 });
 
             modelBuilder.Entity("PVGym.Models.Plan", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("PlanId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("MemberId")
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("MemberId");
+                    b.HasKey("PlanId");
 
                     b.ToTable("Plan");
                 });
 
             modelBuilder.Entity("PVGym.Models.Workout", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("WorkoutId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PlanId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlanId");
+                    b.HasKey("WorkoutId");
 
                     b.ToTable("Workout");
+                });
+
+            modelBuilder.Entity("ExerciseWorkout", b =>
+                {
+                    b.HasOne("PVGym.Models.Exercise", null)
+                        .WithMany()
+                        .HasForeignKey("ExercisesExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PVGym.Models.Workout", null)
+                        .WithMany()
+                        .HasForeignKey("WorkoutsWorkoutId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MemberPlan", b =>
+                {
+                    b.HasOne("PVGym.Models.Member", null)
+                        .WithMany()
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PVGym.Models.Plan", null)
+                        .WithMany()
+                        .HasForeignKey("PlansPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -397,6 +459,21 @@ namespace PVGym.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("PlanWorkout", b =>
+                {
+                    b.HasOne("PVGym.Models.Plan", null)
+                        .WithMany()
+                        .HasForeignKey("PlansPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PVGym.Models.Workout", null)
+                        .WithMany()
+                        .HasForeignKey("WorkoutsWorkoutId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("PVGym.Models.Evaluation", b =>
                 {
                     b.HasOne("PVGym.Models.Member", null)
@@ -404,42 +481,9 @@ namespace PVGym.Migrations
                         .HasForeignKey("MemberId");
                 });
 
-            modelBuilder.Entity("PVGym.Models.Exercise", b =>
-                {
-                    b.HasOne("PVGym.Models.Workout", null)
-                        .WithMany("Exercises")
-                        .HasForeignKey("WorkoutId");
-                });
-
-            modelBuilder.Entity("PVGym.Models.Plan", b =>
-                {
-                    b.HasOne("PVGym.Models.Member", null)
-                        .WithMany("Plans")
-                        .HasForeignKey("MemberId");
-                });
-
-            modelBuilder.Entity("PVGym.Models.Workout", b =>
-                {
-                    b.HasOne("PVGym.Models.Plan", null)
-                        .WithMany("Workouts")
-                        .HasForeignKey("PlanId");
-                });
-
             modelBuilder.Entity("PVGym.Models.Member", b =>
                 {
                     b.Navigation("Evaluations");
-
-                    b.Navigation("Plans");
-                });
-
-            modelBuilder.Entity("PVGym.Models.Plan", b =>
-                {
-                    b.Navigation("Workouts");
-                });
-
-            modelBuilder.Entity("PVGym.Models.Workout", b =>
-                {
-                    b.Navigation("Exercises");
                 });
 #pragma warning restore 612, 618
         }

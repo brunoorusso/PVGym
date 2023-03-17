@@ -49,17 +49,53 @@ namespace PVGym.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Member",
+                name: "Exercise",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    VAT = table.Column<int>(type: "int", nullable: false),
-                    PlanType = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ExerciseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Member", x => x.Id);
+                    table.PrimaryKey("PK_Exercise", x => x.ExerciseId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Member",
+                columns: table => new
+                {
+                    MemberId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    VAT = table.Column<int>(type: "int", nullable: false),
+                    PlanType = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Member", x => x.MemberId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Plan",
+                columns: table => new
+                {
+                    PlanId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Plan", x => x.PlanId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Workout",
+                columns: table => new
+                {
+                    WorkoutId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Workout", x => x.WorkoutId);
                 });
 
             migrationBuilder.CreateTable(
@@ -172,13 +208,12 @@ namespace PVGym.Migrations
                 name: "Evaluation",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Height = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Weight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BMI = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BodyFat = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    MemberId = table.Column<int>(type: "int", nullable: true)
+                    MemberId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -187,66 +222,90 @@ namespace PVGym.Migrations
                         name: "FK_Evaluation_Member_MemberId",
                         column: x => x.MemberId,
                         principalTable: "Member",
-                        principalColumn: "Id");
+                        principalColumn: "MemberId");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Plan",
+                name: "MemberPlan",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MemberId = table.Column<int>(type: "int", nullable: true)
+                    MemberId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PlansPlanId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Plan", x => x.Id);
+                    table.PrimaryKey("PK_MemberPlan", x => new { x.MemberId, x.PlansPlanId });
                     table.ForeignKey(
-                        name: "FK_Plan_Member_MemberId",
+                        name: "FK_MemberPlan_Member_MemberId",
                         column: x => x.MemberId,
                         principalTable: "Member",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Workout",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PlanId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Workout", x => x.Id);
+                        principalColumn: "MemberId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Workout_Plan_PlanId",
-                        column: x => x.PlanId,
+                        name: "FK_MemberPlan_Plan_PlansPlanId",
+                        column: x => x.PlansPlanId,
                         principalTable: "Plan",
-                        principalColumn: "Id");
+                        principalColumn: "PlanId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Exercise",
+                name: "ExerciseWorkout",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    WorkoutId = table.Column<int>(type: "int", nullable: true)
+                    ExercisesExerciseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    WorkoutsWorkoutId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Exercise", x => x.Id);
+                    table.PrimaryKey("PK_ExerciseWorkout", x => new { x.ExercisesExerciseId, x.WorkoutsWorkoutId });
                     table.ForeignKey(
-                        name: "FK_Exercise_Workout_WorkoutId",
-                        column: x => x.WorkoutId,
+                        name: "FK_ExerciseWorkout_Exercise_ExercisesExerciseId",
+                        column: x => x.ExercisesExerciseId,
+                        principalTable: "Exercise",
+                        principalColumn: "ExerciseId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ExerciseWorkout_Workout_WorkoutsWorkoutId",
+                        column: x => x.WorkoutsWorkoutId,
                         principalTable: "Workout",
-                        principalColumn: "Id");
+                        principalColumn: "WorkoutId",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "PlanWorkout",
+                columns: table => new
+                {
+                    PlansPlanId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    WorkoutsWorkoutId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlanWorkout", x => new { x.PlansPlanId, x.WorkoutsWorkoutId });
+                    table.ForeignKey(
+                        name: "FK_PlanWorkout_Plan_PlansPlanId",
+                        column: x => x.PlansPlanId,
+                        principalTable: "Plan",
+                        principalColumn: "PlanId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PlanWorkout_Workout_WorkoutsWorkoutId",
+                        column: x => x.WorkoutsWorkoutId,
+                        principalTable: "Workout",
+                        principalColumn: "WorkoutId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Member",
+                columns: new[] { "MemberId", "PlanType", "VAT" },
+                values: new object[] { new Guid("35a52fa5-76bf-4a60-952e-5429ae74c82f"), 1, 234234586 });
+
+            migrationBuilder.InsertData(
+                table: "Member",
+                columns: new[] { "MemberId", "PlanType", "VAT" },
+                values: new object[] { new Guid("9f2bb40a-faca-48f3-83bb-db72d1fd6e4f"), 0, 222222213 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -293,19 +352,19 @@ namespace PVGym.Migrations
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Exercise_WorkoutId",
-                table: "Exercise",
-                column: "WorkoutId");
+                name: "IX_ExerciseWorkout_WorkoutsWorkoutId",
+                table: "ExerciseWorkout",
+                column: "WorkoutsWorkoutId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Plan_MemberId",
-                table: "Plan",
-                column: "MemberId");
+                name: "IX_MemberPlan_PlansPlanId",
+                table: "MemberPlan",
+                column: "PlansPlanId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Workout_PlanId",
-                table: "Workout",
-                column: "PlanId");
+                name: "IX_PlanWorkout_WorkoutsWorkoutId",
+                table: "PlanWorkout",
+                column: "WorkoutsWorkoutId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -329,7 +388,13 @@ namespace PVGym.Migrations
                 name: "Evaluation");
 
             migrationBuilder.DropTable(
-                name: "Exercise");
+                name: "ExerciseWorkout");
+
+            migrationBuilder.DropTable(
+                name: "MemberPlan");
+
+            migrationBuilder.DropTable(
+                name: "PlanWorkout");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -338,13 +403,16 @@ namespace PVGym.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Workout");
+                name: "Exercise");
+
+            migrationBuilder.DropTable(
+                name: "Member");
 
             migrationBuilder.DropTable(
                 name: "Plan");
 
             migrationBuilder.DropTable(
-                name: "Member");
+                name: "Workout");
         }
     }
 }

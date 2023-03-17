@@ -16,6 +16,42 @@ namespace PVGym.Data
         {
         }
 
-        public DbSet<Member> Member { get; set; } = default!;
+        public DbSet<Member>? Member { get; set; }
+        public DbSet<Exercise>? Exercise { get; set; }
+
+        public DbSet<Workout>? Workout { get; set; }
+
+        public DbSet<Plan>? Plan { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            // add your own configuration here
+            List<Plan> plans = new();
+
+            plans.Add(new Plan
+            {
+                PlanId = Guid.NewGuid(),
+                Name = "Push Pull Legs",
+            });
+
+            //modelBuilder.Entity<Plan>().HasData(plans);
+
+            modelBuilder.Entity<Member>().HasData(
+                    new Member
+                    {
+                        MemberId = Guid.NewGuid(),
+                        VAT = 222222213,
+                        PlanType = Plantype.Normal,
+                        //Plans = plans
+                    },
+                    new Member
+                    {
+                        MemberId = Guid.NewGuid(),
+                        VAT = 234234586,
+                        PlanType = Plantype.Premium
+                    }
+                );
+        }
     }
 }

@@ -1,11 +1,16 @@
-﻿namespace PVGym.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace PVGym.Models
 {
     public class Plan
     {
-        public int Id { get; set; }
-
+        [Required]
+        public Guid PlanId { get; set; }
+        [Required]
+        [Display(Name = "Plan Name")]
         public string Name { get; set; }
-
-        public List<Workout> Workouts { get; set; }
+        public List<Member>? Member { get; set; }
+        public List<Workout>? Workouts { get; set; }
     }
 }

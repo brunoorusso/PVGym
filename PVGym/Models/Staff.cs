@@ -1,9 +1,14 @@
-﻿namespace PVGym.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PVGym.Models
 {
     public class Staff
     {
-        public int Id { get; set; }
+        [Required]
+        public Guid Id { get; set; }
+        [Required]
         public string Specialization { get; set; }
+        [Required]
         public bool IsAdmin { get; set; }
     }
 }

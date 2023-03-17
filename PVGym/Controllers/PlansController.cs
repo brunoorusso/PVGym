@@ -10,93 +10,88 @@ using PVGym.Models;
 
 namespace PVGym.Controllers
 {
-    public class MembersController : Controller
+    public class PlansController : Controller
     {
         private readonly PVGymContext _context;
 
-        public MembersController(PVGymContext context)
+        public PlansController(PVGymContext context)
         {
             _context = context;
         }
 
-        // GET: Members
+        // GET: Plans
         public async Task<IActionResult> Index()
         {
-              return _context.Member != null ? 
-                          View(await _context.Member.ToListAsync()) :
-                          Problem("Entity set 'PVGymContext.Member'  is null.");
+              return _context.Plan != null ? 
+                          View(await _context.Plan.ToListAsync()) :
+                          Problem("Entity set 'PVGymContext.Plan'  is null.");
         }
 
-        // GET: Members/Details/5
+        // GET: Plans/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
-            if (id == null || _context.Member == null)
+            if (id == null || _context.Plan == null)
             {
                 return NotFound();
             }
 
-            var member = await _context.Member
-                .FirstOrDefaultAsync(m => m.MemberId == id);
-            if (member == null)
+            var plan = await _context.Plan
+                .FirstOrDefaultAsync(m => m.PlanId == id);
+            if (plan == null)
             {
                 return NotFound();
             }
 
-            return View(member);
+            return View(plan);
         }
 
-        // GET: Members/Create
+        // GET: Plans/Create
         public IActionResult Create()
         {
-            PopulateViewData();
             return View();
         }
 
-        // POST: Members/Create
+        // POST: Plans/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MemberId,VAT,PlanType")] Member member)
+        public async Task<IActionResult> Create([Bind("PlanId,Name")] Plan plan)
         {
             if (ModelState.IsValid)
             {
-                member.MemberId = Guid.NewGuid();
-                _context.Add(member);
+                plan.PlanId = Guid.NewGuid();
+                _context.Add(plan);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            PopulateViewData();
-            return View(member);
+            return View(plan);
         }
 
-        // GET: Members/Edit/5
+        // GET: Plans/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == null || _context.Member == null)
+            if (id == null || _context.Plan == null)
             {
                 return NotFound();
             }
 
-            var member = await _context.Member.FindAsync(id);
-            if (member == null)
+            var plan = await _context.Plan.FindAsync(id);
+            if (plan == null)
             {
                 return NotFound();
             }
-
-            PopulateViewData();
-            return View(member);
+            return View(plan);
         }
 
-        // POST: Members/Edit/5
+        // POST: Plans/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("MemberId,VAT,PlanType")] Member member)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PlanId,Name")] Plan plan)
         {
-            if (id != member.MemberId)
+            if (id != plan.PlanId)
             {
                 return NotFound();
             }
@@ -105,12 +100,12 @@ namespace PVGym.Controllers
             {
                 try
                 {
-                    _context.Update(member);
+                    _context.Update(plan);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MemberExists(member.MemberId))
+                    if (!PlanExists(plan.PlanId))
                     {
                         return NotFound();
                     }
@@ -121,56 +116,49 @@ namespace PVGym.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-
-            PopulateViewData();
-            return View(member);
+            return View(plan);
         }
 
-        // GET: Members/Delete/5
+        // GET: Plans/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (id == null || _context.Member == null)
+            if (id == null || _context.Plan == null)
             {
                 return NotFound();
             }
 
-            var member = await _context.Member
-                .FirstOrDefaultAsync(m => m.MemberId == id);
-            if (member == null)
+            var plan = await _context.Plan
+                .FirstOrDefaultAsync(m => m.PlanId == id);
+            if (plan == null)
             {
                 return NotFound();
             }
 
-            return View(member);
+            return View(plan);
         }
 
-        // POST: Members/Delete/5
+        // POST: Plans/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            if (_context.Member == null)
+            if (_context.Plan == null)
             {
-                return Problem("Entity set 'PVGymContext.Member'  is null.");
+                return Problem("Entity set 'PVGymContext.Plan'  is null.");
             }
-            var member = await _context.Member.FindAsync(id);
-            if (member != null)
+            var plan = await _context.Plan.FindAsync(id);
+            if (plan != null)
             {
-                _context.Member.Remove(member);
+                _context.Plan.Remove(plan);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MemberExists(Guid id)
+        private bool PlanExists(Guid id)
         {
-          return (_context.Member?.Any(e => e.MemberId == id)).GetValueOrDefault();
-        }
-
-        private void PopulateViewData()
-        {
-            ViewData["PlanType"] = new SelectList(Enum.GetValues<Plantype>().Select(c => new { Value = (int)c, Name = c.ToString() }), "Value", "Name");
+          return (_context.Plan?.Any(e => e.PlanId == id)).GetValueOrDefault();
         }
     }
 }
