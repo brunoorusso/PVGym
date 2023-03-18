@@ -50,11 +50,11 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
-app.MapWorkoutEndpoints();
-
 app.MapMemberEndpoints();
 
 app.MapPlanEndpoints();
+
+app.MapWorkoutEndpoints();
 
 app.MapExerciseEndpoints();
 

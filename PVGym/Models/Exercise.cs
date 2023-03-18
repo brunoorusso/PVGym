@@ -10,6 +10,10 @@ namespace PVGym.Models
         [Required]
         public string Name { get; set; }
         public string? Description { get; set; }
+        public string target { get; set; }
+        public string gifUrl { get; set; }
+        public string bodyPart { get; set; }
+        public string equipment { get; set; }
         public List<Workout>? Workouts { get; set; }
     }
 }

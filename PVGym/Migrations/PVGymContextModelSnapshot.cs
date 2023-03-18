@@ -310,6 +310,22 @@ namespace PVGym.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("bodyPart")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("equipment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("gifUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("target")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ExerciseId");
 
                     b.ToTable("Exercise");
@@ -334,13 +350,13 @@ namespace PVGym.Migrations
                     b.HasData(
                         new
                         {
-                            MemberId = new Guid("9f2bb40a-faca-48f3-83bb-db72d1fd6e4f"),
+                            MemberId = new Guid("1d08ff29-e040-452f-834c-96f99ede79b6"),
                             PlanType = 0,
                             VAT = 222222213
                         },
                         new
                         {
-                            MemberId = new Guid("35a52fa5-76bf-4a60-952e-5429ae74c82f"),
+                            MemberId = new Guid("8b91ee1d-aae9-42db-9818-b87a332a7b0f"),
                             PlanType = 1,
                             VAT = 234234586
                         });

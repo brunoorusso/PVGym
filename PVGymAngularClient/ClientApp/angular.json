@@ -129,5 +129,8 @@
       }
     }
   },
-  "defaultProject": "PVGymAngularClient"
+  "defaultProject": "PVGymAngularClient",
+  "cli": {
+    "analytics": "88aef212-7604-4f22-8f1d-c9600c1e73bf"
+  }
 }
