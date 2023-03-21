@@ -16,6 +16,8 @@ import { TreinosComponent } from './treinos/treinos.component';
 import { FooterComponent } from './footer/footer.component';
 import { ExerciseComponent } from './exercise/exercise.component';
 
+import { TreinosService } from './treinos.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +40,7 @@ import { ExerciseComponent } from './exercise/exercise.component';
       { path: 'treinos', component: TreinosComponent },
     ]),
   ],
-  providers: [],
+  providers: [HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ThemePalette } from '@angular/material/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, Inject, OnInit } from '@angular/core';
+import { TreinosService } from '../treinos.service';
 
 const plan = {
   name: "Pull Push Legs",
@@ -26,9 +27,11 @@ const plan = {
 })
 export class TreinosComponent implements OnInit {
 
-  plan = plan;
+  public plan = plan;
 
-  constructor() { }
+  constructor(service: TreinosService) {
+    service.getPlan().subscribe(plan => this.plan = plan[0])
+  }
 
   ngOnInit(): void {
   }
