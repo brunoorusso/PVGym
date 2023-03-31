@@ -58,4 +58,6 @@ app.MapWorkoutEndpoints();
 
 app.MapExerciseEndpoints();
 
+app.MapEvaluationEndpoints();
+
 app.Run();

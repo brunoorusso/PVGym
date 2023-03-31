@@ -30,6 +30,7 @@
     "run-script-os": "^1.1.6",
     "rxjs": "~7.5.5",
     "tslib": "^2.4.0",
+    "uuid": "^9.0.0",
     "zone.js": "~0.11.6"
   },
   "devDependencies": {
@@ -39,6 +40,7 @@
     "@types/jasmine": "~4.0.3",
     "@types/jasminewd2": "~2.0.10",
     "@types/node": "^18.0.0",
+    "@types/uuid": "^9.0.1",
     "jasmine-core": "~4.2.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.1",
@@ -49,6 +51,5 @@
   },
   "overrides": {
     "autoprefixer": "10.4.5"
-  },
-  "optionalDependencies": {}
+  }
 }

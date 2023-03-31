@@ -17,6 +17,9 @@ import { FooterComponent } from './footer/footer.component';
 import { ExerciseComponent } from './exercise/exercise.component';
 
 import { TreinosService } from './treinos.service';
+import { PhysicalEvaluationComponent } from './physical-evaluation/physical-evaluation.component';
+import { PhysicalEvaluationCreateComponent } from './physical-evaluation-create/physical-evaluation-create.component';
+import { PhysicalEvaluationDetailsComponent } from './physical-evaluation-details/physical-evaluation-details.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import { TreinosService } from './treinos.service';
     FooterComponent,
     TabComponent,
     TabsComponent,
-    ExerciseComponent
+    ExerciseComponent,
+    PhysicalEvaluationComponent,
+    PhysicalEvaluationCreateComponent,
+    PhysicalEvaluationDetailsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -38,6 +44,9 @@ import { TreinosService } from './treinos.service';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'treinos', component: TreinosComponent },
+      { path: 'physicalEvaluation', component: PhysicalEvaluationComponent },
+      { path: 'physicalEvaluation/create', component: PhysicalEvaluationCreateComponent },
+      { path: 'physicalEvaluation/details/:id', component: PhysicalEvaluationDetailsComponent },
     ]),
   ],
   providers: [HttpClientModule],

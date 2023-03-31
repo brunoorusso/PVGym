@@ -53,5 +53,7 @@ namespace PVGym.Data
                     }
                 );
         }
+
+        public DbSet<PVGym.Models.Evaluation>? Evaluation { get; set; }
     }
 }
