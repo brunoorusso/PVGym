@@ -48,7 +48,6 @@ namespace PVGym.Controllers
         // GET: Members/Create
         public IActionResult Create()
         {
-            PopulateViewData();
             return View();
         }
 
@@ -66,8 +65,6 @@ namespace PVGym.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            PopulateViewData();
             return View(member);
         }
 
@@ -84,8 +81,6 @@ namespace PVGym.Controllers
             {
                 return NotFound();
             }
-
-            PopulateViewData();
             return View(member);
         }
 
@@ -121,8 +116,6 @@ namespace PVGym.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-
-            PopulateViewData();
             return View(member);
         }
 
@@ -166,11 +159,6 @@ namespace PVGym.Controllers
         private bool MemberExists(Guid id)
         {
           return (_context.Member?.Any(e => e.MemberId == id)).GetValueOrDefault();
-        }
-
-        private void PopulateViewData()
-        {
-            ViewData["PlanType"] = new SelectList(Enum.GetValues<Plantype>().Select(c => new { Value = (int)c, Name = c.ToString() }), "Value", "Name");
         }
     }
 }

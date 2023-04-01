@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using PVGym.Areas.Identity.Data;
 using PVGym.Data;
 using PVGym.Controllers;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("PVGymContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
@@ -14,7 +16,10 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddEntityFrameworkStores<PVGymContext>();
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddJsonOptions(options => // Modify this line
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+});
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -50,12 +55,27 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
-app.MapMemberEndpoints();
-
 app.MapPlanEndpoints();
 
 app.MapWorkoutEndpoints();
 
 app.MapExerciseEndpoints();
 
+app.MapMemberEndpoints();
+
 app.Run();
+
+public class IgnoreCircularReferenceConverter : JsonConverter<object>
+{
+    public override bool CanConvert(Type typeToConvert) => true;
+
+    public override object Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        return JsonSerializer.Deserialize(ref reader, typeToConvert, options);
+    }
+
+    public override void Write(Utf8JsonWriter writer, object value, JsonSerializerOptions options)
+    {
+        JsonSerializer.Serialize(writer, value, value.GetType(), options);
+    }
+}

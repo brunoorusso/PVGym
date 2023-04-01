@@ -26,32 +26,21 @@ namespace PVGym.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // add your own configuration here
-            List<Plan> plans = new();
 
-            plans.Add(new Plan
-            {
-                PlanId = Guid.NewGuid(),
-                Name = "Push Pull Legs",
-            });
+            modelBuilder.Entity<Member>()
+            .HasMany(p => p.Plans)
+            .WithMany(w => w.Member)
+            .UsingEntity(j => j.ToTable("MemberPlan"));
 
-            //modelBuilder.Entity<Plan>().HasData(plans);
+            modelBuilder.Entity<Plan>()
+            .HasMany(p => p.Workouts)
+            .WithMany(w => w.Plans)
+            .UsingEntity(j => j.ToTable("PlanWorkout"));
 
-            modelBuilder.Entity<Member>().HasData(
-                    new Member
-                    {
-                        MemberId = Guid.NewGuid(),
-                        VAT = 222222213,
-                        PlanType = Plantype.Normal,
-                        //Plans = plans
-                    },
-                    new Member
-                    {
-                        MemberId = Guid.NewGuid(),
-                        VAT = 234234586,
-                        PlanType = Plantype.Premium
-                    }
-                );
+            modelBuilder.Entity<Workout>()
+            .HasMany(p => p.Exercises)
+            .WithMany(w => w.Workouts)
+            .UsingEntity(j => j.ToTable("ExerciseWorkout"));
         }
     }
 }
