@@ -63,6 +63,8 @@ app.MapExerciseEndpoints();
 
 app.MapMemberEndpoints();
 
+app.MapEvaluationEndpoints();
+
 app.Run();
 
 public class IgnoreCircularReferenceConverter : JsonConverter<object>

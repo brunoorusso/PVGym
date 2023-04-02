@@ -284,7 +284,7 @@ namespace PVGym.Migrations
                     b.Property<decimal>("Height")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid?>("MemberId")
+                    b.Property<Guid>("MemberId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Weight")
@@ -350,13 +350,13 @@ namespace PVGym.Migrations
                     b.HasData(
                         new
                         {
-                            MemberId = new Guid("1d08ff29-e040-452f-834c-96f99ede79b6"),
+                            MemberId = new Guid("a8968c72-ad2a-4792-8ee3-315f96788794"),
                             PlanType = 0,
                             VAT = 222222213
                         },
                         new
                         {
-                            MemberId = new Guid("8b91ee1d-aae9-42db-9818-b87a332a7b0f"),
+                            MemberId = new Guid("0f9f95c0-5924-4196-8ebb-7fc818cb74b1"),
                             PlanType = 1,
                             VAT = 234234586
                         });
@@ -492,7 +492,9 @@ namespace PVGym.Migrations
                 {
                     b.HasOne("PVGym.Models.Member", null)
                         .WithMany("Evaluations")
-                        .HasForeignKey("MemberId");
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("PVGym.Models.Member", b =>

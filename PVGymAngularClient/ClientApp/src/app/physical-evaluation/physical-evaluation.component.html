@@ -1,0 +1,27 @@
+<h1>Physical Evaluations</h1>
+
+<p *ngIf="!physicalEvaluations"><em>Loading...</em></p>
+
+<div>
+  <a routerLink="/physicalEvaluation/create/" class="btn btn-success">Create New Physical Evaluation</a>
+</div>
+<table class="table table-striped" aria-labelledby="tableLabel" *ngIf="physicalEvaluations">
+  <thead>
+    <tr>
+      <th>Member Name</th>
+      <th>Height</th>
+      <th>Weight</th>
+      <th>BMI</th>
+      <th>Body Fat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let physicalEvaluation of physicalEvaluations" (click)="onSelectPhysicalEvaluation(physicalEvaluation)" [class.table-primary]="physicalEvaluation == selectedPhysicalEvaluation">
+      <td>{{ physicalEvaluation.memberId }}</td>
+      <td>{{ physicalEvaluation.height }}</td>
+      <td>{{ physicalEvaluation.weight }}</td>
+      <td>{{ physicalEvaluation.bmi }}</td>
+      <td>{{ physicalEvaluation.bodyFat }}</td>
+    </tr>
+  </tbody>
+</table>

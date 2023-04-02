@@ -20,6 +20,9 @@ import { TreinosService } from './treinos.service';
 import { PlanosComponent } from './planos/planos.component';
 import { PlanComponent } from './plan/plan.component';
 import { WorkoutComponent } from './workout/workout.component';
+import { PhysicalEvaluationComponent } from './physical-evaluation/physical-evaluation.component';
+import { PhysicalEvaluationCreateComponent } from './physical-evaluation-create/physical-evaluation-create.component';
+import { PhysicalEvaluationDetailsComponent } from './physical-evaluation-details/physical-evaluation-details.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,10 @@ import { WorkoutComponent } from './workout/workout.component';
     PlanosComponent,
     PlanComponent,
     WorkoutComponent
+    ExerciseComponent,
+    PhysicalEvaluationComponent,
+    PhysicalEvaluationCreateComponent,
+    PhysicalEvaluationDetailsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -44,6 +51,9 @@ import { WorkoutComponent } from './workout/workout.component';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'treinos', component: TreinosComponent },
+      { path: 'physicalEvaluation', component: PhysicalEvaluationComponent },
+      { path: 'physicalEvaluation/create', component: PhysicalEvaluationCreateComponent },
+      { path: 'physicalEvaluation/details/:id', component: PhysicalEvaluationDetailsComponent },
       { path: 'planos', component: PlanosComponent },
     ]),
   ],

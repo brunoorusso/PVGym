@@ -42,5 +42,7 @@ namespace PVGym.Data
             .WithMany(w => w.Workouts)
             .UsingEntity(j => j.ToTable("ExerciseWorkout"));
         }
+
+        public DbSet<PVGym.Models.Evaluation>? Evaluation { get; set; }
     }
 }
