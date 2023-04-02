@@ -17,6 +17,9 @@ import { FooterComponent } from './footer/footer.component';
 import { ExerciseComponent } from './exercise/exercise.component';
 
 import { TreinosService } from './treinos.service';
+import { PlanosComponent } from './planos/planos.component';
+import { PlanComponent } from './plan/plan.component';
+import { WorkoutComponent } from './workout/workout.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import { TreinosService } from './treinos.service';
     FooterComponent,
     TabComponent,
     TabsComponent,
-    ExerciseComponent
+    ExerciseComponent,
+    PlanosComponent,
+    PlanComponent,
+    WorkoutComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -38,6 +44,7 @@ import { TreinosService } from './treinos.service';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'treinos', component: TreinosComponent },
+      { path: 'planos', component: PlanosComponent },
     ]),
   ],
   providers: [HttpClientModule],

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +11,11 @@ export class TreinosService {
   constructor(private http: HttpClient) { }
 
   getPlan(): Observable<any> {
+    return this.http.get<any[]>('/api/Plan')
+      .pipe(catchError(this.handleError));
+  }
+
+  getPlans(): Observable<any> {
     return this.http.get<any[]>('/api/Plan')
       .pipe(catchError(this.handleError));
   }
