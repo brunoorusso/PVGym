@@ -38,7 +38,7 @@ import { PhysicalEvaluationDetailsComponent } from './physical-evaluation-detail
     ExerciseComponent,
     PlanosComponent,
     PlanComponent,
-    WorkoutComponent
+    WorkoutComponent,
     ExerciseComponent,
     PhysicalEvaluationComponent,
     PhysicalEvaluationCreateComponent,

@@ -11,7 +11,7 @@ import { PhysicalEvaluationService } from '../services/physical-evaluation.servi
 export class PhysicalEvaluationDetailsComponent implements OnInit {
 
   id: number = 0;
-  physicalEvaluation: Evaluation = { id: 0, memberId: "", height: 0, weight: 0, bmi: 0, bodyFat: 0 };
+  physicalEvaluation: Evaluation = { id: 0, memberId: "", evaluationDate: new Date(), height: 0, weight: 0, bmi: 0, bodyFat: 0 };
 
   constructor(private service: PhysicalEvaluationService, private route: ActivatedRoute) { }
 

@@ -18,6 +18,7 @@
   <tbody>
     <tr *ngFor="let physicalEvaluation of physicalEvaluations" (click)="onSelectPhysicalEvaluation(physicalEvaluation)" [class.table-primary]="physicalEvaluation == selectedPhysicalEvaluation">
       <td>{{ physicalEvaluation.memberId }}</td>
+      <td>{{ physicalEvaluation.evaluationDate }}</td>
       <td>{{ physicalEvaluation.height }}</td>
       <td>{{ physicalEvaluation.weight }}</td>
       <td>{{ physicalEvaluation.bmi }}</td>

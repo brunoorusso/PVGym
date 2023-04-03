@@ -65,6 +65,8 @@ app.MapMemberEndpoints();
 
 app.MapEvaluationEndpoints();
 
+app.MapNotificationEndpoints();
+
 app.Run();
 
 public class IgnoreCircularReferenceConverter : JsonConverter<object>

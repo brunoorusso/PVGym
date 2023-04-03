@@ -32,6 +32,7 @@ export class PhysicalEvaluationComponent implements OnInit {
 export interface Evaluation {
   id: number;
   memberId: string,
+  evaluationDate: Date,
   height: number;
   weight: number;
   bmi: number;
