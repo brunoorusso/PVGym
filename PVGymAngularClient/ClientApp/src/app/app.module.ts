@@ -23,6 +23,8 @@ import { WorkoutComponent } from './workout/workout.component';
 import { PhysicalEvaluationComponent } from './physical-evaluation/physical-evaluation.component';
 import { PhysicalEvaluationCreateComponent } from './physical-evaluation-create/physical-evaluation-create.component';
 import { PhysicalEvaluationDetailsComponent } from './physical-evaluation-details/physical-evaluation-details.component';
+import { NotificationComponent } from './notification/notification.component';
+import { NotificationDetailsComponent } from './notification-details/notification-details.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { PhysicalEvaluationDetailsComponent } from './physical-evaluation-detail
     ExerciseComponent,
     PhysicalEvaluationComponent,
     PhysicalEvaluationCreateComponent,
-    PhysicalEvaluationDetailsComponent
+    PhysicalEvaluationDetailsComponent,
+    NotificationComponent,
+    NotificationDetailsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -52,8 +56,7 @@ import { PhysicalEvaluationDetailsComponent } from './physical-evaluation-detail
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'treinos', component: TreinosComponent },
       { path: 'physicalEvaluation', component: PhysicalEvaluationComponent },
-      { path: 'physicalEvaluation/create', component: PhysicalEvaluationCreateComponent },
-      { path: 'physicalEvaluation/details/:id', component: PhysicalEvaluationDetailsComponent },
+      { path: 'notification', component: NotificationComponent },
       { path: 'planos', component: PlanosComponent },
     ]),
   ],

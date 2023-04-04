@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { PhysicalEvaluationService } from '../services/physical-evaluation.service';
 
 @Component({
@@ -11,8 +10,11 @@ export class PhysicalEvaluationComponent implements OnInit {
 
   public physicalEvaluations: Evaluation[] = [];
   public selectedPhysicalEvaluation: Evaluation | undefined;
+  public componentLoad: string | undefined = "L";
+  public evaluationIdDetails: number = 0;
+  public showBack: boolean = false;
 
-  constructor(private service: PhysicalEvaluationService, private router: Router) { }
+  constructor(private service: PhysicalEvaluationService) { }
 
   ngOnInit(): void {
     this.getPhysicalEvaluations();
@@ -23,16 +25,24 @@ export class PhysicalEvaluationComponent implements OnInit {
       .subscribe((physicalEvaluations: Evaluation[]) => this.physicalEvaluations = physicalEvaluations);
   }
 
+  onCreateClick(): void {
+    this.componentLoad = "C";
+    this.showBack = true;
+  }
+
   onSelectPhysicalEvaluation(physicalEvaluation: Evaluation): void {
-    this.router.navigate(["/physicalEvaluation/details", physicalEvaluation.id]);
+    this.evaluationIdDetails = physicalEvaluation.id;
+    this.componentLoad = "D";
+    this.showBack = true;
+    //this.router.navigate(["/physicalEvaluation/details", physicalEvaluation.id]);
   }
 
 }
 
 export interface Evaluation {
   id: number;
-  memberId: string,
-  evaluationDate: Date,
+  memberId: string;
+  evaluationDate: Date;
   height: number;
   weight: number;
   bmi: number;

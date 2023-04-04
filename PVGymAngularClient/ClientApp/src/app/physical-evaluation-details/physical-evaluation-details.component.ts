@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
 import { Evaluation } from '../physical-evaluation/physical-evaluation.component';
 import { PhysicalEvaluationService } from '../services/physical-evaluation.service';
 
@@ -10,16 +9,17 @@ import { PhysicalEvaluationService } from '../services/physical-evaluation.servi
 })
 export class PhysicalEvaluationDetailsComponent implements OnInit {
 
-  id: number = 0;
+  @Input() evaluationId: number | undefined;
   physicalEvaluation: Evaluation = { id: 0, memberId: "", evaluationDate: new Date(), height: 0, weight: 0, bmi: 0, bodyFat: 0 };
 
-  constructor(private service: PhysicalEvaluationService, private route: ActivatedRoute) { }
+  constructor(private service: PhysicalEvaluationService) { }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.params["id"];
-    this.service.getEvaluation(this.id).subscribe((evaluation: Evaluation) => {
-      this.physicalEvaluation = evaluation;
-    });
+    if (this.evaluationId !== undefined) {
+      this.service.getEvaluation(this.evaluationId).subscribe((evaluation: Evaluation) => {
+        this.physicalEvaluation = evaluation;
+      });
+    }
   }
 
 }

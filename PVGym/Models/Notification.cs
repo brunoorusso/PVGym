@@ -12,6 +12,7 @@ namespace PVGym.Models
         [Required]
         public Guid MemberId { get; set; }
         public DateTime NotificationDate { get; set; }
+        public string? Subject { get; set; }
         public string? Content { get; set; }
 
     }

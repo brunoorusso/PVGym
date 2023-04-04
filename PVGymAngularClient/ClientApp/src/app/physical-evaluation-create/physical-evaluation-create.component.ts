@@ -17,7 +17,7 @@ export class PhysicalEvaluationCreateComponent implements OnInit {
   onSubmit(physicalEvaluationForm: NgForm) {
     this.service.createPhysicalEvaluation(physicalEvaluationForm.value).subscribe(res => {
       physicalEvaluationForm.reset();
-      this.router.navigateByUrl("physicalEvaluation");
+      //this.router.navigateByUrl("physicalEvaluation");
     });
   }
 
