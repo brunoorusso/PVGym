@@ -22,8 +22,10 @@ import { PhysicalEvaluationDetailsComponent } from './physical-evaluation-detail
 import { ModalComponent } from './modal/modal.component';
 import { NotificationComponent } from './notification/notification.component';
 import { NotificationDetailsComponent } from './notification-details/notification-details.component';
+import { AulasComponent } from './aulas/aulas.component';
 
 import { TreinosService } from './treinos.service';
+import { AulasDisponiveisComponent } from './aulas-disponiveis/aulas-disponiveis.component';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -58,6 +60,9 @@ import { InfoModalComponent } from './info-modal/info-modal.component';
     AddStaffComponent,
     ProfileComponent,
     InfoModalComponent
+    ExerciseComponent,
+    AulasComponent,
+    AulasDisponiveisComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -75,6 +80,9 @@ import { InfoModalComponent } from './info-modal/info-modal.component';
       { path: 'add-staff', component: AddStaffComponent },
       { path: 'profile', component: ProfileComponent }
     ])
+      { path: 'aulas', component: AulasComponent },
+      { path: 'aulasDisponiveis', component: AulasDisponiveisComponent },
+    ]),
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]

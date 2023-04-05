@@ -149,6 +149,10 @@ app.MapNotificationEndpoints();
 
 app.MapStaffEndpoints();
 
+app.MapClassEndpoints();
+
+app.MapAvailableClassEndpoints();
+
 app.Run();
 
 public class IgnoreCircularReferenceConverter : JsonConverter<object>
