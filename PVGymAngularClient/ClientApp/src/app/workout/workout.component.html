@@ -1,7 +1,58 @@
-<div class="col">
-  <p>{{title}}</p>
-  <ul>
-    <li *ngFor="let exercise of exercises">{{exercise.name}}</li>
-  </ul>
-  <a href="#">+ Add Exercise</a>
-</div>
+<!-- workout.component.html -->
+<p>{{workout.name}}</p>
+<ul>
+  <li *ngFor="let exercise of workout.exercises">{{exercise.name}}</li>
+</ul>
+<button class="btn btn-link p-0" (click)="modalVisible = true">+ Add Exercise</button>
+
+<app-modal [(visible)]="modalVisible"
+           (visibleChange)="modalVisibleChange($event)"
+           (save)="saveExercise()"
+           title="Create or Search Exercise">
+  <div class="d-flex justify-content-center mb-3">
+    <div class="btn-group" role="group" aria-label="Create or search">
+      <button class="btn btn-secondary me-2" [class.active]="toggleState === 'create'" (click)="toggleState = 'create'">Create</button>
+      <button class="btn btn-secondary ms-2" [class.active]="toggleState === 'search'" (click)="toggleState = 'search'">Search</button>
+    </div>
+    </div>
+    <!-- Create Exercise Form -->
+    <form *ngIf="toggleState === 'create'" [formGroup]="form">
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" formControlName="name" required />
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <input type="text" class="form-control" id="description" formControlName="description" />
+      </div>
+      <div class="mb-3">
+        <label for="target" class="form-label">Target</label>
+        <input type="text" class="form-control" id="target" formControlName="target" />
+      </div>
+      <div class="mb-3">
+        <label for="gifUrl" class="form-label">GIF URL</label>
+        <input type="text" class="form-control" id="gifUrl" formControlName="gifUrl" />
+      </div>
+      <div class="mb-3">
+        <label for="bodyPart" class="form-label">Body Part</label>
+        <input type="text" class="form-control" id="bodyPart" formControlName="bodyPart" />
+      </div>
+      <div class="mb-3">
+        <label for="equipment" class="form-label">Equipment</label>
+        <input type="text" class="form-control" id="equipment" formControlName="equipment" />
+      </div>
+    </form>
+
+    <!-- Search Exercise -->
+    <div *ngIf="toggleState === 'search'">
+      <div class="mb-3">
+        <label for="search" class="form-label">Search Exercise</label>
+        <input type="text" class="form-control" id="search" (input)="searchExercises($event)" />
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item black" *ngFor="let exercise of searchResults" (click)="selectExercise(exercise)">
+          {{exercise.name}}
+        </li>
+      </ul>
+    </div>
+</app-modal>

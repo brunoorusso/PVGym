@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -15,14 +15,15 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { TreinosComponent } from './treinos/treinos.component';
 import { FooterComponent } from './footer/footer.component';
 import { ExerciseComponent } from './exercise/exercise.component';
-
-import { TreinosService } from './treinos.service';
 import { PlanosComponent } from './planos/planos.component';
 import { PlanComponent } from './plan/plan.component';
 import { WorkoutComponent } from './workout/workout.component';
 import { PhysicalEvaluationComponent } from './physical-evaluation/physical-evaluation.component';
 import { PhysicalEvaluationCreateComponent } from './physical-evaluation-create/physical-evaluation-create.component';
 import { PhysicalEvaluationDetailsComponent } from './physical-evaluation-details/physical-evaluation-details.component';
+import { ModalComponent } from './modal/modal.component';
+
+import { TreinosService } from './treinos.service';
 
 @NgModule({
   declarations: [
@@ -38,11 +39,12 @@ import { PhysicalEvaluationDetailsComponent } from './physical-evaluation-detail
     ExerciseComponent,
     PlanosComponent,
     PlanComponent,
-    WorkoutComponent
+    WorkoutComponent,
     ExerciseComponent,
     PhysicalEvaluationComponent,
     PhysicalEvaluationCreateComponent,
-    PhysicalEvaluationDetailsComponent
+    PhysicalEvaluationDetailsComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -56,6 +58,7 @@ import { PhysicalEvaluationDetailsComponent } from './physical-evaluation-detail
       { path: 'physicalEvaluation/details/:id', component: PhysicalEvaluationDetailsComponent },
       { path: 'planos', component: PlanosComponent },
     ]),
+    ReactiveFormsModule,
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]

@@ -1,6 +1,40 @@
 <div style="margin-top: 30px;margin-bottom: 30px;">
-  <h4 style="margin-bottom: 20px;">{{title}}</h4><a href="#" target="_blank">+ Add Workout</a>
+  <h4 style="margin-bottom: 20px;">{{plan.name}}</h4>
+  <button class="btn btn-link p-0" (click)="modalVisible = true">+ Add Workout</button>
   <div class="row" style="margin-top: 15px;">
-     <app-workout *ngFor="let workout of workouts" [title]="workout.name" [exercises]="workout.exercises"></app-workout>
+    <app-workout class="col" *ngFor="let workout of plan.workouts" [workout]="workout"></app-workout>
   </div>
+
+  <app-modal [(visible)]="modalVisible"
+             (visibleChange)="modalVisibleChange($event)"
+             (save)="saveWorkout()"
+             title="Add Workout">
+    <form [formGroup]="workoutForm">
+      <div class="mb-3">
+        <div class="btn-group" role="group" aria-label="Create or search">
+          <button type="button" class="btn btn-secondary me-2" [class.active]="toggleState === 'create'" (click)="toggleState = 'create'">Create</button>
+          <button type="button" class="btn btn-secondary ms-2" [class.active]="toggleState === 'search'" (click)="toggleState = 'search'">Search</button>
+        </div>
+      </div>
+
+      <ng-container *ngIf="toggleState === 'create'">
+        <div class="mb-3">
+          <label for="workoutName" class="form-label">Workout Name</label>
+          <input type="text" class="form-control" id="workoutName" formControlName="name" required />
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="toggleState === 'search'">
+        <div class="mb-3">
+          <label for="workoutSearch" class="form-label">Search Workouts</label>
+          <input type="text" class="form-control" id="workoutSearch" (input)="searchWorkouts($event)" />
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let workout of searchResults" (click)="selectWorkout(workout)">
+            {{workout.name}}
+          </li>
+        </ul>
+      </ng-container>
+    </form>
+  </app-modal>
 </div>
