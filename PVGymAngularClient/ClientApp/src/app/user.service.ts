@@ -19,11 +19,10 @@ export class UserService {
   readonly BaseURI = 'https://localhost:7023/api'
 
   formModel = this.fb.group({
-    UserName: ['', Validators.required],
-    Email: ['', Validators.email],
-    Password: ['', Validators.required],
+    userName: ['', Validators.required],
+    email: ['', Validators.email],
+    password: ['', Validators.required],
     VAT: ['', Validators.required],
-   // PlanType: ['', Validators.required]
   });
 
   loginFormModel = this.fb.group({
@@ -41,9 +40,9 @@ export class UserService {
 
   register() {
     var user = {
-      UserName: this.formModel.value.UserName,
-      Email: this.formModel.value.Email,
-      Password: this.formModel.value.Password
+      UserName: this.formModel.value.userName,
+      Email: this.formModel.value.email,
+      Password: this.formModel.value.password
     };
 
     var member = {
@@ -84,6 +83,20 @@ export class UserService {
         return this.http.post(this.BaseURI + '/Staff', staffData); // fazer chamada para criar o membro
       })
     );
+  }
+
+  updateUser() {
+    var user = {
+      UserName: this.formModel.value.userName,
+      Email: this.formModel.value.email,
+      Password: this.formModel.value.password
+    };
+    const token = localStorage.getItem('token');  
+    if (token) {
+      const decodedToken: any = jwt_decode(token);
+      return this.http.put(this.BaseURI + '/ApplicationUser/UpdateUser/' + decodedToken.sub, user);
+    }
+    return null;
   }
 
   login() {

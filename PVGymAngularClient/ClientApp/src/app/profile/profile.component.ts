@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
 
 @Component({
@@ -9,23 +10,34 @@ import { UserService } from '../user.service';
 export class ProfileComponent implements OnInit {
 
   userData: any;
-  isModalOpen: boolean = false;
+  public modalVisible = false;
 
   constructor(public service: UserService) { }
 
+  
+
   ngOnInit(): void {
     this.service.getUserDataByEmail()?.subscribe(data => {
-      console.log(data);
       this.userData = data;
+      this.updateFormValues(this.userData);
     });
+    
   }
 
-  openModal() {
-    this.isModalOpen = true;
+  modalVisibleChange(visible: boolean) {
+    this.modalVisible = visible;
   }
 
-  onCloseModal() {
-    this.isModalOpen = false;
+  save() {
+    this.service.updateUser()?.subscribe();
+    this.userData = this.service.formModel.value;
+  }
+
+  private updateFormValues(data: any): void {
+    this.service.formModel.patchValue({
+      userName: data.userName,
+      email: data.email
+    });
   }
 
 }
