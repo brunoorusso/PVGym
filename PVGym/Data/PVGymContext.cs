@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PVGym.Areas.Identity.Data;
 using PVGym.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace PVGym.Data
 {
@@ -14,8 +16,10 @@ namespace PVGym.Data
         public PVGymContext (DbContextOptions<PVGymContext> options)
             : base(options)
         {
+          
         }
 
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Member>? Member { get; set; }
         public DbSet<Exercise>? Exercise { get; set; }
 
@@ -23,10 +27,11 @@ namespace PVGym.Data
 
         public DbSet<Plan>? Plan { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override async void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             // add your own configuration here
+
             List<Plan> plans = new();
 
             plans.Add(new Plan
@@ -35,23 +40,10 @@ namespace PVGym.Data
                 Name = "Push Pull Legs",
             });
 
-            //modelBuilder.Entity<Plan>().HasData(plans);
-
-            modelBuilder.Entity<Member>().HasData(
-                    new Member
-                    {
-                        MemberId = Guid.NewGuid(),
-                        VAT = 222222213,
-                        PlanType = Plantype.Normal,
-                        //Plans = plans
-                    },
-                    new Member
-                    {
-                        MemberId = Guid.NewGuid(),
-                        VAT = 234234586,
-                        PlanType = Plantype.Premium
-                    }
-                );
         }
+
+        public DbSet<RoleModel>? RoleModel { get; set; }
+
+        public DbSet<Staff>? Staff { get; set; }
     }
 }

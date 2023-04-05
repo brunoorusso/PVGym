@@ -337,8 +337,12 @@ namespace PVGym.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("PlanType")
+                    b.Property<int?>("PlanType")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("VAT")
                         .HasColumnType("int");
@@ -346,20 +350,6 @@ namespace PVGym.Migrations
                     b.HasKey("MemberId");
 
                     b.ToTable("Member");
-
-                    b.HasData(
-                        new
-                        {
-                            MemberId = new Guid("1d08ff29-e040-452f-834c-96f99ede79b6"),
-                            PlanType = 0,
-                            VAT = 222222213
-                        },
-                        new
-                        {
-                            MemberId = new Guid("8b91ee1d-aae9-42db-9818-b87a332a7b0f"),
-                            PlanType = 1,
-                            VAT = 234234586
-                        });
                 });
 
             modelBuilder.Entity("PVGym.Models.Plan", b =>
@@ -375,6 +365,45 @@ namespace PVGym.Migrations
                     b.HasKey("PlanId");
 
                     b.ToTable("Plan");
+                });
+
+            modelBuilder.Entity("PVGym.Models.RoleModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoleModel");
+                });
+
+            modelBuilder.Entity("PVGym.Models.Staff", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Specialization")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Staff");
                 });
 
             modelBuilder.Entity("PVGym.Models.Workout", b =>

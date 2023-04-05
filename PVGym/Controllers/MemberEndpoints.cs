@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using PVGym.Areas.Identity.Data;
 using PVGym.Data;
 using PVGym.Models;
 namespace PVGym.Controllers;
@@ -44,10 +46,12 @@ public static class MemberEndpoints
         .Produces(StatusCodes.Status404NotFound)
         .Produces(StatusCodes.Status204NoContent);
 
-        routes.MapPost("/api/Member/", async (Member member, PVGymContext db) =>
+        routes.MapPost("/api/Member/", async (Member member, PVGymContext db, UserManager<ApplicationUser> userManager) =>
         {
             db.Member.Add(member);
             await db.SaveChangesAsync();
+            var user = await userManager.FindByIdAsync(member.UserId);
+            await userManager.AddToRoleAsync(user, "member");
             return Results.Created($"/Members/{member.MemberId}", member);
         })
         .WithName("CreateMember")
@@ -68,4 +72,17 @@ public static class MemberEndpoints
         .Produces<Member>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
     }
+
+     public static Plantype GetPlanTypeFromString(int value)
+        {
+            switch (value)
+            {
+                case 0:
+                    return Plantype.Normal;
+                case 1:
+                    return Plantype.Premium;
+                default:
+                    throw new ArgumentException("Invalid plan type string.");
+            }
+        }
 }

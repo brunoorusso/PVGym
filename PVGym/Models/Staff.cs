@@ -10,5 +10,6 @@ namespace PVGym.Models
         public string Specialization { get; set; }
         [Required]
         public bool IsAdmin { get; set; }
+        public string UserId { get; set; }
     }
 }

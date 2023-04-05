@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PVGym.Areas.Identity.Data;
 using PVGym.Data;
 using PVGym.Models;
 
@@ -20,6 +22,7 @@ namespace PVGym.Controllers
         }
 
         // GET: Members
+        
         public async Task<IActionResult> Index()
         {
               return _context.Member != null ? 
@@ -28,6 +31,7 @@ namespace PVGym.Controllers
         }
 
         // GET: Members/Details/5
+        
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null || _context.Member == null)
@@ -46,6 +50,7 @@ namespace PVGym.Controllers
         }
 
         // GET: Members/Create
+        
         public IActionResult Create()
         {
             PopulateViewData();
@@ -57,6 +62,7 @@ namespace PVGym.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
         public async Task<IActionResult> Create([Bind("MemberId,VAT,PlanType")] Member member)
         {
             if (ModelState.IsValid)
@@ -94,6 +100,7 @@ namespace PVGym.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
         public async Task<IActionResult> Edit(Guid id, [Bind("MemberId,VAT,PlanType")] Member member)
         {
             if (id != member.MemberId)
@@ -172,5 +179,7 @@ namespace PVGym.Controllers
         {
             ViewData["PlanType"] = new SelectList(Enum.GetValues<Plantype>().Select(c => new { Value = (int)c, Name = c.ToString() }), "Value", "Name");
         }
+
+       
     }
 }
