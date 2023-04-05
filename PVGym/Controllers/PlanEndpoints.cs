@@ -9,7 +9,7 @@ public static class PlanEndpoints
     {
         routes.MapGet("/api/Plan", async (PVGymContext db) =>
         {
-            return await db.Plan.ToListAsync();
+            return await db.Plan.Include(p => p.Workouts).ThenInclude(w => w.Exercises).ToListAsync();
         })
         .WithName("GetAllPlans")
         .Produces<List<Plan>>(StatusCodes.Status200OK);

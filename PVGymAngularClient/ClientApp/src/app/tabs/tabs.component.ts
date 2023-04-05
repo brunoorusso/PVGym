@@ -17,7 +17,7 @@ import { TabComponent } from './tab.component';
   template: `
     <ul class="nav nav-tabs">
       <li *ngFor="let tab of tabs" (click)="selectTab(tab)" [class.active]="tab.active">
-        <p>{{tab.title}}</p>
+        <p class="tab-text">{{tab.title}}</p>
       </li>
     </ul>
     <ng-content></ng-content>
@@ -28,6 +28,9 @@ import { TabComponent } from './tab.component';
       color: gray;
       text-align: right;
       cursor: pointer;
+    }
+    .tab-text {
+      margin: 10;
     }
     `
   ]

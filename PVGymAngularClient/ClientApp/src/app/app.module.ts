@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { TabsComponent } from './tabs/tabs.component';
@@ -14,6 +13,18 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { TreinosComponent } from './treinos/treinos.component';
 import { FooterComponent } from './footer/footer.component';
 import { ExerciseComponent } from './exercise/exercise.component';
+import { PlanosComponent } from './planos/planos.component';
+import { PlanComponent } from './plan/plan.component';
+import { WorkoutComponent } from './workout/workout.component';
+import { PhysicalEvaluationComponent } from './physical-evaluation/physical-evaluation.component';
+import { PhysicalEvaluationCreateComponent } from './physical-evaluation-create/physical-evaluation-create.component';
+import { PhysicalEvaluationDetailsComponent } from './physical-evaluation-details/physical-evaluation-details.component';
+import { ModalComponent } from './modal/modal.component';
+import { NotificationComponent } from './notification/notification.component';
+import { NotificationDetailsComponent } from './notification-details/notification-details.component';
+
+import { TreinosService } from './treinos.service';
+
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AddStaffComponent } from './add-staff/add-staff.component';
@@ -32,6 +43,16 @@ import { InfoModalComponent } from './info-modal/info-modal.component';
     TabComponent,
     TabsComponent,
     ExerciseComponent,
+    PlanosComponent,
+    PlanComponent,
+    WorkoutComponent,
+    ExerciseComponent,
+    PhysicalEvaluationComponent,
+    PhysicalEvaluationCreateComponent,
+    PhysicalEvaluationDetailsComponent,
+    ModalComponent,
+    NotificationComponent,
+    NotificationDetailsComponent,
     LoginComponent,
     RegisterComponent,
     AddStaffComponent,
@@ -46,13 +67,16 @@ import { InfoModalComponent } from './info-modal/info-modal.component';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'treinos', component: TreinosComponent },
+      { path: 'physicalEvaluation', component: PhysicalEvaluationComponent },
+      { path: 'notification', component: NotificationComponent },
+      { path: 'planos', component: PlanosComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'add-staff', component: AddStaffComponent },
       { path: 'profile', component: ProfileComponent }
-    ]),
+    ])
   ],
-  providers: [],
+  providers: [HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

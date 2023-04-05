@@ -15,6 +15,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
+            <th>
+                Workouts
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -25,11 +28,20 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
+                <ul>
+                    @foreach (var workout in item.Workouts)
+                    {
+                        <li>@workout.Name</li>
+                    }
+                </ul>
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.PlanId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.PlanId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.PlanId">Delete</a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>
+

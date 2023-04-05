@@ -53,7 +53,6 @@ namespace PVGym.Controllers
         
         public IActionResult Create()
         {
-            PopulateViewData();
             return View();
         }
 
@@ -72,8 +71,6 @@ namespace PVGym.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            PopulateViewData();
             return View(member);
         }
 
@@ -90,8 +87,6 @@ namespace PVGym.Controllers
             {
                 return NotFound();
             }
-
-            PopulateViewData();
             return View(member);
         }
 
@@ -128,8 +123,6 @@ namespace PVGym.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-
-            PopulateViewData();
             return View(member);
         }
 

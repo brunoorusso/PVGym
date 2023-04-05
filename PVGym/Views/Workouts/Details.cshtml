@@ -17,6 +17,17 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
     </dl>
+    <dl class="row">
+        <dt class="col-sm-2">Workouts</dt>
+        <dd class="col-sm-10">
+            <ul>
+                @foreach (var exercise in Model.Exercises)
+                {
+                    <li>@exercise.Name</li>
+                }
+            </ul>
+        </dd>
+    </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.WorkoutId">Edit</a> |

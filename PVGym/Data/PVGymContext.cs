@@ -34,13 +34,25 @@ namespace PVGym.Data
 
             List<Plan> plans = new();
 
-            plans.Add(new Plan
-            {
-                PlanId = Guid.NewGuid(),
-                Name = "Push Pull Legs",
-            });
+            modelBuilder.Entity<Member>()
+            .HasMany(p => p.Plans)
+            .WithMany(w => w.Member)
+            .UsingEntity(j => j.ToTable("MemberPlan"));
 
+            modelBuilder.Entity<Plan>()
+            .HasMany(p => p.Workouts)
+            .WithMany(w => w.Plans)
+            .UsingEntity(j => j.ToTable("PlanWorkout"));
+
+            modelBuilder.Entity<Workout>()
+            .HasMany(p => p.Exercises)
+            .WithMany(w => w.Workouts)
+            .UsingEntity(j => j.ToTable("ExerciseWorkout"));
         }
+
+        public DbSet<PVGym.Models.Evaluation>? Evaluation { get; set; }
+
+        public DbSet<PVGym.Models.Notification>? Notification { get; set; }
 
         public DbSet<RoleModel>? RoleModel { get; set; }
 

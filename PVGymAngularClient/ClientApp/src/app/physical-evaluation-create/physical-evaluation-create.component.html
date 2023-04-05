@@ -1,0 +1,26 @@
+<h1>New Physical Evaluation</h1>
+
+<form #physicalEvaluationForm="ngForm" (ngSubmit)="onSubmit(physicalEvaluationForm)">
+  <div class="form-group">
+    <label for="height">Height:</label>
+    <input required ngModel #height="ngModel" type="range" id="height" name="height" />
+    <div class="alert alert-danger" *ngIf="height.touched && !height.valid">
+      <div *ngIf="height.errors?.['required']">Height is required</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="weight">Weight</label>
+    <input required ngModel type="range" min="40" max="300" id="weight" name="weight" />
+  </div>
+  <div class="form-group">
+    <label for="bmi">BMI</label>
+    <input required ngModel type="range" min="40" max="300" id="bmi" name="bmi" />
+  </div>
+  <div class="form-group">
+    <label for="bodyFat">Body Fat</label>
+    <input required ngModel type="number" min="0" max="40" id="bodyFat" name="bodyFat" />
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn-primary btn" [disabled]="!physicalEvaluationForm.valid">Create</button>
+  </div>
+</form>

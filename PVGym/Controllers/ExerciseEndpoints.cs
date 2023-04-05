@@ -7,6 +7,13 @@ public static class ExerciseEndpoints
 {
     public static void MapExerciseEndpoints (this IEndpointRouteBuilder routes)
     {
+        routes.MapGet("/api/Exercise/search", async (String searchTerm, PVGymContext db) =>
+        {
+            return await db.Exercise.Where(e => e.Name.Contains(searchTerm)).Take(10).Select(e => e).ToListAsync() ;
+        })
+        .WithName("SearchExercices")
+        .Produces<List<Exercise>>(StatusCodes.Status200OK);
+
         routes.MapGet("/api/Exercise", async (PVGymContext db) =>
         {
             return await db.Exercise.ToListAsync();
