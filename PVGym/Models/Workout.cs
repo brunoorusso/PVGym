@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PVGym.Models
 {
@@ -10,6 +11,7 @@ namespace PVGym.Models
         [Required]
         [Display(Name = "Workout Name")]
         public string Name { get; set; }
+        [JsonIgnore]
         public List<Plan>? Plans { get; set; }
         public List<Exercise>? Exercises { get; set; }
     }

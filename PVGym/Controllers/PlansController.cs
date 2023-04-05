@@ -22,9 +22,9 @@ namespace PVGym.Controllers
         // GET: Plans
         public async Task<IActionResult> Index()
         {
-              return _context.Plan != null ? 
-                          View(await _context.Plan.ToListAsync()) :
-                          Problem("Entity set 'PVGymContext.Plan'  is null.");
+            return _context.Plan != null ?
+                View(await _context.Plan.Include(p => p.Workouts).ToListAsync()) :
+                Problem("Entity set 'PVGymContext.Plan'  is null.");
         }
 
         // GET: Plans/Details/5
@@ -35,7 +35,7 @@ namespace PVGym.Controllers
                 return NotFound();
             }
 
-            var plan = await _context.Plan
+            var plan = await _context.Plan.Include(p => p.Workouts)
                 .FirstOrDefaultAsync(m => m.PlanId == id);
             if (plan == null)
             {
@@ -46,27 +46,44 @@ namespace PVGym.Controllers
         }
 
         // GET: Plans/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewData["Workouts"] = new SelectList(await _context.Workout.ToListAsync(), "WorkoutId", "Name");
             return View();
         }
 
         // POST: Plans/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PlanId,Name")] Plan plan)
+        public async Task<IActionResult> Create([Bind("PlanId,Name,Workouts")] Plan plan, IEnumerable<Guid> Workouts)
         {
             if (ModelState.IsValid)
             {
                 plan.PlanId = Guid.NewGuid();
+
+                if (Workouts != null)
+                {
+                    plan.Workouts = new List<Workout>();
+                    foreach (var workoutId in Workouts)
+                    {
+                        var workout = await _context.Workout.FindAsync(workoutId);
+                        if (workout != null)
+                        {
+                            plan.Workouts.Add(workout);
+                        }
+                    }
+                }
+
                 _context.Add(plan);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["Workouts"] = new SelectList(_context.Workout, "WorkoutId", "Name", Workouts);
             return View(plan);
         }
+
+
 
         // GET: Plans/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
@@ -76,20 +93,24 @@ namespace PVGym.Controllers
                 return NotFound();
             }
 
-            var plan = await _context.Plan.FindAsync(id);
+            var plan = await _context.Plan.Include(p => p.Workouts).FirstOrDefaultAsync(p => p.PlanId == id);
             if (plan == null)
             {
                 return NotFound();
             }
+
+            List<Workout> works = await _context.Workout.ToListAsync();
+            IEnumerable<Guid> selected = plan.Workouts.Select(pw => pw.WorkoutId);
+
+            ViewData["Workouts"] = new SelectList(works, "WorkoutId", "Name", selected);
+            
             return View(plan);
         }
 
         // POST: Plans/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PlanId,Name")] Plan plan)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PlanId,Name,Workouts")] Plan plan, IEnumerable<Guid> Workouts)
         {
             if (id != plan.PlanId)
             {
@@ -100,7 +121,29 @@ namespace PVGym.Controllers
             {
                 try
                 {
-                    _context.Update(plan);
+                    var existingPlan = await _context.Plan.Include(p => p.Workouts).FirstOrDefaultAsync(p => p.PlanId == id);
+
+                    existingPlan.Name = plan.Name;
+
+                    if (Workouts != null)
+                    {
+                        var updatedWorkouts = new List<Workout>();
+                        foreach (var workoutId in Workouts)
+                        {
+                            var workout = await _context.Workout.FindAsync(workoutId);
+                            if (workout != null)
+                            {
+                                updatedWorkouts.Add(workout);
+                            }
+                        }
+                        existingPlan.Workouts = updatedWorkouts;
+                    }
+                    else
+                    {
+                        existingPlan.Workouts.Clear();
+                    }
+
+                    _context.Update(existingPlan);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -116,8 +159,11 @@ namespace PVGym.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["Workouts"] = new SelectList(_context.Workout, "WorkoutId", "Name", Workouts);
             return View(plan);
         }
+
+
 
         // GET: Plans/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
@@ -127,7 +173,7 @@ namespace PVGym.Controllers
                 return NotFound();
             }
 
-            var plan = await _context.Plan
+            var plan = await _context.Plan.Include(p => p.Workouts)
                 .FirstOrDefaultAsync(m => m.PlanId == id);
             if (plan == null)
             {

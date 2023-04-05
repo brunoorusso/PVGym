@@ -269,94 +269,6 @@ namespace PVGym.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("PVGym.Models.AvailableClass", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Limit")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AvailableClass");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("2c6df428-51eb-482a-a508-7dc7efe1c4a6"),
-                            Description = "The class is designed to provide a full-body workout while also keeping participants engaged and motivated. Zumba is suitable for people of all fitness levels, as the routines can be modified to suit individual needs.",
-                            Duration = 60,
-                            Image = "https://imgmedia.lbb.in/media/2021/01/5ffc657c8cb26612da74e667_1610376572334.jpg",
-                            Limit = 30,
-                            Name = "Zumba"
-                        },
-                        new
-                        {
-                            Id = new Guid("4a3205ba-36b1-4e69-a1f1-9161351b45a7"),
-                            Description = "Body Combat is a high-intensity, cardio-based fitness class that combines various martial arts techniques such as karate, boxing, and kickboxing.",
-                            Duration = 30,
-                            Image = "https://www.fitnessfirst.co.uk/media/l2yngpvt/web-version-bodycombat-launch-kit-image-2.jpg?width=1200&height=1200&rnd=132955692406170000",
-                            Limit = 20,
-                            Name = "Body Combat"
-                        },
-                        new
-                        {
-                            Id = new Guid("e07a75da-0e55-4612-a5da-2d55654cad12"),
-                            Description = "The class is designed to increase flexibility, strength, and balance while also reducing stress and improving mental clarity.",
-                            Duration = 60,
-                            Image = "https://i2-prod.nottinghampost.com/whats-on/whats-on-news/article1239433.ece/ALTERNATES/s1200c/yoga-GettyImages-846236570.jpg",
-                            Limit = 30,
-                            Name = "Yoga"
-                        },
-                        new
-                        {
-                            Id = new Guid("bfeb0c43-b580-4e38-8df9-5388b3948555"),
-                            Description = "Pilates is a low-impact fitness class that focuses on developing core strength, flexibility, and balance.",
-                            Duration = 60,
-                            Image = "https://www.clubpilates.com/hubfs/11_studio_reformer-1.jpg",
-                            Limit = 40,
-                            Name = "Pilates"
-                        });
-                });
-
-            modelBuilder.Entity("PVGym.Models.Class", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("AvailableClassId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CoachId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Class");
-                });
-
             modelBuilder.Entity("PVGym.Models.Evaluation", b =>
                 {
                     b.Property<Guid>("Id")
@@ -425,34 +337,19 @@ namespace PVGym.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("ClassId")
+                    b.Property<int?>("PlanType")
                         .HasColumnType("int");
 
-                    b.Property<int>("PlanType")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("VAT")
                         .HasColumnType("int");
 
                     b.HasKey("MemberId");
 
-                    b.HasIndex("ClassId");
-
                     b.ToTable("Member");
-
-                    b.HasData(
-                        new
-                        {
-                            MemberId = new Guid("34ba67ed-c192-44b9-a533-57ba13afd533"),
-                            PlanType = 0,
-                            VAT = 222222213
-                        },
-                        new
-                        {
-                            MemberId = new Guid("2d5e9e9f-c73b-4c68-959c-73d1e6b80bea"),
-                            PlanType = 1,
-                            VAT = 234234586
-                        });
                 });
 
             modelBuilder.Entity("PVGym.Models.Plan", b =>
@@ -468,6 +365,45 @@ namespace PVGym.Migrations
                     b.HasKey("PlanId");
 
                     b.ToTable("Plan");
+                });
+
+            modelBuilder.Entity("PVGym.Models.RoleModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoleModel");
+                });
+
+            modelBuilder.Entity("PVGym.Models.Staff", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Specialization")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Staff");
                 });
 
             modelBuilder.Entity("PVGym.Models.Workout", b =>
@@ -586,18 +522,6 @@ namespace PVGym.Migrations
                     b.HasOne("PVGym.Models.Member", null)
                         .WithMany("Evaluations")
                         .HasForeignKey("MemberId");
-                });
-
-            modelBuilder.Entity("PVGym.Models.Member", b =>
-                {
-                    b.HasOne("PVGym.Models.Class", null)
-                        .WithMany("Members")
-                        .HasForeignKey("ClassId");
-                });
-
-            modelBuilder.Entity("PVGym.Models.Class", b =>
-                {
-                    b.Navigation("Members");
                 });
 
             modelBuilder.Entity("PVGym.Models.Member", b =>

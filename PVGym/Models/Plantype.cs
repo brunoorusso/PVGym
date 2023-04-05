@@ -6,9 +6,9 @@ namespace PVGym.Models
     public enum Plantype
     {
         [Display(Name = "Normal Plan")]
-        Normal,
+        Normal = 0,
 
         [Display(Name = "Premium Plan")]
-        Premium
+        Premium = 1
     }
 }

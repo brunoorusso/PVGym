@@ -1,4 +1,6 @@
 ﻿@model PVGym.Models.Workout
+@using PVGym.Models
+@inject Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper htmlHelper
 
 @{
     ViewData["Title"] = "Create";
@@ -18,6 +20,12 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Exercises" class="control-label">Exercises</label>
+                <select asp-for="Exercises" asp-items="@(new SelectList(ViewData["Exercises"] as IEnumerable<SelectListItem>, "Value", "Text"))" class="form-control" multiple="multiple" size="5">
+                    <option value="">-- Select Exercises --</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -29,5 +37,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

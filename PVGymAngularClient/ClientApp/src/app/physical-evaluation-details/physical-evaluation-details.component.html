@@ -1,0 +1,26 @@
+<h1>Physical Evaluation - {{ physicalEvaluation.evaluationDate | date:'dd-MM-yyyy' }}</h1>
+
+<form>
+  <div class="form-group">
+    <label for="height">Height</label>
+    <input disabled type="range" id="height" name="height" [(ngModel)]="physicalEvaluation.height" />
+  </div>
+  <!--
+  <div class="form-group">
+    <label for="evaluationDate">Date:</label>
+    <input disabled type="datetime" id="evaluationDate" name="evaluationDate" [value]="physicalEvaluation.evaluationDate | date:'dd-MM-yyyy'" />
+  </div>
+  -->
+  <div class="form-group">
+    <label for="weight">Weight</label>
+    <input disabled type="range" id="weight" name="weight" [(ngModel)]="physicalEvaluation.weight" />
+  </div>
+  <div class="form-group">
+    <label for="bmi">BMI</label>
+    <input disabled type="range" id="bmi" name="bmi" [(ngModel)]="physicalEvaluation.bmi" />
+  </div>
+  <div class="form-group">
+    <label for="bodyFat">Body Fat</label>
+    <input disabled type="number" id="bodyFat" name="bodyFat" [(ngModel)]="physicalEvaluation.bodyFat" />
+  </div>
+</form>
