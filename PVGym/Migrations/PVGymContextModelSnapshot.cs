@@ -34,7 +34,7 @@ namespace PVGym.Migrations
 
                     b.HasIndex("WorkoutsWorkoutId");
 
-                    b.ToTable("ExerciseWorkout");
+                    b.ToTable("ExerciseWorkout", (string)null);
                 });
 
             modelBuilder.Entity("MemberPlan", b =>
@@ -49,7 +49,7 @@ namespace PVGym.Migrations
 
                     b.HasIndex("PlansPlanId");
 
-                    b.ToTable("MemberPlan");
+                    b.ToTable("MemberPlan", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -201,7 +201,7 @@ namespace PVGym.Migrations
 
                     b.HasIndex("WorkoutsWorkoutId");
 
-                    b.ToTable("PlanWorkout");
+                    b.ToTable("PlanWorkout", (string)null);
                 });
 
             modelBuilder.Entity("PVGym.Areas.Identity.Data.ApplicationUser", b =>
@@ -281,6 +281,9 @@ namespace PVGym.Migrations
                     b.Property<decimal>("BodyFat")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<DateTime>("EvaluationDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<decimal>("Height")
                         .HasColumnType("decimal(18,2)");
 
@@ -346,20 +349,29 @@ namespace PVGym.Migrations
                     b.HasKey("MemberId");
 
                     b.ToTable("Member");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            MemberId = new Guid("a8968c72-ad2a-4792-8ee3-315f96788794"),
-                            PlanType = 0,
-                            VAT = 222222213
-                        },
-                        new
-                        {
-                            MemberId = new Guid("0f9f95c0-5924-4196-8ebb-7fc818cb74b1"),
-                            PlanType = 1,
-                            VAT = 234234586
-                        });
+            modelBuilder.Entity("PVGym.Models.Notification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("MemberId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("NotificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Notification");
                 });
 
             modelBuilder.Entity("PVGym.Models.Plan", b =>

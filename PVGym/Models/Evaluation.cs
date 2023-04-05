@@ -11,6 +11,7 @@ namespace PVGym.Models
         [ForeignKey("Member")]
         [Required]
         public Guid MemberId { get; set; }
+        public DateTime EvaluationDate { get; set; }
         public decimal Height { get; set; }
         public decimal Weight { get; set; }
         [DisplayName("Body Mass Index")]

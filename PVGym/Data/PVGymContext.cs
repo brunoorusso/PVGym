@@ -44,5 +44,7 @@ namespace PVGym.Data
         }
 
         public DbSet<PVGym.Models.Evaluation>? Evaluation { get; set; }
+
+        public DbSet<PVGym.Models.Notification>? Notification { get; set; }
     }
 }

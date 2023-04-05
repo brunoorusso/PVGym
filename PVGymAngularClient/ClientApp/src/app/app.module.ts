@@ -22,8 +22,11 @@ import { PhysicalEvaluationComponent } from './physical-evaluation/physical-eval
 import { PhysicalEvaluationCreateComponent } from './physical-evaluation-create/physical-evaluation-create.component';
 import { PhysicalEvaluationDetailsComponent } from './physical-evaluation-details/physical-evaluation-details.component';
 import { ModalComponent } from './modal/modal.component';
+import { NotificationComponent } from './notification/notification.component';
+import { NotificationDetailsComponent } from './notification-details/notification-details.component';
 
 import { TreinosService } from './treinos.service';
+
 
 @NgModule({
   declarations: [
@@ -44,7 +47,9 @@ import { TreinosService } from './treinos.service';
     PhysicalEvaluationComponent,
     PhysicalEvaluationCreateComponent,
     PhysicalEvaluationDetailsComponent,
-    ModalComponent
+    ModalComponent,
+    NotificationComponent,
+    NotificationDetailsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -54,8 +59,7 @@ import { TreinosService } from './treinos.service';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'treinos', component: TreinosComponent },
       { path: 'physicalEvaluation', component: PhysicalEvaluationComponent },
-      { path: 'physicalEvaluation/create', component: PhysicalEvaluationCreateComponent },
-      { path: 'physicalEvaluation/details/:id', component: PhysicalEvaluationDetailsComponent },
+      { path: 'notification', component: NotificationComponent },
       { path: 'planos', component: PlanosComponent },
     ]),
     ReactiveFormsModule,

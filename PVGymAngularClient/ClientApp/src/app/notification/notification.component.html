@@ -1,0 +1,29 @@
+<p *ngIf="!notifications"><em>Loading...</em></p>
+<a *ngIf="showBack" (click)="componentLoad = 'L'; this.showBack = false;">Back</a>
+<div *ngIf="componentLoad === 'D'; then details else list;"></div>
+
+<ng-template #list>
+  <h1>Notifications</h1>
+  <table class="table table-striped" aria-labelledby="tableLabel" *ngIf="notifications">
+    <thead>
+      <tr>
+        <th>Member Name</th>
+        <th>Notification Date</th>
+        <th>Subject</th>
+        <th>Content</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let notification of notifications" (click)="onSelectNotification(notification)" [class.table-primary]="notification == selectedNotification">
+        <td>{{ notification.memberId }}</td>
+        <td>{{ notification.notificationDate | date:'dd-MM-yyyy' }}</td>
+        <td>{{ notification.subject }}</td>
+        <td>{{ notification.content }}</td>
+      </tr>
+    </tbody>
+  </table>
+</ng-template>
+
+<ng-template #details>
+  <app-notification-details [notificationId]="notificationIdDetails"></app-notification-details>
+</ng-template>

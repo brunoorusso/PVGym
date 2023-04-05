@@ -21,9 +21,12 @@ export class PhysicalEvaluationService {
   }
 
   createPhysicalEvaluation(physicalEvaluation: Evaluation): Observable<Evaluation> {
-    const myGuid = uuidv4();
+    var myGuid = uuidv4();
+    var dateNow = new Date();
+
 
     physicalEvaluation.memberId = "31827e43-c6d0-4583-835e-0ed493f58d4e";
+    physicalEvaluation.evaluationDate = dateNow;
 
     return this.http.post<Evaluation>(this.baseUrl + "api/Evaluation", physicalEvaluation);
   }
