@@ -2,6 +2,10 @@
 
 <form>
   <div class="form-group">
+    <label for="member">Member</label>
+    <input disabled type="text" id="member" name="member" [(ngModel)]="physicalEvaluation.memberName" />
+  </div>
+  <div class="form-group">
     <label for="height">Height</label>
     <input disabled type="range" id="height" name="height" [(ngModel)]="physicalEvaluation.height" />
   </div>

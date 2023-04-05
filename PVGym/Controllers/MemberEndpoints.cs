@@ -16,7 +16,7 @@ public static class MemberEndpoints
         .WithName("GetAllMembers")
         .Produces<List<Member>>(StatusCodes.Status200OK);
 
-        routes.MapGet("/api/Member/{id}", async (Guid MemberId, PVGymContext db) =>
+        routes.MapGet("/api/Member/{MemberId}", async (Guid MemberId, PVGymContext db) =>
         {
             return await db.Member.FindAsync(MemberId)
                 is Member model

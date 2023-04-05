@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map, Observable, switchMap } from 'rxjs';
 import jwt_decode from 'jwt-decode';
-import { PlanType } from './plan-type.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -165,4 +164,14 @@ export class UserService {
     return null;
   }
 
- }
+  getUser(id: number): Observable<ApplicationUserModel> {
+    return this.http.get<ApplicationUserModel>(this.BaseURI + `/ApplicationUser/GetUser/${id}`);
+  }
+
+}
+
+export interface ApplicationUserModel {
+  userName: string;
+  email: string;
+  password: string;
+}

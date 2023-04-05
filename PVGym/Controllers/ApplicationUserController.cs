@@ -123,6 +123,24 @@ namespace PVGym.Controllers
             return NotFound();
         }
 
+        [HttpGet("GetUser/{id}")]
+        public async Task<ActionResult<ApplicationUser>> GetUser(Guid? id)
+        {
+            if (id == null || _context.Users == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(id.ToString());
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
+
 
         [HttpGet]
         [Route("GetAllUsers")]
