@@ -48,7 +48,6 @@ import { InfoModalComponent } from './info-modal/info-modal.component';
     PlanosComponent,
     PlanComponent,
     WorkoutComponent,
-    ExerciseComponent,
     PhysicalEvaluationComponent,
     PhysicalEvaluationCreateComponent,
     PhysicalEvaluationDetailsComponent,
@@ -59,8 +58,7 @@ import { InfoModalComponent } from './info-modal/info-modal.component';
     RegisterComponent,
     AddStaffComponent,
     ProfileComponent,
-    InfoModalComponent
-    ExerciseComponent,
+    InfoModalComponent,
     AulasComponent,
     AulasDisponiveisComponent
   ],
@@ -78,8 +76,7 @@ import { InfoModalComponent } from './info-modal/info-modal.component';
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'add-staff', component: AddStaffComponent },
-      { path: 'profile', component: ProfileComponent }
-    ])
+      { path: 'profile', component: ProfileComponent },
       { path: 'aulas', component: AulasComponent },
       { path: 'aulasDisponiveis', component: AulasDisponiveisComponent },
     ]),

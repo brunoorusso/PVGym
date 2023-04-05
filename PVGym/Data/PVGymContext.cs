@@ -44,21 +44,10 @@ namespace PVGym.Data
             .WithMany(w => w.Plans)
             .UsingEntity(j => j.ToTable("PlanWorkout"));
 
-            modelBuilder.Entity<Member>().HasData(
-                    new Member
-                    {
-                        MemberId = Guid.NewGuid(),
-                        VAT = 222222213,
-                        PlanType = Plantype.Normal,
-                        //Plans = plans
-                    },
-                    new Member
-                    {
-                        MemberId = Guid.NewGuid(),
-                        VAT = 234234586,
-                        PlanType = Plantype.Premium
-                    }
-                );
+            modelBuilder.Entity<Workout>()
+            .HasMany(p => p.Exercises)
+            .WithMany(w => w.Workouts)
+            .UsingEntity(j => j.ToTable("ExerciseWorkout"));
 
             modelBuilder.Entity<AvailableClass>().HasData(
                     new AvailableClass
@@ -97,11 +86,7 @@ namespace PVGym.Data
                         Duration = 60,
                         Image = "https://www.clubpilates.com/hubfs/11_studio_reformer-1.jpg"
                     }
-                );
-            modelBuilder.Entity<Workout>()
-            .HasMany(p => p.Exercises)
-            .WithMany(w => w.Workouts)
-            .UsingEntity(j => j.ToTable("ExerciseWorkout"));
+                );     
         }
 
         public DbSet<PVGym.Models.Evaluation>? Evaluation { get; set; }
