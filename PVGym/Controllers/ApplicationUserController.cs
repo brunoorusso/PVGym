@@ -92,7 +92,8 @@ namespace PVGym.Controllers
             var applicationUser = new ApplicationUser()
             {
                 UserName = model.UserName,
-                Email = model.Email
+                Email = model.Email,
+                EmailConfirmed = true
             };
 
             try
