@@ -58,4 +58,8 @@ app.MapWorkoutEndpoints();
 
 app.MapExerciseEndpoints();
 
+app.MapClassEndpoints();
+
+app.MapAvailableClassEndpoints();
+
 app.Run();

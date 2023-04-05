@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace PVGym.Models
 {
@@ -12,7 +13,9 @@ namespace PVGym.Models
         [Required]
         public int Limit { get; set; }
         [Required]
+        [DisplayName("Duration (min)")]
         public int Duration { get; set; }
+        public string Image { get; set; }
 
     }
 }

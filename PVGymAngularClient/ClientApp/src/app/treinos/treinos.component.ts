@@ -30,7 +30,7 @@ export class TreinosComponent implements OnInit {
   public plan = plan;
 
   constructor(service: TreinosService) {
-    service.getPlan().subscribe(plan => this.plan = plan[0])
+   /* service.getPlan().subscribe(plan => this.plan = plan[0])*/
   }
 
   ngOnInit(): void {
