@@ -2,6 +2,15 @@
 
 <form #physicalEvaluationForm="ngForm" (ngSubmit)="onSubmit(physicalEvaluationForm)">
   <div class="form-group">
+    <label for="memberId">Member</label>
+    <select required ngModel #member="ngModel" id="memberId" name="memberId">
+      <option *ngFor="let member of members" [value]="member.memberId">{{ member.user?.userName }}</option>
+    </select>
+    <div class="alert alert-danger" *ngIf="member.touched && !member.valid">
+      <div *ngIf="member.errors?.['required']">Member is required</div>
+    </div>
+  </div>
+  <div class="form-group">
     <label for="height">Height:</label>
     <input required ngModel #height="ngModel" type="range" id="height" name="height" />
     <div class="alert alert-danger" *ngIf="height.touched && !height.valid">
@@ -10,15 +19,24 @@
   </div>
   <div class="form-group">
     <label for="weight">Weight</label>
-    <input required ngModel type="range" min="40" max="300" id="weight" name="weight" />
+    <input required ngModel #weight="ngModel" type="range" id="weight" name="weight" />
+    <div class="alert alert-danger" *ngIf="weight.touched && !weight.valid">
+      <div *ngIf="weight.errors?.['required']">Weight is required</div>
+    </div>
   </div>
   <div class="form-group">
     <label for="bmi">BMI</label>
-    <input required ngModel type="range" min="40" max="300" id="bmi" name="bmi" />
+    <input required ngModel #bmi="ngModel" type="range" id="bmi" name="bmi" />
+    <div class="alert alert-danger" *ngIf="bmi.touched && !bmi.valid">
+      <div *ngIf="bmi.errors?.['required']">BMI is required</div>
+    </div>
   </div>
   <div class="form-group">
     <label for="bodyFat">Body Fat</label>
-    <input required ngModel type="number" min="0" max="40" id="bodyFat" name="bodyFat" />
+    <input required ngModel #bodyFat="ngModel" type="number" id="bodyFat" name="bodyFat" />
+    <div class="alert alert-danger" *ngIf="bodyFat.touched && !bodyFat.valid">
+      <div *ngIf="bodyFat.errors?.['required']">Body Fat is required</div>
+    </div>
   </div>
   <div class="form-group">
     <button type="submit" class="btn-primary btn" [disabled]="!physicalEvaluationForm.valid">Create</button>

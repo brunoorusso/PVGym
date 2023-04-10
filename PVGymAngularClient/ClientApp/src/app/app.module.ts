@@ -60,7 +60,6 @@ import { AulaDescricaoComponent } from './aula-descricao/aula-descricao.componen
     RegisterComponent,
     AddStaffComponent,
     ProfileComponent,
-    InfoModalComponent,
     AulasComponent,
     AulasDisponiveisComponent,
     AulaDescricaoComponent,
