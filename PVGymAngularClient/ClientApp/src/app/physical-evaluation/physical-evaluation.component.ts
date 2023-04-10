@@ -16,9 +16,9 @@ export class PhysicalEvaluationComponent implements OnInit {
   public componentLoad: string | undefined = "L";
   public evaluationIdDetails: number = 0;
   public showBack: boolean = false;
-  public user: any;
+  private user: any;
   private member: Member = { evaluations: [], memberId: 0, plans: [], planType: 0, user: { email: "", password: "", userName: "" }, userId: 0, vat: 0};
-  private staff: Staff = { id: 0, isAdmin: false, specialization: "", userId: 0};
+  public staff: Staff = { id: 0, isAdmin: false, specialization: "", userId: 0};
 
   constructor(private service: PhysicalEvaluationService, public userService: UserService, private memberService: MemberService, private staffService: StaffService) { }
 
@@ -37,17 +37,39 @@ export class PhysicalEvaluationComponent implements OnInit {
         .subscribe((member: Member) => {
           this.member = member;
           this.service.getPhysicalEvaluationsOfMember(this.member.memberId)
-            .subscribe((physicalEvaluations: Evaluation[]) => this.physicalEvaluations = physicalEvaluations);
+            .subscribe((physicalEvaluations: Evaluation[]) => {
+              this.physicalEvaluations = physicalEvaluations
+              this.getUsernames();
+            });
         });
 
     } else {
       this.staffService.getStaffByUserId(this.user.id)
         .subscribe((staff: Staff) => {
           this.staff = staff;
-          this.service.getPhysicalEvaluationsOfMember(this.staff.id)
-            .subscribe((physicalEvaluations: Evaluation[]) => this.physicalEvaluations = physicalEvaluations);
+          this.service.getPhysicalEvaluationsCreatedBy(this.staff.id)
+            .subscribe((physicalEvaluations: Evaluation[]) => {
+              this.physicalEvaluations = physicalEvaluations;
+              this.getUsernames();
+            });
         });
     }
+  }
+
+  getUsernames(): void {
+    this.physicalEvaluations.forEach((evaluation) => {
+      this.memberService.getMember(evaluation.memberId).subscribe((member: Member) => {
+        this.userService.getUser(member.userId).subscribe((user: ApplicationUserModel) => {
+          evaluation.memberName = user.userName;
+        });
+      });
+
+      this.staffService.getStaff(evaluation.createdBy).subscribe((staff: Staff) => {
+        this.userService.getUser(staff.userId).subscribe((user: ApplicationUserModel) => {
+          evaluation.staffName = user.userName;
+        });
+      });
+    });
   }
 
   onCreateClick(): void {

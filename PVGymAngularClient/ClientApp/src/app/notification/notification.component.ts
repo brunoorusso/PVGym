@@ -26,7 +26,7 @@ export class NotificationComponent implements OnInit {
   }
 
   onSelectNotification(notification: Notification): void {
-    this.notificationIdDetails = notification.id;
+    this.notificationIdDetails = notification.id || 0;
     this.componentLoad = "D";
     this.showBack = true;
   }
@@ -34,7 +34,7 @@ export class NotificationComponent implements OnInit {
 }
 
 export interface Notification {
-  id: number;
+  id?: number;
   memberId: number;
   notificationDate: Date;
   subject: string;

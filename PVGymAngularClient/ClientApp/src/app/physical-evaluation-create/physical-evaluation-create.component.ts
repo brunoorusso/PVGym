@@ -19,7 +19,6 @@ export class PhysicalEvaluationCreateComponent implements OnInit {
   suggestions: Member[] = [];
   showSuggestions: boolean = false;
   private notification: Notification = {
-    id: 0,
     memberId: 0,
     notificationDate: new Date(),
     subject: "New Physical Evaluation",
