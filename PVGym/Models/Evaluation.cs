@@ -11,6 +11,9 @@ namespace PVGym.Models
         [ForeignKey("Member")]
         [Required]
         public Guid MemberId { get; set; }
+        [ForeignKey("Staff")]
+        [Required]
+        public Guid CreatedBy { get; set; }
         public DateTime EvaluationDate { get; set; }
         public decimal Height { get; set; }
         public decimal Weight { get; set; }

@@ -27,6 +27,17 @@ public static class StaffEndpoints
         .Produces<Staff>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
+        routes.MapGet("/api/Staff/UserId/{UserId}", async (Guid UserId, PVGymContext db) =>
+        {
+            return await db.Staff.FirstOrDefaultAsync(m => m.UserId == UserId.ToString())
+            is Staff model
+                    ? Results.Ok(model)
+                    : Results.NotFound();
+        })
+        .WithName("GetStaffByUserId")
+        .Produces<Staff>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound);
+
         routes.MapPut("/api/Staff/{id}", async (Guid Id, Staff staff, PVGymContext db) =>
         {
             var foundModel = await db.Staff.FindAsync(Id);

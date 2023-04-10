@@ -20,6 +20,10 @@ export class MemberService {
   getMember(id: number): Observable<Member> {
     return this.http.get<Member>(this.baseUrl + "api/Member/" + id);
   }
+
+  getMemberByUserId(userId: number): Observable<Member> {
+    return this.http.get<Member>(this.baseUrl + "api/Member/UserId/" + userId);
+  }
 }
 
 export interface Member {
