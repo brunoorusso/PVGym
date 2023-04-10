@@ -5,12 +5,13 @@
 <ng-template #list>
   <h1>Physical Evaluations</h1>
   <div>
-    <a (click)="onCreateClick()" class="btn btn-success">Create New Physical Evaluation</a>
+    <a (click)="onCreateClick()" class="btn btn-success" *ngIf="userService.isStaff()">Create New Physical Evaluation</a>
   </div>
   <table class="table table-striped" aria-labelledby="tableLabel" *ngIf="physicalEvaluations">
     <thead>
       <tr>
         <th>Member Name</th>
+        <th>Staff Name</th>
         <th>Evaluation Date</th>
         <th>Height</th>
         <th>Weight</th>
@@ -20,7 +21,8 @@
     </thead>
     <tbody>
       <tr *ngFor="let physicalEvaluation of physicalEvaluations" (click)="onSelectPhysicalEvaluation(physicalEvaluation)" [class.table-primary]="physicalEvaluation == selectedPhysicalEvaluation">
-        <td>{{ physicalEvaluation.memberId }}</td>
+        <td>{{ physicalEvaluation.memberName }}</td>
+        <td>{{ physicalEvaluation.staffName }}</td>
         <td>{{ physicalEvaluation.evaluationDate | date:'dd-MM-yyyy' }}</td>
         <td>{{ physicalEvaluation.height }}</td>
         <td>{{ physicalEvaluation.weight }}</td>
@@ -32,7 +34,7 @@
 </ng-template>
 
 <ng-template #create>
-  <app-physical-evaluation-create></app-physical-evaluation-create>
+  <app-physical-evaluation-create [staffId]="user.id"></app-physical-evaluation-create>
 </ng-template>
 
 <ng-template #details>

@@ -1,11 +1,19 @@
 <h1>New Physical Evaluation</h1>
 
 <form #physicalEvaluationForm="ngForm" (ngSubmit)="onSubmit(physicalEvaluationForm)">
-  <div class="form-group">
+  <div class="form-group input-container">
     <label for="memberId">Member</label>
-    <select required ngModel #member="ngModel" id="memberId" name="memberId">
-      <option *ngFor="let member of members" [value]="member.memberId">{{ member.user?.userName }}</option>
-    </select>
+    <input type="text" required [(ngModel)]="searchTerm" #member="ngModel" id="memberId" name="memberId" (keyup)="filterSuggestions()">
+    <div class="suggestion-container" *ngIf="showSuggestions">
+      <div *ngFor="let member of suggestions" (click)="selectSuggestion(member)">
+        {{ member.user?.userName }}
+      </div>
+    </div>
+    <!--
+  <select required ngModel #member="ngModel" id="memberId" name="memberId">
+    <option *ngFor="let member of members" [value]="member.memberId">{{ member.user?.userName }}</option>
+  </select>
+  -->
     <div class="alert alert-danger" *ngIf="member.touched && !member.valid">
       <div *ngIf="member.errors?.['required']">Member is required</div>
     </div>

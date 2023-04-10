@@ -15,6 +15,14 @@ export class PhysicalEvaluationService {
     return this.http.get<Evaluation[]>(this.baseUrl + "api/Evaluation");
   }
 
+  getPhysicalEvaluationsOfMember(id: number): Observable<Evaluation[]> {
+    return this.http.get<Evaluation[]>(this.baseUrl + "api/Evaluation/MemberId/" + id);
+  }
+
+  getPhysicalEvaluationsCreatedBy(id : number): Observable<Evaluation[]> {
+    return this.http.get<Evaluation[]>(this.baseUrl + "api/Evaluation/StaffId/" + id);
+  }
+
   getEvaluation(id: number): Observable<Evaluation> {
     return this.http.get<Evaluation>(this.baseUrl + "api/Evaluation/" + id);
   }

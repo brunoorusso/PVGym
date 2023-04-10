@@ -35,7 +35,7 @@ export class NotificationComponent implements OnInit {
 
 export interface Notification {
   id: number;
-  memberId: string;
+  memberId: number;
   notificationDate: Date;
   subject: string;
   content: string;

@@ -27,6 +27,17 @@ public static class MemberEndpoints
         .Produces<Member>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
+        routes.MapGet("/api/Member/UserId/{UserId}", async (Guid UserId, PVGymContext db) =>
+        {
+            return await db.Member.FirstOrDefaultAsync(m => m.UserId == UserId.ToString())
+            is Member model
+                    ? Results.Ok(model)
+                    : Results.NotFound();
+        })
+        .WithName("GetMemberByUserId")
+        .Produces<Member>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound);
+
         routes.MapPut("/api/Member/{id}", async (Guid MemberId, Member member, PVGymContext db) =>
         {
             var foundModel = await db.Member.FindAsync(MemberId);

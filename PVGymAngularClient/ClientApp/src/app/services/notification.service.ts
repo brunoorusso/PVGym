@@ -17,4 +17,8 @@ export class NotificationService {
   getNotification(id: number): Observable<Notification> {
     return this.http.get<Notification>(this.baseUrl + "api/Notification/" + id);
   }
+
+  createNotification(notification: Notification): Observable<Notification> {
+    return this.http.post<Notification>(this.baseUrl + "api/Notification", notification);
+  }
 }
