@@ -4,7 +4,7 @@
 
 <div *ngIf="aulasDisponiveis.length > 0 && selectedAula == undefined" class="grid">
   <div class="box" *ngFor="let aula of aulasDisponiveis">
-    <td class="container" (click)="selectedAula = aula" style="cursor: pointer;">
+    <td class="container" (click)="getAulas(aula)" style="cursor: pointer;">
       <img class="rounded img-fluid" [src]="aula.image">
       <div class="middle">{{ aula.name }}</div>
     </td>
@@ -14,7 +14,7 @@
 <div *ngIf="aulasDisponiveis.length > 0 && selectedAula != undefined; then details"></div>
 
 <ng-template #details>
-  <app-aula-descricao [aula]="selectedAula"></app-aula-descricao>
+  <app-aula-descricao [aula]="selectedAula" [aulas]="aulas"></app-aula-descricao>
 </ng-template>
 
 

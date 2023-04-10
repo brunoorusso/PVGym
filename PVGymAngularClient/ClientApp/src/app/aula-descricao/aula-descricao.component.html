@@ -31,9 +31,52 @@
 <!--<div *ngIf="aulas.length == 0">Não existem aulas no calendário</div>-->
 <!--<div *ngIf="aulas != undefined"><p>{{ aulas.length }}</p></div>-->
 
-<div *ngIf="aula == undefined; then aulas"></div>
+<div *ngIf="!aula; then aulasDisponiveis"></div>
+<div *ngIf="aula && createComponent; then create"></div>
+<div *ngIf="aula && !createComponent; then list"></div>
 
-<ng-template #aulas>
+<ng-template #create>
+  <a (click)="this.createComponent = false">Back</a>
+  <h1>Aulas</h1>
+  <div *ngIf="!createComponent">
+    <a (click)="onCreateClick()" class="btn btn-success">Criar Aula</a>
+  </div>
+  <form #createAulaForm="ngForm" (ngSubmit)="onSubmit(createAulaForm, aula)">
+    <div class="form-group">
+      <label for="startDate">Start Date:</label>
+      <input required ngModel #startDate="ngModel" type="date" id="startDate" name="startDate" />
+      <div class="alert alert-danger" *ngIf="startDate.touched && !startDate.valid">
+        <div *ngIf="startDate.errors?.['required']">Select a start date</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn-primary btn" [disabled]="!createAulaForm.valid">Create</button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #list>
+  <h1>Aulas</h1>
+  <div>
+    <a (click)="onCreateClick()" class="btn btn-success">Criar Aula</a>
+  </div>
+  <table class="table table-striped" aria-labelledby="tableLabel" *ngIf="aulas">
+    <thead>
+      <tr>
+        <th>Start Date</th>
+        <th>Coach</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let aula of aulas">
+        <td>{{ aula.startDate | date:'dd-MM-yyyy' }}</td>
+        <td>{{ aula.coach }}</td>
+      </tr>
+    </tbody>
+  </table>
+</ng-template>
+
+<ng-template #aulasDisponiveis>
   <app-aulas-disponiveis></app-aulas-disponiveis>
 </ng-template>
 

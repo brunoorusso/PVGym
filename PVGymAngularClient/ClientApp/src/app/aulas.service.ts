@@ -1,13 +1,15 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Inject } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
+import { AulaDisponivel, Aula } from './aulas-disponiveis.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AulasService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) { }
 
   getClasses(name: string): Observable<any> {
     if (name == null) {
@@ -31,6 +33,20 @@ export class AulasService {
     }
     // Return an observable with a user-facing error message.
     return throwError(() => new Error('Something bad happened; please try again later.'));
+  }
+
+  createAulaForm(aula: Aula, aulaDisponivel: AulaDisponivel | undefined): Observable<Aula> {
+    if (aulaDisponivel) {
+      aula.availableClassId = aulaDisponivel.id;
+      aula.coach = "alex";
+      /*aula.members = [];*/
+      aula.name = aulaDisponivel.name;
+      aula.description = aulaDisponivel.description;
+      aula.duration = aulaDisponivel.duration;
+      aula.image = aulaDisponivel.image;
+    }
+
+    return this.http.post<Aula>(this.baseUrl + "api/Class", aula);
   }
 
 }

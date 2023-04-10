@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AulaDisponivel } from '../aulas-disponiveis.service';
 import { Evaluation } from '../physical-evaluation/physical-evaluation.component';
 
 

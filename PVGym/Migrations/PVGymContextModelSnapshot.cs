@@ -315,7 +315,7 @@ namespace PVGym.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2c7857d3-4158-488e-a971-60adfa1377b1"),
+                            Id = new Guid("325a27dd-43c3-414a-969b-4a9bcd45a5d4"),
                             Description = "The class is designed to provide a full-body workout while also keeping participants engaged and motivated. Zumba is suitable for people of all fitness levels, as the routines can be modified to suit individual needs.",
                             Duration = 60,
                             Image = "https://imgmedia.lbb.in/media/2021/01/5ffc657c8cb26612da74e667_1610376572334.jpg",
@@ -324,7 +324,7 @@ namespace PVGym.Migrations
                         },
                         new
                         {
-                            Id = new Guid("36dbed4d-5ce5-44df-b51a-d908795ad589"),
+                            Id = new Guid("275d35a9-5520-4e47-b93c-cb9bef393762"),
                             Description = "Body Combat is a high-intensity, cardio-based fitness class that combines various martial arts techniques such as karate, boxing, and kickboxing.",
                             Duration = 30,
                             Image = "https://www.fitnessfirst.co.uk/media/l2yngpvt/web-version-bodycombat-launch-kit-image-2.jpg?width=1200&height=1200&rnd=132955692406170000",
@@ -333,7 +333,7 @@ namespace PVGym.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e6e0b986-7733-4856-a3c8-faaf8546a4b1"),
+                            Id = new Guid("f64ab725-2337-442f-9674-8ad8337bfea0"),
                             Description = "The class is designed to increase flexibility, strength, and balance while also reducing stress and improving mental clarity.",
                             Duration = 60,
                             Image = "https://i2-prod.nottinghampost.com/whats-on/whats-on-news/article1239433.ece/ALTERNATES/s1200c/yoga-GettyImages-846236570.jpg",
@@ -342,7 +342,7 @@ namespace PVGym.Migrations
                         },
                         new
                         {
-                            Id = new Guid("83e76838-a824-4c49-81be-c5b2b0a02297"),
+                            Id = new Guid("c49b04e8-704d-4742-b0e6-fe0f413e9222"),
                             Description = "Pilates is a low-impact fitness class that focuses on developing core strength, flexibility, and balance.",
                             Duration = 60,
                             Image = "https://www.clubpilates.com/hubfs/11_studio_reformer-1.jpg",
@@ -360,8 +360,9 @@ namespace PVGym.Migrations
                     b.Property<Guid>("AvailableClassId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CoachId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Coach")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .IsRequired()

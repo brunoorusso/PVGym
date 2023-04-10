@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
+import { Member } from './services/member.service';
 
 @Injectable({
   providedIn: 'root'
@@ -42,10 +43,11 @@ export interface AulaDisponivel {
 export interface Aula {
   id: string;
   availableClassId: string;
-  coachId: string;
+  coach: string;
   startDate: Date;
+  members: Member[];
   name: string;
-  descripion: string;
+  description: string;
   duration: number;
   image: string;
 }

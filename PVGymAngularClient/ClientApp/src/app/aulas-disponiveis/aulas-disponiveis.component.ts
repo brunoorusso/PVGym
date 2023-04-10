@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AulasDisponiveisService, AulaDisponivel } from '../aulas-disponiveis.service';
-/*import { AulaDisponivel } from '../aulas-disponiveis';*/
+import { AulasDisponiveisService, AulaDisponivel, Aula } from '../aulas-disponiveis.service';
+import { AulasService } from '../aulas.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -13,13 +13,27 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AulasDisponiveisComponent implements OnInit {
 
   private aulasDisponiveisService: AulasDisponiveisService;
+  private aulasService: AulasService;
 
   public aulasDisponiveis: AulaDisponivel[] = [];
+  public aulas: Aula[] = [];
   public selectedAula: AulaDisponivel | undefined;
 
-  constructor(aulasDisponiveisService: AulasDisponiveisService,) {
+  constructor(aulasDisponiveisService: AulasDisponiveisService, aulasService: AulasService) {
     this.aulasDisponiveisService = aulasDisponiveisService;
+    this.aulasService = aulasService;
     this.aulasDisponiveisService.getAvailableClasses().subscribe(aulasDisponiveis => this.aulasDisponiveis = aulasDisponiveis);
+  }
+
+  getAulas(aula: AulaDisponivel): void {
+    this.selectedAula = aula;
+    this.aulasService.getClasses(aula.name).subscribe(aulas => {
+      this.aulas = aulas;
+      console.log("aulas:" + this.aulas.length);
+    },
+      error => this.aulas = []
+    );
+    console.log(this.aulas.length);
   }
 
   ngOnInit(): void {

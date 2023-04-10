@@ -10,7 +10,7 @@ namespace PVGym.Models
         [Required]
         public Guid AvailableClassId { get; set; }
         [Required]
-        public Guid CoachId { get; set; }
+        public string Coach { get; set; }
         [Required]
         public DateTime StartDate {get; set; }
         [Required]
