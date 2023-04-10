@@ -1,28 +1,45 @@
-<p>aulas-disponiveis works!</p>
-
-<!--<tab-group>
-  <tab *ngFor="let aula of aulasDisponiveis">
-    <div class="row row-cols-1 row-cols-md-2 mx-auto" style="max-width: 900px;">
-      <h4 class="fw-bold">"aAAAA"</h4>-->
-      <!--<app-exercise *ngFor="let exercise of workout.exercises" [name]="exercise.name" [target]="exercise.target" [gif]="exercise.gif"></app-exercise>-->
-    <!--</div>
-  </tab>
-</tab-group>-->
-
 <div *ngIf="aulasDisponiveis.length == 0">
   <p>Não há aulas disponíveis</p>
 </div>
 
-<div *ngIf="aulasDisponiveis.length > 0" class="grid">
+<div *ngIf="aulasDisponiveis.length > 0 && selectedAula == undefined" class="grid">
   <div class="box" *ngFor="let aula of aulasDisponiveis">
-    <td class="container">
-      <a href="/">
-        <img class="rounded img-fluid" [src]="aula.image">
-        <div class="middle">{{ aula.name }}</div>
-      </a>
+    <td class="container" (click)="selectedAula = aula" style="cursor: pointer;">
+      <img class="rounded img-fluid" [src]="aula.image">
+      <div class="middle">{{ aula.name }}</div>
     </td>
   </div>
 </div>
+
+<div *ngIf="aulasDisponiveis.length > 0 && selectedAula != undefined; then details"></div>
+
+<ng-template #details>
+  <app-aula-descricao [aula]="selectedAula"></app-aula-descricao>
+</ng-template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<app-modal [(visible)]="modalVisible"
+           (visibleChange)="modalVisibleChange($event)"
+           (save)="createClass()"
+           title="Create New Plan">
+  <form [formGroup]="form">
+    <div class="mb-3">
+      <label for="planName" class="form-label">Plan Name</label>
+      <input type="text" class="form-control" id="planName" formControlName="name" required />
+    </div>
+  </form>
+</app-modal>-->
 
 
 <!--<table class='table' aria-labelledby="tableLabel" *ngIf="aulasDisponiveis">

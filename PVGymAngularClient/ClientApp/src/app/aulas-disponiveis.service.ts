@@ -29,3 +29,23 @@ export class AulasDisponiveisService {
   }
 
 }
+
+export interface AulaDisponivel {
+  id: string;
+  name: string;
+  description: string;
+  limit: number;
+  duration: number;
+  image: string;
+}
+
+export interface Aula {
+  id: string;
+  availableClassId: string;
+  coachId: string;
+  startDate: Date;
+  name: string;
+  descripion: string;
+  duration: number;
+  image: string;
+}

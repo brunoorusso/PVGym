@@ -14,7 +14,7 @@ public static class ClassEndpoints
         .WithName("GetAllClasss")
         .Produces<List<Class>>(StatusCodes.Status200OK);
 
-        routes.MapGet("/api/Class/{id}", async (int Id, PVGymContext db) =>
+        routes.MapGet("/api/Class/{id}", async (Guid Id, PVGymContext db) =>
         {
             return await db.Class.FindAsync(Id)
                 is Class model
@@ -25,7 +25,18 @@ public static class ClassEndpoints
         .Produces<Class>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
-        routes.MapPut("/api/Class/{id}", async (int Id, Class @class, PVGymContext db) =>
+        routes.MapGet("/api/Class/ByName/{name}", async (string name, PVGymContext db) =>
+        {
+            var classes = await db.Class.Where(c => c.Name == name).ToListAsync();
+            return classes.Count > 0
+                ? Results.Ok(classes)
+                : Results.NotFound();
+        })
+        .WithName("GetClassByName")
+        .Produces<List<Class>>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound);
+
+        routes.MapPut("/api/Class/{id}", async (Guid Id, Class @class, PVGymContext db) =>
         {
             var foundModel = await db.Class.FindAsync(Id);
 
@@ -53,7 +64,7 @@ public static class ClassEndpoints
         .WithName("CreateClass")
         .Produces<Class>(StatusCodes.Status201Created);
 
-        routes.MapDelete("/api/Class/{id}", async (int Id, PVGymContext db) =>
+        routes.MapDelete("/api/Class/{id}", async (Guid Id, PVGymContext db) =>
         {
             if (await db.Class.FindAsync(Id) is Class @class)
             {

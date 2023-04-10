@@ -32,6 +32,8 @@ import { RegisterComponent } from './register/register.component';
 import { AddStaffComponent } from './add-staff/add-staff.component';
 import { ProfileComponent } from './profile/profile.component';
 import { InfoModalComponent } from './info-modal/info-modal.component';
+import { AulaDescricaoComponent } from './aula-descricao/aula-descricao.component';
+
 
 @NgModule({
   declarations: [
@@ -60,7 +62,8 @@ import { InfoModalComponent } from './info-modal/info-modal.component';
     ProfileComponent,
     InfoModalComponent,
     AulasComponent,
-    AulasDisponiveisComponent
+    AulasDisponiveisComponent,
+    AulaDescricaoComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

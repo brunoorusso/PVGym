@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AulasDisponiveisService } from '../aulas-disponiveis.service';
-import { AulaDisponivel } from '../aulas-disponiveis';
+import { AulasDisponiveisService, AulaDisponivel } from '../aulas-disponiveis.service';
+/*import { AulaDisponivel } from '../aulas-disponiveis';*/
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-aulas-disponiveis',
@@ -14,6 +15,7 @@ export class AulasDisponiveisComponent implements OnInit {
   private aulasDisponiveisService: AulasDisponiveisService;
 
   public aulasDisponiveis: AulaDisponivel[] = [];
+  public selectedAula: AulaDisponivel | undefined;
 
   constructor(aulasDisponiveisService: AulasDisponiveisService,) {
     this.aulasDisponiveisService = aulasDisponiveisService;
@@ -21,6 +23,7 @@ export class AulasDisponiveisComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
   }
 
 }
