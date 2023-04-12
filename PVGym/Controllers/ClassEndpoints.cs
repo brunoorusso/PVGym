@@ -14,6 +14,14 @@ public static class ClassEndpoints
         .WithName("GetAllClasss")
         .Produces<List<Class>>(StatusCodes.Status200OK);
 
+        routes.MapGet("/api/Class/Tomorrow", async (PVGymContext db) =>
+        {
+            var tomorrow = DateTime.Today.AddDays(1);
+            return await db.Class.Where(m => m.StartDate >= tomorrow).ToListAsync();
+        })
+        .WithName("GetAllTomorrowClasss")
+        .Produces<List<Class>>(StatusCodes.Status200OK);
+
         routes.MapGet("/api/Class/{id}", async (Guid Id, PVGymContext db) =>
         {
             return await db.Class.FindAsync(Id)

@@ -51,6 +51,7 @@ export class PhysicalEvaluationCreateComponent implements OnInit {
 
       this.service.createPhysicalEvaluation(physicalEvaluationForm.value).subscribe(res => {
         physicalEvaluationForm.reset();
+        this.notification.notificationDate = new Date();
         this.notificationService.createNotification(this.notification).subscribe();
       });
   }

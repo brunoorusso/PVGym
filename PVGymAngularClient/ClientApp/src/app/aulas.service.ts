@@ -1,3 +1,4 @@
+import { Member } from './services/member.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject } from '@angular/core';
 import { Injectable } from '@angular/core';
@@ -49,4 +50,16 @@ export class AulasService {
     return this.http.post<Aula>(this.baseUrl + "api/Class", aula);
   }
 
+}
+
+export interface Class {
+  id: number,
+  availableClassId: number,
+  coach: string,
+  startDate: Date,
+  members: Member[],
+  name: string,
+  description: string,
+  duration: string,
+  image: string
 }
