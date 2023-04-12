@@ -33,7 +33,7 @@ export class PlanosComponent implements OnInit {
 
   savePlan() {
     if (this.form?.valid) {
-      const newPlan: Plan = { planId: "", name: this.form.value.name, workouts: [] };
+      const newPlan: Partial<Plan> = { name: this.form.value.name, workouts: [] };
       this.service.addPlan(newPlan).subscribe(addedPlan => {
         this.plans.push(addedPlan);
       });

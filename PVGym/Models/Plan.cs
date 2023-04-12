@@ -14,5 +14,10 @@ namespace PVGym.Models
         [JsonIgnore]
         public List<Member>? Member { get; set; }
         public List<Workout>? Workouts { get; set; }
+
+        public override string? ToString()
+        {
+            return PlanId + " -> " + Name;
+        }
     }
 }

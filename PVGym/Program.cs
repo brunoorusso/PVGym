@@ -9,6 +9,7 @@ using System.Text.Json;
 using System.Drawing.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("PVGymContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
@@ -58,6 +59,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt").GetValue<string>("Key")))
         };
     });
+
+//builder.Logging.ClearProviders();
+//builder.Logging.AddDebug();
 
 var app = builder.Build();
 

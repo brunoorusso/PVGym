@@ -51,6 +51,56 @@ public static class ExerciseEndpoints
         .Produces(StatusCodes.Status404NotFound)
         .Produces(StatusCodes.Status204NoContent);
 
+        routes.MapPost("/api/ExerciseWorkout/", async (ExerciseWorkoutRequest resquest, PVGymContext db) =>
+        {
+            resquest.Exercise.ExerciseId = Guid.NewGuid();
+
+            var workout = db.Workout.Where(w => w.WorkoutId == Guid.Parse(resquest.Id)).Include(p => p.Exercises).FirstOrDefault();
+            if (workout != null)
+            {
+                resquest.Exercise.Workouts = new List<Workout>
+                {
+                    workout
+                };
+                db.Exercise.Add(resquest.Exercise);
+                workout.Exercises.Add(resquest.Exercise);
+            }
+            else
+            {
+                return Results.NotFound();
+            }
+
+
+            await db.SaveChangesAsync();
+            return Results.Created($"/Exercises/{resquest.Exercise.ExerciseId}", resquest.Exercise);
+        })
+        .WithName("CreateExerciseWithWorkoutId")
+        .Produces<Exercise>(StatusCodes.Status201Created)
+        .Produces(StatusCodes.Status404NotFound);
+
+        routes.MapPost("/api/ExistingExerciseWorkout/", async (ExerciceIdWorkoutIdRequest request, PVGymContext db) =>
+        {
+            Console.WriteLine(request.ToString());
+            var workout = db.Workout.Where(p => p.WorkoutId == Guid.Parse(request.WorkoutId)).Include(p => p.Exercises).FirstOrDefault();
+            var exercise = db.Exercise.Where(p => p.ExerciseId == Guid.Parse(request.ExerciseId)).Include(e => e.Workouts).FirstOrDefault();
+            if (exercise != null && workout != null)
+            {
+                workout.Exercises.Add(exercise);
+                exercise.Workouts.Add(workout);
+            }
+            else
+            {
+                return Results.NotFound();
+            }
+
+
+            await db.SaveChangesAsync();
+            return Results.Created($"/Exercises/{request.ExerciseId}", exercise);
+        })
+        .WithName("CreateExistingExerciseWithWorkoutId")
+        .Produces<Exercise>(StatusCodes.Status201Created)
+        .Produces(StatusCodes.Status404NotFound);
+
         routes.MapPost("/api/Exercise/", async (Exercise exercise, PVGymContext db) =>
         {
             Console.WriteLine(exercise.Name);
@@ -75,5 +125,21 @@ public static class ExerciseEndpoints
         .WithName("DeleteExercise")
         .Produces<Exercise>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
+    }
+}
+
+public class ExerciseWorkoutRequest
+{
+    public Exercise? Exercise { get; set; }
+    public string? Id { get; set; }
+}
+public class ExerciceIdWorkoutIdRequest
+{
+    public string? WorkoutId { get; set; }
+    public string? ExerciseId { get; set; }
+
+    public override string? ToString()
+    {
+        return $"WorkoutId: {WorkoutId}, ExerciceId: {ExerciseId}";
     }
 }
