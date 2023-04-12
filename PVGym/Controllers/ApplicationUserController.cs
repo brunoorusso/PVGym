@@ -123,6 +123,24 @@ namespace PVGym.Controllers
             return NotFound();
         }
 
+        [HttpGet("GetUser/{id}")]
+        public async Task<ActionResult<ApplicationUser>> GetUser(Guid? id)
+        {
+            if (id == null || _context.Users == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(id.ToString());
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
+
 
         [HttpGet]
         [Route("GetAllUsers")]
@@ -132,6 +150,34 @@ namespace PVGym.Controllers
             var users = await _userManager.Users.ToListAsync();
             var result = users.Select(u => new { Id = u.Id, UserName = u.UserName, Email = u.Email });
             return Ok(result);
+        }
+
+        [HttpPut]
+        [Route("UpdateUser/{email}")]
+        //PUT: /api/ApplicationUser/UpdateUser
+        public async Task<ActionResult> UpdateUser(string email, ApplicationUserModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if(user != null)
+            {
+                user.UserName = model.UserName;
+                user.Email = model.Email;
+                user.PasswordHash = model.Password; 
+            }
+
+            try
+            {
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
+                return BadRequest(result.Errors);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
     }
 }

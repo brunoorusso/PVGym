@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
+import { Member } from './services/member.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,4 +29,25 @@ export class AulasDisponiveisService {
     return throwError(() => new Error('Something bad happened; please try again later.'));
   }
 
+}
+
+export interface AulaDisponivel {
+  id: string;
+  name: string;
+  description: string;
+  limit: number;
+  duration: number;
+  image: string;
+}
+
+export interface Aula {
+  id: string;
+  availableClassId: string;
+  coach: string;
+  startDate: Date;
+  members: Member[];
+  name: string;
+  description: string;
+  duration: number;
+  image: string;
 }

@@ -18,6 +18,7 @@ namespace PVGym.Models
         public Plantype? PlanType { get; set; }
         public List<Plan>? Plans { get; set; }
         public List<Evaluation>? Evaluations { get; set; }
+        public List<Class>? Classes { get; set; }
         public string UserId { get; set; }
     }
 }

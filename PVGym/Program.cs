@@ -153,9 +153,9 @@ app.MapNotificationEndpoints();
 
 app.MapStaffEndpoints();
 
-app.MapClassEndpoints();
-
 app.MapAvailableClassEndpoints();
+
+app.MapClassEndpoints();
 
 app.Run();
 
