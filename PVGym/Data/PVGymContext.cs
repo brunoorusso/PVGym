@@ -39,6 +39,11 @@ namespace PVGym.Data
             .WithMany(w => w.Member)
             .UsingEntity(j => j.ToTable("MemberPlan"));
 
+            modelBuilder.Entity<Member>()
+            .HasMany(p => p.Classes)
+            .WithMany(w => w.Members)
+            .UsingEntity(j => j.ToTable("MemberClass"));
+
             modelBuilder.Entity<Plan>()
             .HasMany(p => p.Workouts)
             .WithMany(w => w.Plans)
