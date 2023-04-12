@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Numerics;
 using System.Text.Json.Serialization;
 
 namespace PVGym.Models
@@ -14,5 +15,10 @@ namespace PVGym.Models
         [JsonIgnore]
         public List<Plan>? Plans { get; set; }
         public List<Exercise>? Exercises { get; set; }
+
+        public override string? ToString()
+        {
+            return WorkoutId + " -> " + Name;
+        }
     }
 }

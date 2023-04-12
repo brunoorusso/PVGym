@@ -27,7 +27,7 @@ export class PlanComponent {
 
   saveWorkout() {
     if (this.toggleState === 'create' && this.workoutForm.valid) {
-      const newWorkout: Partial<Workout> = { workoutId: "", name: this.workoutForm.value.name, exercises: [] };
+      const newWorkout: Partial<Workout> = { name: this.workoutForm.value.name, exercises: [] };
       this.service.addWorkout(newWorkout, this.plan.planId).subscribe(resWorkout => {
         this.plan.workouts.push(resWorkout);
         this.workoutForm.reset();
@@ -49,9 +49,10 @@ export class PlanComponent {
   }
 
   selectWorkout(workout: Workout) {
-    // Add the logic to select a workout here.
-    // For example, you could add the workout to the workouts array, or do something else with the selected workout:
-    console.log('Selected workout:', workout);
-    this.modalVisible = false;
+    this.service.addExistingWorkoutToPlan(workout, this.plan.planId).subscribe(resWorkout => {
+      this.plan.workouts.push(resWorkout);
+      this.workoutForm.reset();
+      this.modalVisible = false;
+    });
   }
 }
