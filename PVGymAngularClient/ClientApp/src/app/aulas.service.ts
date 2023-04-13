@@ -12,6 +12,10 @@ export class AulasService {
 
   constructor(private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) { }
 
+  getTomorrowClasses(): Observable<Class[]> {
+    return this.http.get<Class[]>(this.baseUrl + "/api/Class/Tomorrow");
+  }
+
   getClasses(name: string): Observable<any> {
     if (name == null) {
       return this.http.get<any[]>('/api/Class')
