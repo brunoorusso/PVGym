@@ -14,7 +14,7 @@
 <div *ngIf="aulasDisponiveis.length > 0 && selectedAula != undefined; then details"></div>
 
 <ng-template #details>
-  <app-aula-descricao [aula]="selectedAula" [aulas]="aulas"></app-aula-descricao>
+  <app-aula-descricao [aula]="selectedAula" [aulas]="aulas" [isInClass]="isInClass"></app-aula-descricao>
 </ng-template>
 
 

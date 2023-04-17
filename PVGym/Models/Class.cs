@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace PVGym.Models
 {
@@ -12,9 +13,10 @@ namespace PVGym.Models
         [Required]
         public string Coach { get; set; }
         [Required]
-        public DateTime StartDate {get; set; }
+        public DateTime StartDate { get; set; }
         [Required]
-        public List<Member> Members { get; set; }
+        //[JsonIgnore]
+        public List<Member>? Members { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]

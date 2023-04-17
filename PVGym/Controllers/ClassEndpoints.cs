@@ -5,7 +5,7 @@ namespace PVGym.Controllers;
 
 public static class ClassEndpoints
 {
-    public static void MapClassEndpoints (this IEndpointRouteBuilder routes)
+    public static void MapClassEndpoints(this IEndpointRouteBuilder routes)
     {
         routes.MapGet("/api/Class", async (PVGymContext db) =>
         {
@@ -33,16 +33,37 @@ public static class ClassEndpoints
         .Produces<Class>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
+        routes.MapGet("/api/Class/{id}/Members", async (Guid Id, PVGymContext db) =>
+        {
+            var aulas = await db.Class
+                                .Include(c => c.Members)
+                                .Where(c => c.Id == Id)
+                                .Select(c => c.Members)
+                                .FirstOrDefaultAsync();
+
+            return aulas != null
+                    ? Results.Ok(aulas)
+                    : Results.NoContent();
+        })
+        .WithName("GetMembersOfClass")
+        .Produces<List<Member>>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status204NoContent);
+
         routes.MapGet("/api/Class/ByName/{name}", async (string name, PVGymContext db) =>
         {
-            var classes = await db.Class.Where(c => c.Name == name).ToListAsync();
+            var classes = await db.Class
+                .Include(c => c.Members)
+                .Where(c => c.Name == name)
+                .ToListAsync();
+
             return classes.Count > 0
                 ? Results.Ok(classes)
-                : Results.NotFound();
+                : Results.NoContent();
         })
         .WithName("GetClassByName")
         .Produces<List<Class>>(StatusCodes.Status200OK)
-        .Produces(StatusCodes.Status404NotFound);
+        .Produces(StatusCodes.Status204NoContent);
+
 
         routes.MapPut("/api/Class/{id}", async (Guid Id, Class @class, PVGymContext db) =>
         {
@@ -86,5 +107,57 @@ public static class ClassEndpoints
         .WithName("DeleteClass")
         .Produces<Class>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
+
+        routes.MapPost("/api/ExistingMemberClass/", async (MemberIdClassIdRequest request, PVGymContext db) =>
+        {
+            var member = db.Member.Include(c => c.Classes).Where(m => m.MemberId == Guid.Parse(request.MemberId)).FirstOrDefault();
+            var aula = db.Class.Include(c => c.Members).Where(m => m.Id == Guid.Parse(request.ClassId)).FirstOrDefault();
+            if (member != null && aula != null)
+            {
+                member.Classes.Add(aula);
+                aula.Members.Add(member);
+            }
+            else
+            {
+                return Results.NotFound();
+            }
+            Console.WriteLine("ADICIONADO ----------------");
+            await db.SaveChangesAsync();
+            return Results.Created($"/Class/{request.ClassId}", aula);
+            //var classSend = db.Class.Include(c => c.Members).Where(c => c.Id == aula.Id).FirstOrDefault();
+            //Console.WriteLine("ADICIONADO ----------------");
+            //return Results.Created($"/Class/{request.ClassId}", classSend);
+        })
+        .WithName("CreateExistingMemberWithClassId")
+        .Produces<Class>(StatusCodes.Status201Created)
+        .Produces(StatusCodes.Status404NotFound);
+
+        routes.MapPost("/api/RemoveMemberFromClass/", async (MemberIdClassIdRequest request, PVGymContext db) =>
+        {
+            var member = db.Member.Include(c => c.Classes).Where(m => m.MemberId == Guid.Parse(request.MemberId)).FirstOrDefault();
+            var aula = db.Class.Include(c => c.Members).Where(m => m.Id == Guid.Parse(request.ClassId)).FirstOrDefault();
+            if (member != null && aula != null)
+            {
+                member.Classes.Remove(aula);
+                aula.Members.Remove(member);
+            }
+            else
+            {
+                return Results.NotFound();
+            }
+            Console.WriteLine("REMOVIDO ----------------");
+            await db.SaveChangesAsync();
+            return Results.NoContent();
+        })
+        .WithName("RemoveMemberFromClass")
+        .Produces(StatusCodes.Status204NoContent)
+        .Produces(StatusCodes.Status404NotFound);
+
     }
+}
+
+public class MemberIdClassIdRequest
+{
+    public string? MemberId { get; set; }
+    public string? ClassId { get; set; }
 }

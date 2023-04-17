@@ -60,50 +60,89 @@
   <div>
     <a (click)="onCreateClick()" class="btn btn-success">Criar Aula</a>
   </div>
-  <table class="table table-striped" aria-labelledby="tableLabel" *ngIf="aulas">
+  <table *ngIf="aula && aulas" class="table" aria-labelledby="tableLabel">
     <thead>
       <tr>
         <th>Start Date</th>
         <th>Coach</th>
+        <th>Students</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let aula of aulas">
-        <td>{{ aula.startDate | date:'dd-MM-yyyy' }}</td>
-        <td>{{ aula.coach }}</td>
+      <tr *ngFor="let a of aulas">
+        <td>{{ a.startDate | date:'dd-MM-yyyy hh:mm:ss' }}</td>
+        <td>{{ a.coach }}</td>
+        <td>{{ a.members.length }}</td>
+        <td>
+          <a *ngIf="!isInClass.get(a.id) || aula.limit <= a.members.length" (click)="joinClass(a.id)" class="btn btn-info">Join</a>
+          <a *ngIf="isInClass.get(a.id)" (click)="leaveClass(a.id)" class="btn btn-outline-danger">Leave</a>
+          <!--<a (click)="onStudentsClick(a.members)" class="btn btn-info">Students</a>-->
+        </td>
       </tr>
     </tbody>
   </table>
 </ng-template>
 
-<ng-template #aulasDisponiveis>
-  <app-aulas-disponiveis></app-aulas-disponiveis>
-</ng-template>
+<app-modal [(visible)]="studentsVisible"
+           (visibleChange)="modalVisibleChange($event)"
+           title="Students">
+  <div>
+    <table class='table' aria-labelledby="tableLabel" *ngIf="students != null">
+    <!--<thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Limit</th>
+        <th>Duration</th>
+        <th>Image</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ aula.id }}</td>
+        <td>{{ aula.name }}</td>
+        <td>{{ aula.description }}</td>
+        <td>{{ aula.limit }}</td>
+        <td>{{ aula.duration }}</td>
+        <td class="container">
+          <img class="rounded img-fluid shadow w-100 fit-cover" [src]="aula.image">
+          <div class="middle">{{ aula.name }}</div>
+        </td>
+      </tr>
+    </tbody>-->
+  </table>
+    </div>
+  </app-modal>
 
-<!--<mwl-calendar-month-view>
-</mwl-calendar-month-view>-->
-<!--<table class='table' aria-labelledby="tableLabel" *ngIf="aula != null">
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Limit</th>
-      <th>Duration</th>
-      <th>Image</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>{{ aula.id }}</td>
-      <td>{{ aula.name }}</td>
-      <td>{{ aula.description }}</td>
-      <td>{{ aula.limit }}</td>
-      <td>{{ aula.duration }}</td>
-      <td class="container">
-        <img class="rounded img-fluid shadow w-100 fit-cover" [src]="aula.image">
-        <div class="middle">{{ aula.name }}</div>
-      </td>
-    </tr>
-  </tbody>
-</table>-->
+  <ng-template #aulasDisponiveis>
+    <app-aulas-disponiveis></app-aulas-disponiveis>
+  </ng-template>
+
+  <!--<mwl-calendar-month-view>
+  </mwl-calendar-month-view>-->
+    <!--<table class='table' aria-labelledby="tableLabel" *ngIf="aula != null">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Limit</th>
+        <th>Duration</th>
+        <th>Image</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ aula.id }}</td>
+        <td>{{ aula.name }}</td>
+        <td>{{ aula.description }}</td>
+        <td>{{ aula.limit }}</td>
+        <td>{{ aula.duration }}</td>
+        <td class="container">
+          <img class="rounded img-fluid shadow w-100 fit-cover" [src]="aula.image">
+          <div class="middle">{{ aula.name }}</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>-->

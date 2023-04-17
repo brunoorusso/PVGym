@@ -1,3 +1,7 @@
 small {
     color: white;
 }
+
+td, th {
+    color: white;
+}

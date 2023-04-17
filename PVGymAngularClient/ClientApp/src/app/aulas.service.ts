@@ -16,12 +16,12 @@ export class AulasService {
     return this.http.get<Class[]>(this.baseUrl + "/api/Class/Tomorrow");
   }
 
-  getClasses(name: string): Observable<any> {
+  getClasses(name: string): Observable<Aula[]> {
     if (name == null) {
-      return this.http.get<any[]>('/api/Class')
+      return this.http.get<Aula[]>('/api/Class')
         .pipe(catchError(this.handleError));
     } else {
-      return this.http.get<any[]>('/api/Class/ByName/' + name)
+      return this.http.get<Aula[]>('/api/Class/ByName/' + name)
         .pipe(catchError(this.handleError));
     }
   }
@@ -50,8 +50,22 @@ export class AulasService {
       aula.duration = aulaDisponivel.duration;
       aula.image = aulaDisponivel.image;
     }
-
     return this.http.post<Aula>(this.baseUrl + "api/Class", aula);
+  }
+
+  addMemberToClass(member: Member, classId: string): Observable<Class> {
+    return this.http.post<Class>('/api/ExistingMemberClass', { memberId: member.memberId, classId: classId })
+      .pipe(catchError(this.handleError));
+  }
+
+  removeMemberFromClass(member: Member, classId: string): Observable<Class> {
+    return this.http.post<Class>('/api/RemoveMemberFromClass', { memberId: member.memberId, classId: classId })
+      .pipe(catchError(this.handleError));
+  }
+
+  getStudents(classId: string): Observable<Class[]> {
+    return this.http.get<Class[]>('/api/Class/' + classId + '/Members')
+      .pipe(catchError(this.handleError));
   }
 
 }

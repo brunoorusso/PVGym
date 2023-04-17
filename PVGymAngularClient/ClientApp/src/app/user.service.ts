@@ -12,7 +12,7 @@ export class UserService {
   private roles: string[] = [];
 
   constructor(private fb: FormBuilder, private http: HttpClient) {
-   
+
   }
 
   readonly BaseURI = 'https://localhost:7023/api'
@@ -35,7 +35,7 @@ export class UserService {
     Password: ['', Validators.required],
     Specialization: ['', Validators.required],
     Administrator: ['', Validators.required]
-    })
+  })
 
   register() {
     var user = {
@@ -78,7 +78,7 @@ export class UserService {
         const staffData = { Specialization: staff.Specialization, IsAdmin: staff.Administrator, UserId: result.id }; // criar objeto com dados do membro e ID do usuário
         return staffData;
       }),
-      switchMap((staffData: any) => { 
+      switchMap((staffData: any) => {
         return this.http.post(this.BaseURI + '/Staff', staffData); // fazer chamada para criar o membro
       })
     );
@@ -90,7 +90,7 @@ export class UserService {
       Email: this.formModel.value.email,
       Password: this.formModel.value.password
     };
-    const token = localStorage.getItem('token');  
+    const token = localStorage.getItem('token');
     if (token) {
       const decodedToken: any = jwt_decode(token);
       return this.http.put(this.BaseURI + '/ApplicationUser/UpdateUser/' + decodedToken.sub, user);
@@ -111,7 +111,7 @@ export class UserService {
     localStorage.removeItem('token');
   }
 
-  isLoggedIn() : boolean{
+  isLoggedIn(): boolean {
     if (localStorage.getItem('token')) {
       return true;
     }
@@ -172,7 +172,7 @@ export class UserService {
     const token = localStorage.getItem('token');
     if (token) {
       const decodedToken: any = jwt_decode(token);
-      return this.http.get<any[]>(this.BaseURI + `/ApplicationUser/GetUserByEmail/${decodedToken.sub}`);
+      return this.http.get<any>(this.BaseURI + `/ApplicationUser/GetUserByEmail/${decodedToken.sub}`);
     }
     return null;
   }

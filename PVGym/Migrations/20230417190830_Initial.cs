@@ -291,6 +291,7 @@ namespace PVGym.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MemberId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     EvaluationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Height = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Weight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -409,10 +410,10 @@ namespace PVGym.Migrations
                 columns: new[] { "Id", "Description", "Duration", "Image", "Limit", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("275d35a9-5520-4e47-b93c-cb9bef393762"), "Body Combat is a high-intensity, cardio-based fitness class that combines various martial arts techniques such as karate, boxing, and kickboxing.", 30, "https://www.fitnessfirst.co.uk/media/l2yngpvt/web-version-bodycombat-launch-kit-image-2.jpg?width=1200&height=1200&rnd=132955692406170000", 20, "Body Combat" },
-                    { new Guid("325a27dd-43c3-414a-969b-4a9bcd45a5d4"), "The class is designed to provide a full-body workout while also keeping participants engaged and motivated. Zumba is suitable for people of all fitness levels, as the routines can be modified to suit individual needs.", 60, "https://imgmedia.lbb.in/media/2021/01/5ffc657c8cb26612da74e667_1610376572334.jpg", 30, "Zumba" },
-                    { new Guid("c49b04e8-704d-4742-b0e6-fe0f413e9222"), "Pilates is a low-impact fitness class that focuses on developing core strength, flexibility, and balance.", 60, "https://www.clubpilates.com/hubfs/11_studio_reformer-1.jpg", 40, "Pilates" },
-                    { new Guid("f64ab725-2337-442f-9674-8ad8337bfea0"), "The class is designed to increase flexibility, strength, and balance while also reducing stress and improving mental clarity.", 60, "https://i2-prod.nottinghampost.com/whats-on/whats-on-news/article1239433.ece/ALTERNATES/s1200c/yoga-GettyImages-846236570.jpg", 30, "Yoga" }
+                    { new Guid("2b3b6224-7d30-4abf-ab83-7d362d1db585"), "Body Combat is a high-intensity, cardio-based fitness class that combines various martial arts techniques such as karate, boxing, and kickboxing.", 30, "https://www.fitnessfirst.co.uk/media/l2yngpvt/web-version-bodycombat-launch-kit-image-2.jpg?width=1200&height=1200&rnd=132955692406170000", 20, "Body Combat" },
+                    { new Guid("46cb6be8-40f3-43ff-885d-7d1f0f293c04"), "The class is designed to provide a full-body workout while also keeping participants engaged and motivated. Zumba is suitable for people of all fitness levels, as the routines can be modified to suit individual needs.", 60, "https://imgmedia.lbb.in/media/2021/01/5ffc657c8cb26612da74e667_1610376572334.jpg", 30, "Zumba" },
+                    { new Guid("4988085b-43de-4b22-9d3e-de6282f1fb8e"), "Pilates is a low-impact fitness class that focuses on developing core strength, flexibility, and balance.", 60, "https://www.clubpilates.com/hubfs/11_studio_reformer-1.jpg", 40, "Pilates" },
+                    { new Guid("9807c75d-052e-43c5-b163-58ce1baeae7f"), "The class is designed to increase flexibility, strength, and balance while also reducing stress and improving mental clarity.", 60, "https://i2-prod.nottinghampost.com/whats-on/whats-on-news/article1239433.ece/ALTERNATES/s1200c/yoga-GettyImages-846236570.jpg", 30, "Yoga" }
                 });
 
             migrationBuilder.CreateIndex(
