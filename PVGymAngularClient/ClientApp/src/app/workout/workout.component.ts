@@ -12,6 +12,7 @@ import { Exercise, TreinosService, Workout } from '../treinos.service';
 export class WorkoutComponent implements OnInit {
 
   @Input('workout') workout!: Workout;
+  @Input('eliminate') eliminateWorkout!: (args: any) => void;
 
   public modalVisible = false;
   public form: FormGroup;
@@ -70,5 +71,13 @@ export class WorkoutComponent implements OnInit {
       this.modalVisible = false;
     });
   }
+
+  eliminateExercise(exercise: Exercise) {
+    this.service.removeExerciceFromWorkout(exercise.exerciseId, this.workout.workoutId).subscribe(() => {
+      this.workout.exercises.splice(this.workout.exercises.findIndex((item) => item.exerciseId === exercise.exerciseId), 1);
+    });
+  }
+
+  
 
 }

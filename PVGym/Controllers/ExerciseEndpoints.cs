@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Numerics;
+using Microsoft.EntityFrameworkCore;
 using PVGym.Data;
 using PVGym.Models;
 namespace PVGym.Controllers;
@@ -99,6 +100,27 @@ public static class ExerciseEndpoints
         })
         .WithName("CreateExistingExerciseWithWorkoutId")
         .Produces<Exercise>(StatusCodes.Status201Created)
+        .Produces(StatusCodes.Status404NotFound);
+
+        routes.MapPost("/api/DeleteExerciseFromWorkout/", async (ExerciceIdWorkoutIdRequest request, PVGymContext db) =>
+        {
+            var workout = db.Workout.Include(p => p.Exercises).Where(p => p.WorkoutId == Guid.Parse(request.WorkoutId)).FirstOrDefault();
+            var exercise = db.Exercise.Include(p => p.Workouts).Where(p => p.ExerciseId == Guid.Parse(request.ExerciseId)).FirstOrDefault();
+            if (exercise != null && workout != null)
+            {
+                workout.Exercises.Remove(exercise);
+                exercise.Workouts.Add(workout);
+            }
+            else
+            {
+                return Results.NotFound();
+            }
+
+            await db.SaveChangesAsync();
+            return Results.CreatedAtRoute();
+        })
+        .WithName("DeleteExerciseFromWorkout")
+        .Produces(StatusCodes.Status201Created)
         .Produces(StatusCodes.Status404NotFound);
 
         routes.MapPost("/api/Exercise/", async (Exercise exercise, PVGymContext db) =>

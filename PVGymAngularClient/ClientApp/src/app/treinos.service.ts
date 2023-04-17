@@ -57,6 +57,16 @@ export class TreinosService {
       .pipe(catchError(this.handleError));
   }
 
+  removeExerciceFromWorkout(exerciseId: string, workoutId: string): Observable<any> {
+    return this.http.post('/api/DeleteExerciseFromWorkout', { workoutId, exerciseId })
+      .pipe(catchError(this.handleError));
+  }
+
+  removeWorkoutFromPlan(planId: string, workoutId: string): Observable<any> {
+    return this.http.post('/api/DeleteWorkoutFromPlan', { workoutId, planId })
+      .pipe(catchError(this.handleError));
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
       // A client-side or network error occurred. Handle it accordingly.

@@ -109,6 +109,27 @@ public static class WorkoutEndpoints
         .Produces<Workout>(StatusCodes.Status201Created)
         .Produces(StatusCodes.Status404NotFound);
 
+        routes.MapPost("/api/DeleteWorkoutFromPlan/", async (WorkoutIdPlanIdRequest request, PVGymContext db) =>
+        {
+            var workout = db.Workout.Include(p => p.Plans).Where(p => p.WorkoutId == Guid.Parse(request.WorkoutId)).FirstOrDefault();
+            var plan = db.Plan.Include(p => p.Workouts).Where(p => p.PlanId == Guid.Parse(request.PlanId)).FirstOrDefault();
+            if (plan != null && workout != null)
+            {
+                workout.Plans.Remove(plan);
+                plan.Workouts.Remove(workout);
+            }
+            else
+            {
+                return Results.NotFound();
+            }
+
+            await db.SaveChangesAsync();
+            return Results.CreatedAtRoute();
+        })
+        .WithName("DeleteWorkoutFromPlan")
+        .Produces(StatusCodes.Status201Created)
+        .Produces(StatusCodes.Status404NotFound);
+
         routes.MapDelete("/api/Workout/{id}", async (Guid WorkoutId, PVGymContext db) =>
         {
             if (await db.Workout.FindAsync(WorkoutId) is Workout workout)

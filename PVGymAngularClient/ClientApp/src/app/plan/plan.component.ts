@@ -55,4 +55,10 @@ export class PlanComponent {
       this.modalVisible = false;
     });
   }
+
+  eliminateWorkout(workout: Workout) {
+    this.service.removeWorkoutFromPlan(workout.workoutId, this.plan.planId).subscribe(() => {
+      this.plan.workouts.splice(this.plan.workouts.findIndex((item) => item.workoutId === workout.workoutId), 1);
+    });
+  }
 }
