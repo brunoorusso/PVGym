@@ -58,7 +58,7 @@
 <ng-template #list>
   <h1>Aulas</h1>
   <div>
-    <a (click)="onCreateClick()" class="btn btn-success">Criar Aula</a>
+    <a *ngIf="showCreateButton()" (click)="onCreateClick()" class="btn btn-success">Criar Aula</a>
   </div>
   <table *ngIf="aula && aulas" class="table" aria-labelledby="tableLabel">
     <thead>
@@ -75,8 +75,9 @@
         <td>{{ a.coach }}</td>
         <td>{{ a.members.length }}</td>
         <td>
-          <a *ngIf="!isInClass.get(a.id) || aula.limit <= a.members.length" (click)="joinClass(a.id)" class="btn btn-info">Join</a>
-          <a *ngIf="isInClass.get(a.id)" (click)="leaveClass(a.id)" class="btn btn-outline-danger">Leave</a>
+          <a *ngIf="showJoinButton(a)" (click)="joinClass(a.id)" class="btn btn-info">Join</a>
+          <a *ngIf="showLeaveButton(a)" (click)="leaveClass(a.id)" class="btn btn-outline-danger">Leave</a>
+          <a *ngIf="showRemoveButton(a)" (click)="deleteClass(a.id)" class="btn btn-outline-warning">Remove</a>
           <!--<a (click)="onStudentsClick(a.members)" class="btn btn-info">Students</a>-->
         </td>
       </tr>

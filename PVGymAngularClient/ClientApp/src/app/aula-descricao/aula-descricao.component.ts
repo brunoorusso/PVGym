@@ -14,9 +14,9 @@ import { NgForm } from '@angular/forms';
 
 export class AulaDescricaoComponent implements OnInit {
 
-  private aulasService: AulasService;
-  private userService: UserService;
-  private memberService: MemberService;
+  //private aulasService: AulasService;
+  //private userService: UserService;
+  //private memberService: MemberService;
 
   @Input() aula: AulaDisponivel | undefined;
   @Input() aulas: Aula[] = [];
@@ -24,14 +24,16 @@ export class AulaDescricaoComponent implements OnInit {
   public createComponent: boolean = false;
   public studentsVisible = false;
   public students: Member[] = [];
+  public isCoach: boolean = false;
 
-  constructor(aulasService: AulasService, userService: UserService, memberService: MemberService) {
-    this.aulasService = aulasService;
-    this.userService = userService;
-    this.memberService = memberService;
+  constructor(public aulasService: AulasService, public userService: UserService, public memberService: MemberService) {
+    //this.aulasService = aulasService;
+    //this.userService = userService;
+    //this.memberService = memberService;
   }
 
   ngOnInit(): void {
+
   }
 
   onCreateClick(): void {
@@ -39,8 +41,13 @@ export class AulaDescricaoComponent implements OnInit {
   }
 
   onSubmit(aulaForm: NgForm, aulaDisponivel: AulaDisponivel | undefined) {
-    this.aulasService.createAulaForm(aulaForm.value, aulaDisponivel).subscribe(res => {
-      aulaForm.reset();
+    this.userService.getUserDataByEmail()?.subscribe(user => {
+      aulaForm.value.coach = user.userName;
+      this.aulasService.createAulaForm(aulaForm.value, aulaDisponivel).subscribe(aula => {
+        aulaForm.reset();
+        aula.members = [];
+        this.aulas.push(aula);
+      });
     });
   }
 
@@ -56,25 +63,6 @@ export class AulaDescricaoComponent implements OnInit {
   modalVisibleChange(visible: boolean) {
     this.studentsVisible = visible;
   }
-
-  //isInClasses() {
-  //  this.userService.getUserDataByEmail()?.subscribe(user => {
-  //    console.log("user logado: " + user.id)
-  //    for (var aula of this.aulas) {
-  //      for (let i = 0; i < this.aulas.length; i++) {
-  //        if (this.aulas[i].id == aula.id) {
-  //          for (let j = 0; j < this.aulas[i].members.length; j++) {
-  //            console.log("user inscrito: " + this.aulas[i].members[j].userId)
-  //            if (this.aulas[i].members[j].userId == user.id) {
-  //              aula.isInClass = true;
-  //            }
-  //          }
-  //        }
-  //      }
-  //      aula.isInClass = false;
-  //    }
-  //  });
-  //}
 
   joinClass(classId: string): void {
     this.userService.getUserDataByEmail()?.subscribe(user => {
@@ -99,13 +87,49 @@ export class AulaDescricaoComponent implements OnInit {
           this.isInClass.set(classId, false);
           for (var aula of this.aulas) {
             if (aula.id == classId) {
-              aula.members.splice(aula.members.indexOf(member));
+              aula.members.splice(aula.members.indexOf(member), 1);
               break;
             }
           }
         });
       });
     });
+  }
+
+  deleteClass(classId: string): void {
+    this.aulasService.deleteClass(classId).subscribe(res => {
+      for (var aula of this.aulas) {
+        if (aula.id == classId) {
+          this.aulas.splice(this.aulas.indexOf(aula), 1);
+          break;
+        }
+      }
+    });
+  }
+
+  showCreateButton() {
+    return this.userService.isAdmin() || this.userService.isStaff();
+  }
+
+  showJoinButton(a: Aula) {
+    if (this.aula && !this.userService.isAdmin() && !this.userService.isStaff()) {
+      return !this.isInClass.get(a.id) || this.aula.limit <= a.members.length;
+    }
+    return false;
+  }
+
+  showLeaveButton(a: Aula) {
+    if (!this.userService.isAdmin() && !this.userService.isStaff()) {
+      return this.isInClass.get(a.id);
+    }
+    return false;
+  }
+
+  showRemoveButton(a: Aula) {
+    if (this.userService.isAdmin() || this.userService.isStaff()) {
+      return true;
+    }
+    return false;
   }
 
 }

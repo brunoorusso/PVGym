@@ -43,7 +43,7 @@ export class AulasService {
   createAulaForm(aula: Aula, aulaDisponivel: AulaDisponivel | undefined): Observable<Aula> {
     if (aulaDisponivel) {
       aula.availableClassId = aulaDisponivel.id;
-      aula.coach = "alex";
+      /*aula.coach = "alex";*/
       /*aula.members = [];*/
       aula.name = aulaDisponivel.name;
       aula.description = aulaDisponivel.description;
@@ -51,6 +51,11 @@ export class AulasService {
       aula.image = aulaDisponivel.image;
     }
     return this.http.post<Aula>(this.baseUrl + "api/Class", aula);
+  }
+
+  deleteClass(classId: string): Observable<Class> {
+    return this.http.delete<Class>('/api/Class/' + classId)
+      .pipe(catchError(this.handleError));
   }
 
   addMemberToClass(member: Member, classId: string): Observable<Class> {
