@@ -25,6 +25,7 @@ export class AulaDescricaoComponent implements OnInit {
   public studentsVisible = false;
   public students: Member[] = [];
   public isCoach: boolean = false;
+  public today: Date = new Date();
 
   constructor(public aulasService: AulasService, public userService: UserService, public memberService: MemberService) {
     //this.aulasService = aulasService;
@@ -47,6 +48,7 @@ export class AulaDescricaoComponent implements OnInit {
         aulaForm.reset();
         aula.members = [];
         this.aulas.push(aula);
+        this.createComponent = false;
       });
     });
   }

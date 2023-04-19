@@ -1,7 +1,3 @@
-small {
-    color: white;
-}
-
-td, th {
+small, p, label, table {
     color: white;
 }

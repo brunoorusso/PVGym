@@ -43,8 +43,6 @@ export class AulasService {
   createAulaForm(aula: Aula, aulaDisponivel: AulaDisponivel | undefined): Observable<Aula> {
     if (aulaDisponivel) {
       aula.availableClassId = aulaDisponivel.id;
-      /*aula.coach = "alex";*/
-      /*aula.members = [];*/
       aula.name = aulaDisponivel.name;
       aula.description = aulaDisponivel.description;
       aula.duration = aulaDisponivel.duration;
@@ -70,6 +68,21 @@ export class AulasService {
 
   getStudents(classId: string): Observable<Class[]> {
     return this.http.get<Class[]>('/api/Class/' + classId + '/Members')
+      .pipe(catchError(this.handleError));
+  }
+
+  getMemberFutureClasses(memberId: string): Observable<Aula[]> {
+    return this.http.get<Aula[]>('/api/Class/Member/' + memberId)
+      .pipe(catchError(this.handleError));
+  }
+
+  getMemberPastClasses(memberId: string): Observable<Aula[]> {
+    return this.http.get<Aula[]>('/api/Class/Old/Member/' + memberId)
+      .pipe(catchError(this.handleError));
+  }
+
+  getAvailableClassById(availableClassId: string): Observable<AulaDisponivel> {
+    return this.http.get<AulaDisponivel>('/api/AvailableClass/' + availableClassId)
       .pipe(catchError(this.handleError));
   }
 

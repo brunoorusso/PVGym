@@ -3,7 +3,7 @@
   <div class="row mb-4 mb-lg-5">
     <div class="row mb-4 mb-lg-5">
       <div class="col-md-8 col-xl-6 text-center mx-auto">
-        <h3 class="fw-bold">{{ aula.name }}</h3>
+        <h2 class="fw-bold">{{ aula.name }}</h2>
       </div>
     </div>
   </div>
@@ -14,39 +14,40 @@
     <div class="col align-self-center mb-5">
       <div>
         <h5 class="fw-bold">What is it?</h5>
-        <p class="text-muted mb-4">{{ aula.description }}</p>
+        <p>{{ aula.description }}</p>
       </div>
       <div>
         <h5 class="fw-bold">Limit</h5>
-        <p class="text-muted mb-4">{{ aula.limit }} students</p>
+        <p>{{ aula.limit }} students</p>
       </div>
       <div>
         <h5 class="fw-bold">Duration</h5>
-        <p class="text-muted mb-4">{{ aula.duration }} minutes</p>
+        <p>{{ aula.duration }} minutes</p>
       </div>
     </div>
   </div>
 </div>
-
-<!--<div *ngIf="aulas.length == 0">Não existem aulas no calendário</div>-->
-<!--<div *ngIf="aulas != undefined"><p>{{ aulas.length }}</p></div>-->
 
 <div *ngIf="!aula; then aulasDisponiveis"></div>
 <div *ngIf="aula && createComponent; then create"></div>
 <div *ngIf="aula && !createComponent; then list"></div>
 
 <ng-template #create>
-  <a (click)="this.createComponent = false">Back</a>
-  <h1>Aulas</h1>
+  <div class="col-md-8 col-xl-6 text-center mx-auto">
+    <h3>Create Class</h3>
+  </div>
+  <small style="text-decoration: underline; cursor: pointer;" (click)="this.createComponent = false">Back</small>
   <div *ngIf="!createComponent">
-    <a (click)="onCreateClick()" class="btn btn-success">Criar Aula</a>
+    <a (click)="onCreateClick()" class="btn btn-success">Create</a>
   </div>
   <form #createAulaForm="ngForm" (ngSubmit)="onSubmit(createAulaForm, aula)">
     <div class="form-group">
       <label for="startDate">Start Date:</label>
-      <input required ngModel #startDate="ngModel" type="date" id="startDate" name="startDate" />
+      <input required ngModel #startDate="ngModel" type="datetime-local" id="startDate" name="startDate"
+             min="{{today | date:'yyyy-MM-ddTHH:mm:ss'}}" />
       <div class="alert alert-danger" *ngIf="startDate.touched && !startDate.valid">
-        <div *ngIf="startDate.errors?.['required']">Select a start date</div>
+        <div *ngIf="startDate.errors?.['required']">Select a start date and time</div>
+        <div *ngIf="startDate.errors?.['min']">Start date and time cannot be before now</div>
       </div>
     </div>
     <div class="form-group">
@@ -56,11 +57,14 @@
 </ng-template>
 
 <ng-template #list>
-  <h1>Aulas</h1>
-  <div>
-    <a *ngIf="showCreateButton()" (click)="onCreateClick()" class="btn btn-success">Criar Aula</a>
+  <div class="col-md-8 col-xl-6 text-center mx-auto">
+    <h3>Next Classes</h3>
   </div>
-  <table *ngIf="aula && aulas" class="table" aria-labelledby="tableLabel">
+  <div>
+    <a *ngIf="showCreateButton()" (click)="onCreateClick()" class="btn btn-success">Create</a>
+  </div>
+  <label *ngIf="aulas.length == 0">There are no scheduled classes.</label>
+  <table *ngIf="aula && aulas.length != 0" class="table" aria-labelledby="tableLabel">
     <thead>
       <tr>
         <th>Start Date</th>

@@ -53,7 +53,8 @@ public static class ClassEndpoints
         {
             var classes = await db.Class
                 .Include(c => c.Members)
-                .Where(c => c.Name == name)
+                .Where(c => c.Name == name && c.StartDate >= DateTime.Now)
+                .OrderBy(c => c.StartDate)
                 .ToListAsync();
 
             return classes.Count > 0
@@ -152,6 +153,38 @@ public static class ClassEndpoints
         .WithName("RemoveMemberFromClass")
         .Produces(StatusCodes.Status204NoContent)
         .Produces(StatusCodes.Status404NotFound);
+
+        routes.MapGet("/api/Class/Member/{id}", async (string Id, PVGymContext db) =>
+        {
+            var memberClasses = await db.Class
+                .Include(c => c.Members)
+                .Where(c => c.Members.Any(m => m.UserId == Id) && c.StartDate >= DateTime.Now)
+                .OrderBy(c => c.StartDate)
+                .ToListAsync();
+
+            return memberClasses.Count > 0
+                ? Results.Ok(memberClasses)
+                : Results.NoContent();
+        })
+        .WithName("GetClassesByMemberId")
+        .Produces<List<Class>>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status204NoContent);
+
+        routes.MapGet("/api/Class/Old/Member/{id}", async (string Id, PVGymContext db) =>
+        {
+            var memberClasses = await db.Class
+                .Include(c => c.Members)
+                .Where(c => c.Members.Any(m => m.UserId == Id) && c.StartDate < DateTime.Now)
+                .OrderBy(c => c.StartDate)
+                .ToListAsync();
+
+            return memberClasses.Count > 0
+                ? Results.Ok(memberClasses)
+                : Results.NoContent();
+        })
+        .WithName("GetOldClassesByMemberId")
+        .Produces<List<Class>>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status204NoContent);
 
     }
 }

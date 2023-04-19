@@ -37,10 +37,10 @@
             <a class="nav-link text-dark" [routerLink]="['/profile']">Profile</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/aulas']">Aulas</a>
+            <a class="nav-link text-dark" [routerLink]="['/aulas']">My Classes</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/aulasDisponiveis']">Aulas Disponiveis</a>
+            <a class="nav-link text-dark" [routerLink]="['/aulasDisponiveis']">Available Classes</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="service.isAdmin() || service.isStaff()">
             <a class="nav-link text-dark" [routerLink]="['/register']">Add Member</a>
