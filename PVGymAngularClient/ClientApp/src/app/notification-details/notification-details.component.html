@@ -1,13 +1,25 @@
-<h1>Notification - {{ notification.notificationDate | date:'dd-MM-yyyy' }}</h1>
-
-<form>
-  <div class="form-group">
-    <label for="subject">Subject</label>
-    <input disabled type="text" id="subject" name="subject" [(ngModel)]="notification.subject" />
+<section class="py-5" style="padding-top: 0px !important;">
+  <div class="container py-5">
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-6 col-xl-4" style="height: 419.906px;width: 429px;">
+        <div class="card">
+          <div class="card-body text-center d-flex flex-column align-items-center">
+            <h1 style="font-size: 30px; margin-bottom: 0px; color: darkslategray;">Notification</h1>
+            <h1 style="font-size: 30px; margin-bottom: 25px; color: darkslategray;">{{ notification.notificationDate | date:'dd-MM-yyyy' }}</h1>
+            <form>
+              <div class="d-flex align-items-center mb-3 input-container">
+                <label for="subject" class="form-label" style="width: 120px;">Subject</label>
+                <input class="form-control" type="text" disabled [(ngModel)]="notification.subject" id="subject" name="subject" style="height: 40px;">
+              </div>
+              <div class="d-flex align-items-center mb-3 input-container">
+                <label for="content" class="form-label" style="width: 120px;">Content</label>
+                <input class="form-control" type="text" disabled [(ngModel)]="notification.content" id="content" name="content" style="height: 40px;">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="content">Content</label>
-    <input disabled type="text" id="content" name="content" [(ngModel)]="notification.content" />
-  </div>
-</form>
+</section>
 

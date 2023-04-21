@@ -1,24 +1,37 @@
 <p *ngIf="!notifications"><em>Loading...</em></p>
-<a *ngIf="showBack" (click)="componentLoad = 'L'; this.showBack = false;">Back</a>
+<a *ngIf="showBack" (click)="componentLoad = 'L'; this.showBack = false; getNotifications();"><img src="../../assets/img/back-arrow.png" alt="Return to previous page" style="width: 32px; height: 32px;"></a>
 <div *ngIf="componentLoad === 'D'; then details else list;"></div>
 
 <ng-template #list>
   <h1>Notifications</h1>
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-primary text-center d-flex justify-content-center align-items-center btn btn-success"
+            (click)="onClearClick()" *ngIf="this.notifications?.length !== 0" type="button" style="padding: 5px; text-align: center;">
+      Clear Read
+    </button>
+  </div>
   <table class="table table-striped" aria-labelledby="tableLabel" *ngIf="notifications">
     <thead>
       <tr>
-        <th>Member Name</th>
-        <th>Notification Date</th>
-        <th>Subject</th>
-        <th>Content</th>
+        <th style="color: white; text-align: center;"></th>
+        <th style="color: white; text-align: center; width: 160px;">Notification Date</th>
+        <th style="color: white; text-align: center;">Subject</th>
+        <th style="color: white; text-align: center;">Content</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let notification of notifications" (click)="onSelectNotification(notification)" [class.table-primary]="notification == selectedNotification">
-        <td>{{ notification.memberId }}</td>
-        <td>{{ notification.notificationDate | date:'dd-MM-yyyy' }}</td>
-        <td>{{ notification.subject }}</td>
-        <td>{{ notification.content }}</td>
+        <td style="color: white; text-align: center;">
+          <div *ngIf="notification.isRead">
+            <img src="../../assets/img/read.png" alt="Read" style="width: 32px; height: 32px;">
+          </div>
+          <div *ngIf="!notification.isRead">
+            <img src="../../assets/img/unread.png" alt="Unread" style="width: 32px; height: 32px;">
+          </div>
+        </td>
+        <td [style.color]="notification.isRead ? '#ffffff40' : 'white'" style="text-align: center;">{{ notification.notificationDate | date:'dd-MM-yyyy' }}</td>
+        <td [style.color]="notification.isRead ? '#ffffff40' : 'white'" style="text-align: center;">{{ notification.subject }}</td>
+        <td [style.color]="notification.isRead ? '#ffffff40' : 'white'" style="text-align: center;">{{ notification.content }}</td>
       </tr>
     </tbody>
   </table>

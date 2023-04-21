@@ -5,13 +5,27 @@ namespace PVGym.Controllers;
 
 public static class NotificationEndpoints
 {
-    public static void MapNotificationEndpoints (this IEndpointRouteBuilder routes)
+    public static void MapNotificationEndpoints(this IEndpointRouteBuilder routes)
     {
         routes.MapGet("/api/Notification", async (PVGymContext db) =>
         {
             return await db.Notification.ToListAsync();
         })
         .WithName("GetAllNotifications")
+        .Produces<List<Notification>>(StatusCodes.Status200OK);
+
+        routes.MapGet("api/Notification/UserId/{UserId}", async (Guid UserId, PVGymContext db) =>
+        {
+            return await db.Notification.Where(m => m.UserId == UserId).ToListAsync();
+        })
+        .WithName("GetNotificationByUserId")
+        .Produces<List<Notification>>(StatusCodes.Status200OK);
+
+        routes.MapGet("api/Notification/Unread/UserId/{UserId}", async (Guid UserId, PVGymContext db) =>
+        {
+            return await db.Notification.Where(m => m.UserId == UserId && m.IsRead == false).ToListAsync();
+        })
+        .WithName("GetUnreadNotificationByUserId")
         .Produces<List<Notification>>(StatusCodes.Status200OK);
 
         routes.MapGet("/api/Notification/{id}", async (Guid Id, PVGymContext db) =>
@@ -33,6 +47,8 @@ public static class NotificationEndpoints
             {
                 return Results.NotFound();
             }
+
+            db.Entry(foundModel).State = EntityState.Detached;
 
             db.Update(notification);
 

@@ -13,10 +13,11 @@ export class HomeComponent {
 
   private user: any;
   private notification: Notification = {
-    memberId: 0,
+    userId: 0,
     notificationDate: new Date(),
     subject: "Class Tomorrow",
-    content: "Tomorrow you have a class."
+    content: "Tomorrow you have a class.",
+    isRead: false
   };
 
   constructor(private userService: UserService, private service: AulasService, private notificationService: NotificationService, private memberService: MemberService) { }
@@ -39,7 +40,7 @@ export class HomeComponent {
       tomorrowClasses.forEach((classElement) => {
         classElement.members.forEach((member) => {
           if (member.memberId == currentMember.memberId) {
-            this.notification.memberId = currentMember.memberId;
+            this.notification.userId = currentMember.userId;
             this.notification.notificationDate = new Date();
             this.notificationService.createNotification(this.notification).subscribe();
           }

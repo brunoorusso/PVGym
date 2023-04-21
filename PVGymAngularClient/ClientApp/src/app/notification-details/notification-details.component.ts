@@ -10,7 +10,7 @@ import { NotificationService } from '../services/notification.service';
 export class NotificationDetailsComponent implements OnInit {
 
   @Input() notificationId: number | undefined;
-  notification: Notification = { id: 0, memberId: 0, notificationDate: new Date(), subject: "", content: ""};
+  notification: Notification = { id: 0, userId: 0, notificationDate: new Date(), subject: "", content: "", isRead: false};
 
   constructor(private service: NotificationService) { }
 
@@ -18,6 +18,10 @@ export class NotificationDetailsComponent implements OnInit {
     if (this.notificationId !== undefined) {
       this.service.getNotification(this.notificationId).subscribe((notification: Notification) => {
         this.notification = notification;
+        if (this.notification.id !== undefined) {
+          this.notification.isRead = true;
+          this.service.updateNotification(this.notification.id, this.notification).subscribe();
+        }
       });
     }
   }

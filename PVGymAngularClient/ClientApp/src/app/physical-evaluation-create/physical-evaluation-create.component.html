@@ -1,5 +1,63 @@
-<h1>New Physical Evaluation</h1>
+<section class="py-5" style="padding-top: 0px !important;">
+  <div class="container py-5">
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-6 col-xl-4" style="height: 419.906px;width: 429px;">
+        <div class="card">
+          <div class="card-body text-center d-flex flex-column align-items-center">
+            <h1 style="font-size: 30px; margin-bottom: 25px; color: darkslategray;">New Physical Evaluation</h1>
+            <form #physicalEvaluationForm="ngForm" (ngSubmit)="onSubmit(physicalEvaluationForm)">
+              <div class="d-flex align-items-center mb-3 input-container">
+                <label for="memberId" class="form-label" style="width: 115px;">Member</label>
+                <input class="form-control" type="text" required [(ngModel)]="searchTerm" #member="ngModel" id="memberId" name="memberId" (keyup)="filterSuggestions()" placeholder="Member" style="height: 40px;">
+                <div class="suggestion-container" *ngIf="showSuggestions">
+                  <div *ngFor="let member of suggestions" (click)="selectSuggestion(member)">
+                    {{ member.user?.userName }}
+                  </div>
+                </div>
+                <div class="alert alert-danger" *ngIf="member.touched && !member.valid">
+                  <div *ngIf="member.errors?.['required']">Member is required</div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <label for="height" class="form-label" style="width: 115px;">Height</label>
+                <input class="form-control" type="number" required ngModel #height="ngModel" placeholder="Height (cm)" id="height" name="height" style="height: 40px;">
+                <div class="alert alert-danger" *ngIf="height.touched && !height.valid">
+                  <div *ngIf="height.errors?.['required']">Height is required</div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <label for="weight" class="form-label" style="width: 115px;">Weight</label>
+                <input class="form-control" type="number" required ngModel #weight="ngModel" placeholder="Weight (kg)" id="weight" name="weight" style="height: 40px;">
+                <div class="alert alert-danger" *ngIf="weight.touched && !weight.valid">
+                  <div *ngIf="weight.errors?.['required']">Weight is required</div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <label for="bmi" class="form-label" style="width: 115px;">BMI</label>
+                <input class="form-control" type="number" required ngModel #bmi="ngModel" placeholder="Body Mass Indicator" id="bmi" name="bmi" style="height: 40px;">
+                <div class="alert alert-danger" *ngIf="bmi.touched && !bmi.valid">
+                  <div *ngIf="bmi.errors?.['required']">BMI is required</div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <label for="bodyFat" class="form-label" style="width: 115px;">Body Fat</label>
+                <input class="form-control" type="number" required ngModel #bodyFat="ngModel" placeholder="Body Fat (%)" id="bodyFat" name="bodyFat" style="height: 40px;">
+                <div class="alert alert-danger" *ngIf="bodyFat.touched && !bodyFat.valid">
+                  <div *ngIf="bodyFat.errors?.['required']">Body Fat is required</div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center justify-content-center mb-3">
+                <button type="submit" class="btn btn-success" [disabled]="!physicalEvaluationForm.valid">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!--
 <form #physicalEvaluationForm="ngForm" (ngSubmit)="onSubmit(physicalEvaluationForm)">
   <div class="form-group input-container">
     <label for="memberId">Member</label>
@@ -13,7 +71,6 @@
   <select required ngModel #member="ngModel" id="memberId" name="memberId">
     <option *ngFor="let member of members" [value]="member.memberId">{{ member.user?.userName }}</option>
   </select>
-  -->
     <div class="alert alert-danger" *ngIf="member.touched && !member.valid">
       <div *ngIf="member.errors?.['required']">Member is required</div>
     </div>
@@ -50,3 +107,4 @@
     <button type="submit" class="btn-primary btn" [disabled]="!physicalEvaluationForm.valid">Create</button>
   </div>
 </form>
+  -->
