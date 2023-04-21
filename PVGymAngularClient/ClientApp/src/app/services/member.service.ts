@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Evaluation } from '../physical-evaluation/physical-evaluation.component';
-import { PlanType } from '../plan-type.enum';
 import { Plan } from '../treinos.service';
 import { ApplicationUserModel } from '../user.service';
 
@@ -29,7 +28,7 @@ export class MemberService {
 export interface Member {
   memberId: number;
   vat: number;
-  planType: PlanType;
+  planType: string;
   plans: Plan[];
   evaluations: Evaluation[];
   userId: number;

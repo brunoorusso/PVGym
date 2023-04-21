@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map, Observable, switchMap, throwError } from 'rxjs';
 import jwt_decode from 'jwt-decode';
-import { PlanType } from './plan-type.enum';
 
 @Injectable({
   providedIn: 'root'
