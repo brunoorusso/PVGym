@@ -172,7 +172,7 @@ export class UserService {
     const token = localStorage.getItem('token');
     if (token) {
       const decodedToken: any = jwt_decode(token);
-      return this.http.get<any[]>(this.BaseURI + `/ApplicationUser/GetUserByEmail/${decodedToken.sub}`);
+      return this.http.get<any>(this.BaseURI + `/ApplicationUser/GetUserByEmail/${decodedToken.sub}`);
     }
     return null;
   }

@@ -10,6 +10,9 @@ using System.Drawing.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
+using PVGym.Models;
+using NuGet.ProjectModel;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("PVGymContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
@@ -102,7 +105,52 @@ using (var scope = app.Services.CreateScope())
         await userManager.AddToRoleAsync(newAdminUser, "admin");
     }
 
-    
+    // Check if the table is empty and execute the code
+    var context = scope.ServiceProvider.GetService<PVGymContext>();
+    var isTableEmpty = await context.IsTableEmptyAsync();
+
+    if (isTableEmpty)
+    {
+        var client = new HttpClient();
+        var request = new HttpRequestMessage
+        {
+            Method = HttpMethod.Get,
+            RequestUri = new Uri("https://exercisedb.p.rapidapi.com/exercises"),
+            Headers =
+        {
+            { "X-RapidAPI-Key", "4513d9c6c1msh1cc9cd160f50ee5p147151jsn04d3af1bef2a" },
+            { "X-RapidAPI-Host", "exercisedb.p.rapidapi.com" },
+        },
+        };
+        using (var response = await client.SendAsync(request))
+        {
+            response.EnsureSuccessStatusCode();
+            var body = await response.Content.ReadAsStringAsync();
+
+            JArray jArray = JArray.Parse(body);
+
+            foreach (var obj in jArray)
+            {
+                var exercise = new Exercise
+                {
+                    ExerciseId = Guid.NewGuid(),
+                    Name = obj.GetValue<string>("name"),
+                    Description = obj.GetValue<string>("description"),
+                    target = obj.GetValue<string>("target"),
+                    gifUrl = obj.GetValue<string>("gifUrl"),
+                    equipment = obj.GetValue<string>("equipment"),
+                    bodyPart = obj.GetValue<string>("bodyPart")
+                };
+
+                // Add the exercise to the DbSet before saving changes
+                context.Exercise.Add(exercise);
+                await context.SaveChangesAsync();
+                Console.WriteLine("Created Exercice: " + obj.GetValue<string>("name"));
+            }
+        }
+    } else {
+        Console.WriteLine("Exercice already populated");
+    }
 }
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

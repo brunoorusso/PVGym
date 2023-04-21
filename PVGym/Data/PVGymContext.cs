@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PVGym.Areas.Identity.Data;
 using PVGym.Models;
-using Microsoft.AspNetCore.Identity;
 
 namespace PVGym.Data
 {
@@ -27,18 +21,23 @@ namespace PVGym.Data
 
         public DbSet<Plan>? Plan { get; set; }
 
+        public DbSet<PVGym.Models.Evaluation>? Evaluation { get; set; }
+
+        public DbSet<PVGym.Models.Notification>? Notification { get; set; }
+
+        public DbSet<RoleModel>? RoleModel { get; set; }
+
+        public DbSet<Staff>? Staff { get; set; }
+
+        public DbSet<PVGym.Models.Class>? Class { get; set; }
+
+        public DbSet<PVGym.Models.AvailableClass>? AvailableClass { get; set; }
+
+
         protected override async void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             // add your own configuration here
-
-            List<Plan> plans = new();
-
-            modelBuilder.Entity<Member>()
-            .HasMany(p => p.Plans)
-            .WithMany(w => w.Member)
-            .UsingEntity(j => j.ToTable("MemberPlan"));
-
             modelBuilder.Entity<Member>()
             .HasMany(p => p.Classes)
             .WithMany(w => w.Members)
@@ -91,19 +90,13 @@ namespace PVGym.Data
                         Duration = 60,
                         Image = "https://www.clubpilates.com/hubfs/11_studio_reformer-1.jpg"
                     }
-                );     
+                );
         }
 
-        public DbSet<PVGym.Models.Evaluation>? Evaluation { get; set; }
-
-        public DbSet<PVGym.Models.Notification>? Notification { get; set; }
-
-        public DbSet<RoleModel>? RoleModel { get; set; }
-
-        public DbSet<Staff>? Staff { get; set; }
-
-        public DbSet<PVGym.Models.Class>? Class { get; set; }
-
-        public DbSet<PVGym.Models.AvailableClass>? AvailableClass { get; set; }
+        
+        public async Task<bool> IsTableEmptyAsync()
+        {
+            return !await Exercise.AnyAsync();
+        }
     }
 }

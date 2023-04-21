@@ -10,8 +10,8 @@ export class TreinosService {
 
   constructor(private http: HttpClient) { }
 
-  getPlan(): Observable<Plan[]> {
-    return this.http.get<Plan[]>('/api/Plan')
+  getPlan(userId: string): Observable<Plan> {
+    return this.http.get<Plan>('/api/PlanByMemberId/' + userId)
       .pipe(catchError(this.handleError));
   }
 
