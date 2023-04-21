@@ -9,6 +9,9 @@ using System.Text.Json;
 using System.Drawing.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using PVGym.Models;
+using System.Threading;
+
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using PVGym.Models;
@@ -24,6 +27,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<PVGymContext>()
     .AddDefaultTokenProviders();
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddJsonOptions(options => // Modify this line
@@ -42,7 +46,7 @@ builder.Services.AddIdentityCore<IdentityUser>(options =>
     options.SignIn.RequireConfirmedAccount = false;
     options.User.RequireUniqueEmail = true;
     options.Password.RequireDigit = false;
-    options.Password.RequiredLength = 6;
+    options.Password.RequiredLength = 1;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
     options.Password.RequireLowercase = false;

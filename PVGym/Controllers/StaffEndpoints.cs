@@ -27,12 +27,11 @@ public static class StaffEndpoints
         .Produces<Staff>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
-        routes.MapGet("/api/Staff/UserId/{UserId}", async (Guid UserId, PVGymContext db) =>
+        routes.MapGet("/api/Staff/GetStaffByUserId/{UserId}", async (string userId, PVGymContext db) =>
         {
-            return await db.Staff.FirstOrDefaultAsync(m => m.UserId == UserId.ToString())
-            is Staff model
-                    ? Results.Ok(model)
-                    : Results.NotFound();
+            var staff = await db.Staff.FirstAsync(s => s.UserId.Equals(userId)); 
+            
+            return staff != null ? Results.Ok(staff) : Results.NotFound();
         })
         .WithName("GetStaffByUserId")
         .Produces<Staff>(StatusCodes.Status200OK)
@@ -50,7 +49,7 @@ public static class StaffEndpoints
             db.Update(staff);
 
             await db.SaveChangesAsync();
-
+            
             return Results.NoContent();
         })
         .WithName("UpdateStaff")

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { UserService } from '../user.service';
-import { PlanType } from '../plan-type.enum';
 
 
 @Component({
@@ -10,11 +9,6 @@ import { PlanType } from '../plan-type.enum';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-
-  tipoOpcoes = [
-    { id: PlanType.Normal, nome: "Normal" },
-    { id: PlanType.Premium, nome: "Premium" }];
-
 
   constructor(public service: UserService) {
   }

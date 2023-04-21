@@ -1,34 +1,40 @@
-<h1>Physical Evaluation - {{ physicalEvaluation.evaluationDate | date:'dd-MM-yyyy' }}</h1>
-
-<form>
-  <div class="form-group">
-    <label for="member">Member</label>
-    <input disabled type="text" id="member" name="member" [(ngModel)]="physicalEvaluation.memberName" />
+<section class="py-5" style="padding-top: 0px !important;">
+  <div class="container py-5">
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-6 col-xl-4" style="height: 419.906px;width: 429px;">
+        <div class="card">
+          <div class="card-body text-center d-flex flex-column align-items-center">
+            <h1 style="font-size: 30px; margin-bottom: 0px; color: darkslategray;">Physical Evaluation</h1>
+            <h1 style="font-size: 30px; margin-bottom: 25px; color: darkslategray;">{{ physicalEvaluation.evaluationDate | date:'dd-MM-yyyy' }}</h1>
+            <form>
+              <div class="d-flex align-items-center mb-3 input-container">
+                <label for="memberId" class="form-label" style="width: 120px;">Member</label>
+                <input class="form-control" type="text" disabled [(ngModel)]="physicalEvaluation.memberName" id="memberId" name="memberId" style="height: 40px;">
+              </div>
+              <div class="d-flex align-items-center mb-3 input-container">
+                <label for="createdBy" class="form-label" style="width: 120px;">Created By</label>
+                <input class="form-control" type="text" disabled [(ngModel)]="physicalEvaluation.staffName" id="createdBy" name="createdBy" style="height: 40px;">
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <label for="height" class="form-label" style="width: 120px;">Height</label>
+                <input class="form-control" type="number" disabled [(ngModel)]="physicalEvaluation.height" id="height" name="height" style="height: 40px;">
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <label for="weight" class="form-label" style="width: 120px;">Weight</label>
+                <input class="form-control" type="number" disabled [(ngModel)]="physicalEvaluation.weight" id="weight" name="weight" style="height: 40px;">
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <label for="bmi" class="form-label" style="width: 120px;">BMI</label>
+                <input class="form-control" type="number" disabled [(ngModel)]="physicalEvaluation.bmi" id="bmi" name="bmi" style="height: 40px;">
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <label for="bodyFat" class="form-label" style="width: 120px;">Body Fat</label>
+                <input class="form-control" type="number" disabled [(ngModel)]="physicalEvaluation.bodyFat" id="bodyFat" name="bodyFat" style="height: 40px;">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="createdBy">Created By</label>
-    <input disabled type="text" id="createdBy" name="createdBy" [(ngModel)]="physicalEvaluation.staffName" />
-  </div>
-  <div class="form-group">
-    <label for="height">Height</label>
-    <input disabled type="range" id="height" name="height" [(ngModel)]="physicalEvaluation.height" />
-  </div>
-  <!--
-  <div class="form-group">
-    <label for="evaluationDate">Date:</label>
-    <input disabled type="datetime" id="evaluationDate" name="evaluationDate" [value]="physicalEvaluation.evaluationDate | date:'dd-MM-yyyy'" />
-  </div>
-  -->
-  <div class="form-group">
-    <label for="weight">Weight</label>
-    <input disabled type="range" id="weight" name="weight" [(ngModel)]="physicalEvaluation.weight" />
-  </div>
-  <div class="form-group">
-    <label for="bmi">BMI</label>
-    <input disabled type="range" id="bmi" name="bmi" [(ngModel)]="physicalEvaluation.bmi" />
-  </div>
-  <div class="form-group">
-    <label for="bodyFat">Body Fat</label>
-    <input disabled type="number" id="bodyFat" name="bodyFat" [(ngModel)]="physicalEvaluation.bodyFat" />
-  </div>
-</form>
+</section>

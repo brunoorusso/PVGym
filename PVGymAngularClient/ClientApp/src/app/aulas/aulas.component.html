@@ -1,1 +1,53 @@
-<p>aulas works!</p>
+<div class="col-md-8 col-xl-6 text-center mx-auto">
+  <h2 class="fw-bold">Enrolled Classes</h2>
+</div>
+
+<div *ngIf="futureNameClassesMap.size == 0">
+  <label>It seems you're not enrolled on any class! Join <a [routerLink]="['/aulasDisponiveis']">here</a>.</label>
+</div>
+<div *ngFor="let className of futureNameClassesMap | keyvalue">
+  <h4>{{ className.key }}</h4>
+  <table class="table" aria-labelledby="tableLabel">
+    <thead>
+      <tr>
+        <th>Start Date</th>
+        <th>Coach</th>
+        <th>Students</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let class of className.value">
+        <td>{{ class.startDate | date:'dd-MM-yyyy hh:mm:ss' }}</td>
+        <td>{{ class.coach }}</td>
+        <td>{{ class.members.length }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="col-md-8 col-xl-6 text-center mx-auto">
+  <h2 class="fw-bold">Past Classes</h2>
+</div>
+
+<div *ngIf="pastNameClassesMap.size == 0">
+  <label>You don't have classes history.</label>
+</div>
+<div *ngFor="let className of pastNameClassesMap | keyvalue">
+  <h4>{{ className.key }}</h4>
+  <table class="table" aria-labelledby="tableLabel">
+    <thead>
+      <tr>
+        <th>Start Date</th>
+        <th>Coach</th>
+        <th>Students</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let class of className.value">
+        <td>{{ class.startDate | date:'dd-MM-yyyy hh:mm:ss' }}</td>
+        <td>{{ class.coach }}</td>
+        <td>{{ class.members.length }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

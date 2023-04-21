@@ -22,7 +22,6 @@ import { ModalComponent } from './modal/modal.component';
 import { NotificationComponent } from './notification/notification.component';
 import { NotificationDetailsComponent } from './notification-details/notification-details.component';
 import { AulasComponent } from './aulas/aulas.component';
-
 import { TreinosService } from './treinos.service';
 import { AulasDisponiveisComponent } from './aulas-disponiveis/aulas-disponiveis.component';
 import { AulaDescricaoComponent } from './aula-descricao/aula-descricao.component';

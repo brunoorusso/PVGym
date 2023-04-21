@@ -17,7 +17,7 @@ export class PhysicalEvaluationComponent implements OnInit {
   public evaluationIdDetails: number = 0;
   public showBack: boolean = false;
   private user: any;
-  private member: Member = { evaluations: [], memberId: 0, plans: [], planType: 0, user: { email: "", password: "", userName: "" }, userId: 0, vat: 0};
+  private member: Member = { evaluations: [], memberId: 0, plans: [], planType: "", user: { email: "", password: "", userName: "" }, userId: 0, vat: 0};
   public staff: Staff = { id: 0, isAdmin: false, specialization: "", userId: 0};
 
   constructor(private service: PhysicalEvaluationService, public userService: UserService, private memberService: MemberService, private staffService: StaffService) { }
@@ -25,8 +25,7 @@ export class PhysicalEvaluationComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getUserDataByEmail()?.subscribe(data => {
       this.user = data;
-      (this.userService.isMember()) ? this.getPhysicalEvaluations(true) : this.getPhysicalEvaluations(false);
-
+      this.getPhysicalEvaluations(this.userService.isMember());
     });
   }
    
@@ -38,7 +37,8 @@ export class PhysicalEvaluationComponent implements OnInit {
           this.member = member;
           this.service.getPhysicalEvaluationsOfMember(this.member.memberId)
             .subscribe((physicalEvaluations: Evaluation[]) => {
-              this.physicalEvaluations = physicalEvaluations
+              this.physicalEvaluations = physicalEvaluations;
+              this.physicalEvaluations.reverse();
               this.getUsernames();
             });
         });
@@ -50,6 +50,7 @@ export class PhysicalEvaluationComponent implements OnInit {
           this.service.getPhysicalEvaluationsCreatedBy(this.staff.id)
             .subscribe((physicalEvaluations: Evaluation[]) => {
               this.physicalEvaluations = physicalEvaluations;
+              this.physicalEvaluations.reverse();
               this.getUsernames();
             });
         });
@@ -81,7 +82,12 @@ export class PhysicalEvaluationComponent implements OnInit {
     this.evaluationIdDetails = physicalEvaluation.id;
     this.componentLoad = "D";
     this.showBack = true;
-    //this.router.navigate(["/physicalEvaluation/details", physicalEvaluation.id]);
+  }
+
+  onPhysicalEvaluationCreated() {
+    this.componentLoad = "L";
+    this.showBack = false;
+    this.getPhysicalEvaluations(this.userService.isMember());
   }
 
 }

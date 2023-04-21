@@ -10,8 +10,8 @@ export class AulasDisponiveisService {
 
   constructor(private http: HttpClient) { }
 
-  getAvailableClasses(): Observable<any> {
-    return this.http.get<any[]>('/api/AvailableClass')
+  getAvailableClasses(): Observable<AulaDisponivel[]> {
+    return this.http.get<AulaDisponivel[]>('/api/AvailableClass')
       .pipe(catchError(this.handleError));
   }
 
@@ -50,4 +50,5 @@ export interface Aula {
   description: string;
   duration: number;
   image: string;
+  isInClass: boolean;
 }

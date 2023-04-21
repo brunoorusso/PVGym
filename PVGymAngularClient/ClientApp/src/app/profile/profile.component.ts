@@ -10,6 +10,7 @@ import { UserService } from '../user.service';
 export class ProfileComponent implements OnInit {
 
   userData: any;
+  staffData: any;
   public modalVisible = false;
 
   constructor(public service: UserService) { }
@@ -20,8 +21,10 @@ export class ProfileComponent implements OnInit {
     this.service.getUserDataByEmail()?.subscribe(data => {
       this.userData = data;
       this.updateFormValues(this.userData);
+      this.service.getStaffById(this.userData.id)?.subscribe(data => {
+        this.staffData = data;
+      });
     });
-    
   }
 
   modalVisibleChange(visible: boolean) {

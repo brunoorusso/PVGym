@@ -1,40 +1,49 @@
 <p *ngIf="!physicalEvaluations"><em>Loading...</em></p>
-<a *ngIf="showBack" (click)="componentLoad = 'L'; this.showBack = false;">Back</a>
+<a #backButton *ngIf="showBack" (click)="componentLoad = 'L'; this.showBack = false; getPhysicalEvaluations(this.userService.isMember());"><img src="../../assets/img/back-arrow.png" alt="Return to previous page" style="width: 32px; height: 32px;"></a>
 <div *ngIf="componentLoad === 'C'; then create else componentLoad === 'D' ? details : list"></div>
 
 <ng-template #list>
-  <h1>Physical Evaluations</h1>
-  <div>
-    <a (click)="onCreateClick()" class="btn btn-success" *ngIf="userService.isStaff()">Create New Physical Evaluation</a>
-  </div>
-  <table class="table table-striped" aria-labelledby="tableLabel" *ngIf="physicalEvaluations">
-    <thead>
-      <tr>
-        <th>Member Name</th>
-        <th>Staff Name</th>
-        <th>Evaluation Date</th>
-        <th>Height</th>
-        <th>Weight</th>
-        <th>BMI</th>
-        <th>Body Fat</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let physicalEvaluation of physicalEvaluations" (click)="onSelectPhysicalEvaluation(physicalEvaluation)" [class.table-primary]="physicalEvaluation == selectedPhysicalEvaluation">
-        <td>{{ physicalEvaluation.memberName }}</td>
-        <td>{{ physicalEvaluation.staffName }}</td>
-        <td>{{ physicalEvaluation.evaluationDate | date:'dd-MM-yyyy' }}</td>
-        <td>{{ physicalEvaluation.height }}</td>
-        <td>{{ physicalEvaluation.weight }}</td>
-        <td>{{ physicalEvaluation.bmi }}</td>
-        <td>{{ physicalEvaluation.bodyFat }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <section class="py-5" style="padding-top: 0px !important;">
+    <div class="container py-5">
+      <h1>Physical Evaluations</h1>
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-primary text-center d-flex justify-content-center align-items-center btn btn-success"
+                (click)="onCreateClick()" *ngIf="userService.isStaff()" type="button" style="font-size: 26px;padding: 0;height: 35px;width: 35px;text-align: center;">
+          +
+        </button>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped" aria-labelledby="tableLabel" *ngIf="physicalEvaluations">
+          <thead>
+            <tr>
+              <th style="color: white; text-align: center;">Member Name</th>
+              <th style="color: white; text-align: center;">Staff Name</th>
+              <th style="color: white; text-align: center;">Evaluation Date</th>
+              <th style="color: white; text-align: center;">Height</th>
+              <th style="color: white; text-align: center;">Weight</th>
+              <th style="color: white; text-align: center;">BMI</th>
+              <th style="color: white; text-align: center;">Body Fat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let physicalEvaluation of physicalEvaluations" (click)="onSelectPhysicalEvaluation(physicalEvaluation)" [class.table-primary]="physicalEvaluation == selectedPhysicalEvaluation">
+              <td style="color: white; text-align: center;">{{ physicalEvaluation.memberName }}</td>
+              <td style="color: white; text-align: center;">{{ physicalEvaluation.staffName }}</td>
+              <td style="color: white; text-align: center;">{{ physicalEvaluation.evaluationDate | date:'dd-MM-yyyy' }}</td>
+              <td style="color: white; text-align: center;">{{ physicalEvaluation.height }}</td>
+              <td style="color: white; text-align: center;">{{ physicalEvaluation.weight }}</td>
+              <td style="color: white; text-align: center;">{{ physicalEvaluation.bmi }}</td>
+              <td style="color: white; text-align: center;">{{ physicalEvaluation.bodyFat }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
 </ng-template>
 
 <ng-template #create>
-  <app-physical-evaluation-create [staffId]="staff.id"></app-physical-evaluation-create>
+  <app-physical-evaluation-create (physicalEvaluationCreated)="onPhysicalEvaluationCreated()" [staffId]="staff.id"></app-physical-evaluation-create>
 </ng-template>
 
 <ng-template #details>

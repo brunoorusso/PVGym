@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PVGym.Data;
 using PVGym.Models;
@@ -22,9 +17,9 @@ namespace PVGym.Controllers
         // GET: Notifications
         public async Task<IActionResult> Index()
         {
-              return _context.Notification != null ? 
-                          View(await _context.Notification.ToListAsync()) :
-                          Problem("Entity set 'PVGymContext.Notification'  is null.");
+            return _context.Notification != null ?
+                        View(await _context.Notification.ToListAsync()) :
+                        Problem("Entity set 'PVGymContext.Notification'  is null.");
         }
 
         // GET: Notifications/Details/5
@@ -151,14 +146,14 @@ namespace PVGym.Controllers
             {
                 _context.Notification.Remove(notification);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool NotificationExists(Guid id)
         {
-          return (_context.Notification?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Notification?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
