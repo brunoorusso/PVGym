@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -8,8 +9,6 @@ import { TabComponent } from './tabs/tab.component';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { TreinosComponent } from './treinos/treinos.component';
 import { FooterComponent } from './footer/footer.component';
 import { ExerciseComponent } from './exercise/exercise.component';
@@ -25,18 +24,20 @@ import { NotificationDetailsComponent } from './notification-details/notificatio
 import { AulasComponent } from './aulas/aulas.component';
 import { TreinosService } from './treinos.service';
 import { AulasDisponiveisComponent } from './aulas-disponiveis/aulas-disponiveis.component';
+import { AulaDescricaoComponent } from './aula-descricao/aula-descricao.component';
+
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AddStaffComponent } from './add-staff/add-staff.component';
 import { ProfileComponent } from './profile/profile.component';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     TreinosComponent,
     FooterComponent,
     TabComponent,
@@ -56,13 +57,15 @@ import { ProfileComponent } from './profile/profile.component';
     AddStaffComponent,
     ProfileComponent,
     AulasComponent,
-    AulasDisponiveisComponent
+    AulasDisponiveisComponent,
+    AulaDescricaoComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'treinos', component: TreinosComponent },
@@ -75,6 +78,7 @@ import { ProfileComponent } from './profile/profile.component';
       { path: 'profile', component: ProfileComponent },
       { path: 'aulas', component: AulasComponent },
       { path: 'aulasDisponiveis', component: AulasDisponiveisComponent },
+
     ]),
 
   ],

@@ -22,13 +22,15 @@ namespace PVGym.Controllers
         // GET: Classes
         public async Task<IActionResult> Index()
         {
-              return _context.Class != null ? 
-                          View(await _context.Class.ToListAsync()) :
-                          Problem("Entity set 'PVGymContext.Class'  is null.");
+            var classes = _context.Class != null ? _context.Class.Include(w => w.Members) : null;
+            return View(await classes.ToListAsync());
+            //return _context.Class != null ? 
+            //              View(await _context.Class.ToListAsync()) :
+            //              Problem("Entity set 'PVGymContext.Class'  is null.");
         }
 
         // GET: Classes/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null || _context.Class == null)
             {
@@ -56,10 +58,11 @@ namespace PVGym.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AvailableClassId,CoachId,StartDate")] Class @class)
+        public async Task<IActionResult> Create([Bind("Id,AvailableClassId,CoachId,StartDate,Name,Description,Duration,Image")] Class @class)
         {
             if (ModelState.IsValid)
             {
+                @class.Id = Guid.NewGuid();
                 _context.Add(@class);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -68,7 +71,7 @@ namespace PVGym.Controllers
         }
 
         // GET: Classes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null || _context.Class == null)
             {
@@ -88,7 +91,7 @@ namespace PVGym.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AvailableClassId,CoachId,StartDate")] Class @class)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,AvailableClassId,CoachId,StartDate,Name,Description,Duration,Image")] Class @class)
         {
             if (id != @class.Id)
             {
@@ -119,7 +122,7 @@ namespace PVGym.Controllers
         }
 
         // GET: Classes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null || _context.Class == null)
             {
@@ -139,7 +142,7 @@ namespace PVGym.Controllers
         // POST: Classes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             if (_context.Class == null)
             {
@@ -155,7 +158,7 @@ namespace PVGym.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClassExists(int id)
+        private bool ClassExists(Guid id)
         {
           return (_context.Class?.Any(e => e.Id == id)).GetValueOrDefault();
         }

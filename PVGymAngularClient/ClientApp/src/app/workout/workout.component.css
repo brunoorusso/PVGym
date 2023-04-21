@@ -5,3 +5,7 @@ li {
 .black {
   color: black;
 }
+
+.clickble {
+    cursor: pointer;
+}

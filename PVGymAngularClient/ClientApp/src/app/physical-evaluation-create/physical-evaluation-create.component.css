@@ -1,0 +1,25 @@
+.input-container {
+  position: relative;
+}
+
+.suggestion-container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+  background-color: white;
+  border: 1px solid gray;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+  .suggestion-container > div {
+    padding: 5px;
+    cursor: pointer;
+  }
+
+    .suggestion-container > div:hover {
+      background-color: #f2f2f2;
+    }

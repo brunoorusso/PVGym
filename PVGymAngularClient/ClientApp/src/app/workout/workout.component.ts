@@ -12,6 +12,7 @@ import { Exercise, TreinosService, Workout } from '../treinos.service';
 export class WorkoutComponent implements OnInit {
 
   @Input('workout') workout!: Workout;
+  @Input('eliminate') eliminateWorkout!: (args: any) => void;
 
   public modalVisible = false;
   public form: FormGroup;
@@ -37,8 +38,20 @@ export class WorkoutComponent implements OnInit {
 
   saveExercise() {
     if (this.toggleState === 'create' && this.form.valid) {
-      const newExercise = this.form.value;
-      // Save the new exercise and add it to the workout
+      const newExercise: Partial<Exercise> = {
+        name: this.form.value.name,
+        description: this.form.value.description,
+        bodyPart: this.form.value.bodyPart,
+        equipment: this.form.value.bodyPart,
+        gifUrl: this.form.value.gifUrl,
+        target: this.form.value.target,
+      };
+      this.service.addExercise(newExercise, this.workout.workoutId).subscribe(resExercise => {
+        console.log(resExercise);
+        this.workout.exercises.push(resExercise);
+        this.form.reset();
+        this.modalVisible = false;
+      });
     }
   }
 
@@ -51,8 +64,20 @@ export class WorkoutComponent implements OnInit {
     });
   }
 
-  selectExercise(exercise: any) {
-    // Add the selected exercise to the workout
+  selectExercise(exercise: Exercise) {
+    this.service.addExistingExerciseToWorkout(exercise, this.workout.workoutId).subscribe(resWorkout => {
+      this.workout.exercises.push(resWorkout);
+      this.form.reset();
+      this.modalVisible = false;
+    });
   }
+
+  eliminateExercise(exercise: Exercise) {
+    this.service.removeExerciceFromWorkout(exercise.exerciseId, this.workout.workoutId).subscribe(() => {
+      this.workout.exercises.splice(this.workout.exercises.findIndex((item) => item.exerciseId === exercise.exerciseId), 1);
+    });
+  }
+
+  
 
 }

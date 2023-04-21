@@ -20,7 +20,7 @@ export class TreinosService {
       .pipe(catchError(this.handleError));
   }
 
-  addPlan(plan: Plan): Observable<Plan> {
+  addPlan(plan: Partial<Plan>): Observable<Plan> {
     return this.http.post<Plan>('/api/Plan', plan)
       .pipe(catchError(this.handleError));
   }
@@ -30,8 +30,20 @@ export class TreinosService {
       .pipe(catchError(this.handleError));
   }
 
-  addExercise(exercise: Exercise): Observable<Exercise> {
-    return this.http.post<Exercise>('/api/Exercise', exercise)
+  addExistingWorkoutToPlan(workout: Partial<Workout>, id: string): Observable<Workout> {
+    return this.http.post<Workout>('/api/ExistingWorkoutPlan', { workoutId: workout.workoutId, planId: id })
+      .pipe(catchError(this.handleError));
+  }
+
+  addExercise(exercise: Partial<Exercise>, id: string): Observable<Exercise> {
+    return this.http.post<Exercise>('/api/ExerciseWorkout', { exercise, id })
+      .pipe(catchError(this.handleError));
+  }
+
+  addExistingExerciseToWorkout(exercise: Exercise, id: string): Observable<Exercise> {
+    console.log(id)
+    console.log(exercise.exerciseId)
+    return this.http.post<Exercise>('/api/ExistingExerciseWorkout', { workoutId: id, exerciseId: exercise.exerciseId })
       .pipe(catchError(this.handleError));
   }
 
@@ -41,7 +53,17 @@ export class TreinosService {
   }
 
   searchWorkouts(searchTerm: string): Observable<Workout[]> {
-    return this.http.get<Workout[]>('/api/Workout/search?searchTerm=' + searchTerm)
+    return this.http.get<Workout[]>('/api/Workouts/search?searchTerm=' + searchTerm)
+      .pipe(catchError(this.handleError));
+  }
+
+  removeExerciceFromWorkout(exerciseId: string, workoutId: string): Observable<any> {
+    return this.http.post('/api/DeleteExerciseFromWorkout', { workoutId, exerciseId })
+      .pipe(catchError(this.handleError));
+  }
+
+  removeWorkoutFromPlan(planId: string, workoutId: string): Observable<any> {
+    return this.http.post('/api/DeleteWorkoutFromPlan', { workoutId, planId })
       .pipe(catchError(this.handleError));
   }
 
@@ -76,7 +98,7 @@ export interface Workout {
 export interface Exercise {
   exerciseId: string;
   name: string;
-  Description: string;
+  description: string;
   target: string;
   gifUrl: string;
   bodyPart: string;

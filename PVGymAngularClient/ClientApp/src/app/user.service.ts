@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map, Observable, switchMap, throwError } from 'rxjs';
 import jwt_decode from 'jwt-decode';
-
+import { PlanType } from './plan-type.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class UserService {
   private roles: string[] = [];
 
   constructor(private fb: FormBuilder, private http: HttpClient) {
-   
+
   }
 
   readonly BaseURI = 'https://localhost:7023/api'
@@ -97,7 +97,7 @@ export class UserService {
         const staffData = { Specialization: staff.Specialization, IsAdmin: staff.Administrator, UserId: result.id }; // criar objeto com dados do membro e ID do usuário
         return staffData;
       }),
-      switchMap((staffData: any) => { 
+      switchMap((staffData: any) => {
         return this.http.post(this.BaseURI + '/Staff', staffData); // fazer chamada para criar o membro
       })
     );
@@ -137,7 +137,7 @@ export class UserService {
     localStorage.removeItem('token');
   }
 
-  isLoggedIn() : boolean{
+  isLoggedIn(): boolean {
     if (localStorage.getItem('token')) {
       return true;
     }
@@ -198,7 +198,7 @@ export class UserService {
     const token = localStorage.getItem('token');
     if (token) {
       const decodedToken: any = jwt_decode(token);
-      return this.http.get<any[]>(this.BaseURI + `/ApplicationUser/GetUserByEmail/${decodedToken.sub}`);
+      return this.http.get<any>(this.BaseURI + `/ApplicationUser/GetUserByEmail/${decodedToken.sub}`);
     }
     return null;
   }
@@ -206,4 +206,14 @@ export class UserService {
   getStaffById(id: string) {
     return this.http.get<any[]>(this.BaseURI + `/Staff/GetStaffByUserId/${id}`);
   }
- }
+  getUser(id: number): Observable<ApplicationUserModel> {
+    return this.http.get<ApplicationUserModel>(this.BaseURI + `/ApplicationUser/GetUser/${id}`);
+  }
+
+}
+
+export interface ApplicationUserModel {
+  userName: string;
+  email: string;
+  password: string;
+}

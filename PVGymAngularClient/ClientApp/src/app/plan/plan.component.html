@@ -2,7 +2,7 @@
   <h4 style="margin-bottom: 20px;">{{plan.name}}</h4>
   <button class="btn btn-link p-0" (click)="modalVisible = true">+ Add Workout</button>
   <div class="row" style="margin-top: 15px;">
-    <app-workout class="col" *ngFor="let workout of plan.workouts" [workout]="workout"></app-workout>
+    <app-workout class="col" *ngFor="let workout of plan.workouts" [workout]="workout" [eliminate]="eliminateWorkout"></app-workout>
   </div>
 
   <app-modal [(visible)]="modalVisible"

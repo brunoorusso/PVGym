@@ -16,10 +16,22 @@
                 @Html.DisplayNameFor(model => model.AvailableClassId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CoachId)
+                @Html.DisplayNameFor(model => model.Coach)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Duration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
             </th>
             <th></th>
         </tr>
@@ -31,10 +43,22 @@
                 @Html.DisplayFor(modelItem => item.AvailableClassId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CoachId)
+                @Html.DisplayFor(modelItem => item.Coach)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Duration)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Image)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

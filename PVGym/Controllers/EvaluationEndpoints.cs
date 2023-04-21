@@ -25,6 +25,20 @@ public static class EvaluationEndpoints
         .Produces<Evaluation>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
+        routes.MapGet("api/Evaluation/StaffId/{CreatedBy}", async (Guid CreatedBy, PVGymContext db) =>
+        {
+            return await db.Evaluation.Where(m => m.CreatedBy == CreatedBy).ToListAsync();
+        })
+        .WithName("GetEvaluationByCreatedBy")
+        .Produces<List<Evaluation>>(StatusCodes.Status200OK);
+
+        routes.MapGet("api/Evaluation/MemberId/{MemberId}", async (Guid MemberId, PVGymContext db) =>
+        {
+            return await db.Evaluation.Where(m => m.MemberId == MemberId).ToListAsync();
+        })
+        .WithName("GetEvaluationByMemberId")
+        .Produces<List<Evaluation>>(StatusCodes.Status200OK);
+
         routes.MapPut("/api/Evaluation/{id}", async (Guid Id, Evaluation evaluation, PVGymContext db) =>
         {
             var foundModel = await db.Evaluation.FindAsync(Id);
