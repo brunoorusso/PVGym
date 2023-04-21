@@ -25,8 +25,7 @@ export class PhysicalEvaluationComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getUserDataByEmail()?.subscribe(data => {
       this.user = data;
-      (this.userService.isMember()) ? this.getPhysicalEvaluations(true) : this.getPhysicalEvaluations(false);
-
+      this.getPhysicalEvaluations(this.userService.isMember());
     });
   }
    
@@ -38,7 +37,8 @@ export class PhysicalEvaluationComponent implements OnInit {
           this.member = member;
           this.service.getPhysicalEvaluationsOfMember(this.member.memberId)
             .subscribe((physicalEvaluations: Evaluation[]) => {
-              this.physicalEvaluations = physicalEvaluations
+              this.physicalEvaluations = physicalEvaluations;
+              this.physicalEvaluations.reverse();
               this.getUsernames();
             });
         });
@@ -50,6 +50,7 @@ export class PhysicalEvaluationComponent implements OnInit {
           this.service.getPhysicalEvaluationsCreatedBy(this.staff.id)
             .subscribe((physicalEvaluations: Evaluation[]) => {
               this.physicalEvaluations = physicalEvaluations;
+              this.physicalEvaluations.reverse();
               this.getUsernames();
             });
         });
@@ -81,7 +82,12 @@ export class PhysicalEvaluationComponent implements OnInit {
     this.evaluationIdDetails = physicalEvaluation.id;
     this.componentLoad = "D";
     this.showBack = true;
-    //this.router.navigate(["/physicalEvaluation/details", physicalEvaluation.id]);
+  }
+
+  onPhysicalEvaluationCreated() {
+    this.componentLoad = "L";
+    this.showBack = false;
+    this.getPhysicalEvaluations(this.userService.isMember());
   }
 
 }

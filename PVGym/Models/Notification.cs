@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PVGym.Models
 {
@@ -8,12 +6,12 @@ namespace PVGym.Models
     {
         [Required]
         public Guid Id { get; set; }
-        [ForeignKey("Member")]
         [Required]
-        public Guid MemberId { get; set; }
+        public Guid UserId { get; set; }
         public DateTime NotificationDate { get; set; }
         public string? Subject { get; set; }
         public string? Content { get; set; }
+        public bool? IsRead { get; set; }
 
     }
 }

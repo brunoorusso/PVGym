@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationService } from '../services/notification.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-notification',
@@ -13,16 +14,24 @@ export class NotificationComponent implements OnInit {
   public componentLoad: string | undefined = "L";
   public notificationIdDetails: number = 0;
   public showBack: boolean = false;
+  private user: any;
 
-  constructor(private service: NotificationService) { }
+  constructor(private service: NotificationService, public userService: UserService) { }
 
   ngOnInit(): void {
-    this.getNotifications();
+    this.userService.getUserDataByEmail()?.subscribe(data => {
+      this.user = data;
+      this.getNotifications();
+    });
   }
 
   getNotifications(): void {
-    this.service.getNotifications()
-      .subscribe((notifications: Notification[]) => this.notifications = notifications);
+
+    this.service.getNotificationsOfUser(this.user.id)
+      .subscribe((notifications: Notification[]) => {
+        this.notifications = notifications;
+        this.notifications.reverse();
+        });
   }
 
   onSelectNotification(notification: Notification): void {
@@ -31,12 +40,26 @@ export class NotificationComponent implements OnInit {
     this.showBack = true;
   }
 
+  onClearClick(): void {
+    if (this.notifications !== undefined) {
+      this.notifications?.forEach((notification) => {
+        if (notification.id !== undefined && notification.isRead) {
+          this.service.deleteNotification(notification.id).subscribe();
+        }
+      });
+
+      this.notifications.length = 0;
+    }
+    
+  }
+
 }
 
 export interface Notification {
   id?: number;
-  memberId: number;
+  userId: number;
   notificationDate: Date;
   subject: string;
   content: string;
+  isRead: boolean;
 }
