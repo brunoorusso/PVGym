@@ -128,10 +128,7 @@ export class AulaDescricaoComponent implements OnInit {
   }
 
   showRemoveButton(a: Aula) {
-    if (this.userService.isAdmin() || this.userService.isStaff()) {
-      return true;
-    }
-    return false;
+    return this.userService.isAdmin() || this.userService.isStaff();
   }
 
 }
