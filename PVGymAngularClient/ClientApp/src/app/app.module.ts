@@ -23,10 +23,8 @@ import { ModalComponent } from './modal/modal.component';
 import { NotificationComponent } from './notification/notification.component';
 import { NotificationDetailsComponent } from './notification-details/notification-details.component';
 import { AulasComponent } from './aulas/aulas.component';
-
 import { TreinosService } from './treinos.service';
 import { AulasDisponiveisComponent } from './aulas-disponiveis/aulas-disponiveis.component';
-
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AddStaffComponent } from './add-staff/add-staff.component';
@@ -78,6 +76,7 @@ import { ProfileComponent } from './profile/profile.component';
       { path: 'aulas', component: AulasComponent },
       { path: 'aulasDisponiveis', component: AulasDisponiveisComponent },
     ]),
+
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]

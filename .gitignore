@@ -475,3 +475,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+/PVGymAngularClient/ClientApp/.angular/cache/14.0.3/angular-webpack/7686818269a0be964a8285cce8ff8a1ac0ed26c6

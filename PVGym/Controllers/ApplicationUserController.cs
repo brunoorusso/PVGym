@@ -161,5 +161,30 @@ namespace PVGym.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        [HttpDelete]
+        [Route("DeleteUser/{email}")]
+        //DELETE: /api/ApplicationUser/DeleteUser
+        public async Task<ActionResult> DeleteUser(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user != null)
+            {
+                try
+                {
+                    var result = await _userManager.DeleteAsync(user);
+                    if (result.Succeeded)
+                    {
+                        return Ok();
+                    }
+                    return BadRequest(result.Errors);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                }
+            }
+            return NotFound();
+        }
     }
 }

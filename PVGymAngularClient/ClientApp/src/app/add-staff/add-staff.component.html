@@ -27,19 +27,37 @@
               </div>
               <form [formGroup]="service.staffFormModel" autocomplete="off" (submit)="onSubmit()">
                 <div class="mb-3 form-group required">
-                  <input class="form-control" formControlName="UserName" placeholder="Username">
+                  <input class="form-control" formControlName="userName" placeholder="Username">
+                  <p *ngIf="service.staffFormModel.get('userName')?.touched && service.staffFormModel.get('userName')?.hasError('required')" class="text-danger">
+                    Username is required
+                  </p>
                 </div>
                 <div class="mb-3 form-group required">
-                  <input class="form-control" formControlName="Email" placeholder="Email">
+                  <input class="form-control" formControlName="email" placeholder="Email">
+                  <p *ngIf="service.staffFormModel.get('email')?.touched && service.staffFormModel.get('email')?.hasError('required')" class="text-danger">
+                    Email is required
+                  </p>
+                  <p *ngIf="service.staffFormModel.get('email')?.hasError('email')" class="text-danger">
+                    Email is invalid
+                  </p>
                 </div>
                 <div class="mb-3 form-group required">
-                  <input type="password" class="form-control" formControlName="Password" placeholder="Password">
+                  <input type="password" class="form-control" formControlName="password" placeholder="Password">
+                  <p *ngIf="service.staffFormModel.get('password')?.touched && service.staffFormModel.get('password')?.hasError('required')" class="text-danger">
+                    Password is required
+                  </p>
                 </div>
                 <div class="mb-3 form-group required">
-                  <input class="form-control" formControlName="Specialization" placeholder="Specialization">
+                  <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
                 </div>
                 <div class="mb-3 form-group required">
-                  <input type="checkbox" id="Administrator" formControlName="Administrator">
+                  <input class="form-control" formControlName="specialization" placeholder="Specialization">
+                  <p *ngIf="service.staffFormModel.get('specialization')?.touched && service.staffFormModel.get('specialization')?.hasError('required')" class="text-danger">
+                    Specialization is required
+                  </p>
+                </div>
+                <div class="mb-3 form-group required">
+                  <input type="checkbox" id="Administrator" formControlName="administrator">
                   <label for="Administrator">Administrator</label>
                 </div>
                 <div class="form-row">

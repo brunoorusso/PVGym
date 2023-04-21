@@ -1,15 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { map, Observable, switchMap } from 'rxjs';
+import { map, Observable, switchMap, throwError } from 'rxjs';
 import jwt_decode from 'jwt-decode';
-import { PlanType } from './plan-type.enum';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
+  
   private roles: string[] = [];
 
   constructor(private fb: FormBuilder, private http: HttpClient) {
@@ -20,59 +20,77 @@ export class UserService {
 
   formModel = this.fb.group({
     userName: ['', Validators.required],
-    email: ['', Validators.email],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
     VAT: ['', Validators.required],
+    confirmPassword: ['', Validators.required],
+    planType: ['normal', Validators.required]
   });
 
   loginFormModel = this.fb.group({
     Email: ['', Validators.required],
     Password: ['', Validators.required]
-  })
+  });
 
   staffFormModel = this.fb.group({
-    UserName: ['', Validators.required],
-    Email: ['', Validators.email],
-    Password: ['', Validators.required],
-    Specialization: ['', Validators.required],
-    Administrator: ['', Validators.required]
-    })
+    userName: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
+    confirmPassword: ['', Validators.required],
+    specialization: ['', Validators.required],
+    administrator: ['', Validators.required]
+  });
+
 
   register() {
     var user = {
       UserName: this.formModel.value.userName,
       Email: this.formModel.value.email,
-      Password: this.formModel.value.password
+      Password: this.formModel.value.password,
+      ConfirmPassword: this.formModel.value.confirmPassword
     };
 
     var member = {
       VAT: this.formModel.value.VAT,
-      //PlanType: this.formModel.value.PlanType 
+      planType: this.formModel.value.planType === 'normal' ? 0 : 1
     };
 
+    if (user.Password !== user.ConfirmPassword) {
+      return throwError("Passwords not the same");
+    }
 
     return this.http.post(this.BaseURI + '/ApplicationUser/Register', user).pipe(
       map((result: any) => {
-        const memberData = { VAT: member.VAT, UserId: result.id }; // criar objeto com dados do membro e ID do usuário
+        const memberData = { VAT: member.VAT, PlanType: member.planType, UserId: result.id }; // criar objeto com dados do membro e ID do usuário
         return memberData;
       }),
       switchMap((memberData: any) => {
         return this.http.post(this.BaseURI + '/Member', memberData); // fazer chamada para criar o membro
       })
     );
+
+  }
+
+  confirmPassword(password: string, confirmPassword: string) {
+    return password === confirmPassword ? true : false;
   }
 
   addStaff() {
     var user = {
-      UserName: this.staffFormModel.value.UserName,
-      Email: this.staffFormModel.value.Email,
-      Password: this.staffFormModel.value.Password
+      UserName: this.staffFormModel.value.userName,
+      Email: this.staffFormModel.value.email,
+      Password: this.staffFormModel.value.password,
+      ConfirmPassword: this.staffFormModel.value.confirmPassword
     };
 
     var staff = {
-      Specialization: this.staffFormModel.value.Specialization,
-      Administrator: this.staffFormModel.value.Administrator ? true : false
+      Specialization: this.staffFormModel.value.specialization,
+      Administrator: this.staffFormModel.value.administrator ? true : false
     };
+
+    if (user.Password !== user.ConfirmPassword) {
+      return throwError("Passwords not the same");
+    }
 
     return this.http.post(this.BaseURI + '/ApplicationUser/Register', user).pipe(
       map((result: any) => {
@@ -83,14 +101,21 @@ export class UserService {
         return this.http.post(this.BaseURI + '/Staff', staffData); // fazer chamada para criar o membro
       })
     );
+
   }
 
   updateUser() {
     var user = {
       UserName: this.formModel.value.userName,
       Email: this.formModel.value.email,
-      Password: this.formModel.value.password
+      Password: this.formModel.value.password,
+      ConfirmPassword: this.formModel.value.confirmPassword
     };
+
+    if (user.Password !== user.ConfirmPassword) {
+      return throwError("Passwords not the same");
+    }
+
     const token = localStorage.getItem('token');  
     if (token) {
       const decodedToken: any = jwt_decode(token);
@@ -178,4 +203,7 @@ export class UserService {
     return null;
   }
 
+  getStaffById(id: string) {
+    return this.http.get<any[]>(this.BaseURI + `/Staff/GetStaffByUserId/${id}`);
+  }
  }

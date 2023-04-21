@@ -22,13 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\src\app\plan-type.enum.ts" />
     <None Remove="ClientApp\src\app\tabs\tab.component.ts" />
     <None Remove="ClientApp\src\app\tabs\tabs.component.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\src\app\plan-type.enum.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\tabs\tabs.component.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>

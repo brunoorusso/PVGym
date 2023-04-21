@@ -15,7 +15,7 @@ namespace PVGym.Models
         public int VAT { get; set; }
         
         [EnumDataType(typeof(Plantype))]
-        public Plantype? PlanType { get; set; }
+        public Plantype PlanType { get; set; }
         public List<Plan>? Plans { get; set; }
         public List<Evaluation>? Evaluations { get; set; }
         public string UserId { get; set; }
