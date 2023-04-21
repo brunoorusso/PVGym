@@ -23,7 +23,7 @@ export class PhysicalEvaluationCreateComponent implements OnInit {
   suggestions: Member[] = [];
   showSuggestions: boolean = false;
   private notification: Notification = {
-    userId: 0,
+    userId: "",
     notificationDate: new Date(),
     subject: "New Physical Evaluation",
     content: "A new physical evaluation was created and you can now see the details in the Physical Evaluations tab.",
@@ -52,7 +52,7 @@ export class PhysicalEvaluationCreateComponent implements OnInit {
 
     physicalEvaluationForm.value.memberId = this.memberId;
     physicalEvaluationForm.value.createdBy = this.staffId;
-    this.notification.userId = this.memberUserId;
+    this.notification.userId = this.memberUserId.toString();
 
       this.service.createPhysicalEvaluation(physicalEvaluationForm.value).subscribe(res => {
         physicalEvaluationForm.reset();

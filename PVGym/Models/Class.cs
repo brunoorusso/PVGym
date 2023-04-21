@@ -13,6 +13,8 @@ namespace PVGym.Models
         [Required]
         public string Coach { get; set; }
         [Required]
+        public string CoachId { get; set; }
+        [Required]
         public DateTime StartDate { get; set; }
         [Required]
         //[JsonIgnore]

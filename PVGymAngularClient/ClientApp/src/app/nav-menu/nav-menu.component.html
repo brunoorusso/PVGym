@@ -30,13 +30,13 @@
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="service.isMember() || service.isStaff()">
             <a class="nav-link text-dark" [routerLink]="['/physicalEvaluation']">Physical Evaluations</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="service.isMember() || service.isStaff()">
             <a class="nav-link text-dark" [routerLink]="['/notification']">Notifications <img *ngIf="newNotifications?.length !== 0" src="../../assets/img/alerta.png" alt="New Notifications" style="width: 16px; height: 16px;"></a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="service.isLoggedIn()">
             <a class="nav-link text-dark" [routerLink]="['/profile']">Profile</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="service.isMember()">
             <a class="nav-link text-dark" [routerLink]="['/aulas']">My Classes</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">

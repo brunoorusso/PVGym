@@ -43,6 +43,7 @@ export interface AulaDisponivel {
 export interface Aula {
   id: string;
   availableClassId: string;
+  coachId: string;
   coach: string;
   startDate: Date;
   members: Member[];

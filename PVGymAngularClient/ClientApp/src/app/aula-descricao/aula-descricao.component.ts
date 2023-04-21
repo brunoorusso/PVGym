@@ -5,6 +5,8 @@ import { AulasService } from '../aulas.service';
 import { UserService } from '../user.service';
 import { MemberService } from '../services/member.service';
 import { NgForm } from '@angular/forms';
+import { Notification } from "../notification/notification.component"
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-aula-descricao',
@@ -26,8 +28,15 @@ export class AulaDescricaoComponent implements OnInit {
   public students: Member[] = [];
   public isCoach: boolean = false;
   public today: Date = new Date();
+  private notification: Notification = {
+    userId: "",
+    notificationDate: new Date(),
+    subject: "Maximum Capacity",
+    content: "Your class of ",
+    isRead: false
+  };
 
-  constructor(public aulasService: AulasService, public userService: UserService, public memberService: MemberService) {
+  constructor(public aulasService: AulasService, public userService: UserService, public memberService: MemberService, private notificationService: NotificationService) {
     //this.aulasService = aulasService;
     //this.userService = userService;
     //this.memberService = memberService;
@@ -43,6 +52,7 @@ export class AulaDescricaoComponent implements OnInit {
 
   onSubmit(aulaForm: NgForm, aulaDisponivel: AulaDisponivel | undefined) {
     this.userService.getUserDataByEmail()?.subscribe(user => {
+      aulaForm.value.coachId = user.id;
       aulaForm.value.coach = user.userName;
       this.aulasService.createAulaForm(aulaForm.value, aulaDisponivel).subscribe(aula => {
         aulaForm.reset();
@@ -74,6 +84,12 @@ export class AulaDescricaoComponent implements OnInit {
           for (var aula of this.aulas) {
             if (aula.id == classId) {
               aula.members.push(member);
+              if (this.aula && (this.aula.limit == aula.members.length)) {
+                this.notification.userId = aula.coachId;
+                this.notification.content += aula.name + " reached the maximum capacity of students.";
+                this.notification.notificationDate = new Date();
+                this.notificationService.createNotification(this.notification).subscribe();
+              }
               break;
             }
           }
@@ -115,7 +131,7 @@ export class AulaDescricaoComponent implements OnInit {
 
   showJoinButton(a: Aula) {
     if (this.aula && !this.userService.isAdmin() && !this.userService.isStaff()) {
-      return !this.isInClass.get(a.id) || this.aula.limit <= a.members.length;
+      return !this.isInClass.get(a.id) || this.aula.limit < a.members.length;
     }
     return false;
   }

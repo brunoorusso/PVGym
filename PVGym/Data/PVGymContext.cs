@@ -59,7 +59,7 @@ namespace PVGym.Data
                         Id = Guid.NewGuid(),
                         Name = "Zumba",
                         Description = "The class is designed to provide a full-body workout while also keeping participants engaged and motivated. Zumba is suitable for people of all fitness levels, as the routines can be modified to suit individual needs.",
-                        Limit = 30,
+                        Limit = 1,
                         Duration = 60,
                         Image = "https://imgmedia.lbb.in/media/2021/01/5ffc657c8cb26612da74e667_1610376572334.jpg"
                     },

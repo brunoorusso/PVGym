@@ -13,7 +13,7 @@ export class HomeComponent {
 
   private user: any;
   private notification: Notification = {
-    userId: 0,
+    userId: "",
     notificationDate: new Date(),
     subject: "Class Tomorrow",
     content: "Tomorrow you have a class.",
@@ -40,7 +40,7 @@ export class HomeComponent {
       tomorrowClasses.forEach((classElement) => {
         classElement.members.forEach((member) => {
           if (member.memberId == currentMember.memberId) {
-            this.notification.userId = currentMember.userId;
+            this.notification.userId = currentMember.userId.toString();
             this.notification.notificationDate = new Date();
             this.notificationService.createNotification(this.notification).subscribe();
           }

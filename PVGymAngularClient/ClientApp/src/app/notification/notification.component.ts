@@ -42,13 +42,12 @@ export class NotificationComponent implements OnInit {
 
   onClearClick(): void {
     if (this.notifications !== undefined) {
-      this.notifications?.forEach((notification) => {
+      this.notifications?.forEach((notification, index) => {
         if (notification.id !== undefined && notification.isRead) {
           this.service.deleteNotification(notification.id).subscribe();
+          this.notifications?.splice(index, 1);
         }
       });
-
-      this.notifications.length = 0;
     }
     
   }
@@ -57,7 +56,7 @@ export class NotificationComponent implements OnInit {
 
 export interface Notification {
   id?: number;
-  userId: number;
+  userId: string;
   notificationDate: Date;
   subject: string;
   content: string;

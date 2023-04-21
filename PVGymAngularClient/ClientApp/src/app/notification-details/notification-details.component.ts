@@ -10,7 +10,7 @@ import { NotificationService } from '../services/notification.service';
 export class NotificationDetailsComponent implements OnInit {
 
   @Input() notificationId: number | undefined;
-  notification: Notification = { id: 0, userId: 0, notificationDate: new Date(), subject: "", content: "", isRead: false};
+  notification: Notification = { id: 0, userId: "", notificationDate: new Date(), subject: "", content: "", isRead: false};
 
   constructor(private service: NotificationService) { }
 
