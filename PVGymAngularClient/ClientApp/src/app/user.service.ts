@@ -23,7 +23,7 @@ export class UserService {
     password: ['', Validators.required],
     VAT: ['', Validators.required],
     confirmPassword: ['', Validators.required],
-    planType: ['normal', Validators.required]
+    planType: ['', Validators.required]
   });
 
   loginFormModel = this.fb.group({
@@ -111,15 +111,16 @@ export class UserService {
       ConfirmPassword: this.formModel.value.confirmPassword
     };
 
-    if (user.Password !== user.ConfirmPassword) {
+    /*if (user.Password !== user.ConfirmPassword) {
       return throwError("Passwords not the same");
-    }
+    }*/
 
     const token = localStorage.getItem('token');  
     if (token) {
       const decodedToken: any = jwt_decode(token);
       return this.http.put(this.BaseURI + '/ApplicationUser/UpdateUser/' + decodedToken.sub, user);
     }
+
     return null;
   }
 

@@ -21,17 +21,19 @@ namespace PVGym.Controllers
     {
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
+        private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
         private readonly PVGymContext _context;
         private readonly IConfiguration _config;
 
 
 
-        public ApplicationUserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, PVGymContext context, IConfiguration config)
+        public ApplicationUserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, PVGymContext context, IConfiguration config, IPasswordHasher<ApplicationUser> passwordHasher)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
             _config = config;
+            _passwordHasher = passwordHasher;
         }
 
         [HttpPost]
@@ -157,22 +159,31 @@ namespace PVGym.Controllers
         //PUT: /api/ApplicationUser/UpdateUser
         public async Task<ActionResult> UpdateUser(string email, ApplicationUserModel model)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-            if(user != null)
-            {
-                user.UserName = model.UserName;
-                user.Email = model.Email;
-                user.PasswordHash = model.Password; 
-            }
-
             try
             {
-                var result = await _userManager.UpdateAsync(user);
-                if (result.Succeeded)
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user != null)
                 {
-                    return Ok();
+                    user.UserName = model.UserName;
+                    user.Email = model.Email;
+                    if (!string.IsNullOrEmpty(model.Password))
+                    {
+                        var newPassword = _userManager.PasswordHasher.HashPassword(user, model.Password);
+                        var newResult = await _userManager.ChangePasswordAsync(user, user.PasswordHash, newPassword);
+                        if (!newResult.Succeeded)
+                        {
+                            return BadRequest(newResult.Errors);
+                        }
+                    }
+
+                    var result = await _userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        return Ok();
+                    }
+                    return BadRequest(result.Errors);
                 }
-                return BadRequest(result.Errors);
+                return NotFound();
             }
             catch (Exception ex)
             {
