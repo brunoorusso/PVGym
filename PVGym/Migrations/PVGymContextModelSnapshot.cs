@@ -300,24 +300,16 @@ namespace PVGym.Migrations
                     b.HasData(
                         new
                         {
-<<<<<<< HEAD
-                            Id = new Guid("484e641e-331d-4b62-9edc-c4fdae81d065"),
-=======
-                            Id = new Guid("46cb6be8-40f3-43ff-885d-7d1f0f293c04"),
->>>>>>> 7f125d7f31553a27bfed2dcdfc684230489e15ef
+                            Id = new Guid("1fb25ec6-3094-429e-91fd-64096d6b5c22"),
                             Description = "The class is designed to provide a full-body workout while also keeping participants engaged and motivated. Zumba is suitable for people of all fitness levels, as the routines can be modified to suit individual needs.",
                             Duration = 60,
                             Image = "https://imgmedia.lbb.in/media/2021/01/5ffc657c8cb26612da74e667_1610376572334.jpg",
-                            Limit = 30,
+                            Limit = 1,
                             Name = "Zumba"
                         },
                         new
                         {
-<<<<<<< HEAD
-                            Id = new Guid("50c65a9d-7c38-4090-beb5-cb8bc21d2af8"),
-=======
-                            Id = new Guid("2b3b6224-7d30-4abf-ab83-7d362d1db585"),
->>>>>>> 7f125d7f31553a27bfed2dcdfc684230489e15ef
+                            Id = new Guid("88b8e775-fe0b-42bd-8349-3a69715c332a"),
                             Description = "Body Combat is a high-intensity, cardio-based fitness class that combines various martial arts techniques such as karate, boxing, and kickboxing.",
                             Duration = 30,
                             Image = "https://www.fitnessfirst.co.uk/media/l2yngpvt/web-version-bodycombat-launch-kit-image-2.jpg?width=1200&height=1200&rnd=132955692406170000",
@@ -326,11 +318,7 @@ namespace PVGym.Migrations
                         },
                         new
                         {
-<<<<<<< HEAD
-                            Id = new Guid("fd9aef93-7a8e-4b02-a542-28cea7c6aa4e"),
-=======
-                            Id = new Guid("9807c75d-052e-43c5-b163-58ce1baeae7f"),
->>>>>>> 7f125d7f31553a27bfed2dcdfc684230489e15ef
+                            Id = new Guid("10f3073b-0ab2-4970-84c3-914f0b9aa435"),
                             Description = "The class is designed to increase flexibility, strength, and balance while also reducing stress and improving mental clarity.",
                             Duration = 60,
                             Image = "https://i2-prod.nottinghampost.com/whats-on/whats-on-news/article1239433.ece/ALTERNATES/s1200c/yoga-GettyImages-846236570.jpg",
@@ -339,11 +327,7 @@ namespace PVGym.Migrations
                         },
                         new
                         {
-<<<<<<< HEAD
-                            Id = new Guid("1fe93bc8-2020-47f9-9b7c-413eb65bce22"),
-=======
-                            Id = new Guid("4988085b-43de-4b22-9d3e-de6282f1fb8e"),
->>>>>>> 7f125d7f31553a27bfed2dcdfc684230489e15ef
+                            Id = new Guid("3a3f9d33-3f0b-4a2c-be16-86b894d68760"),
                             Description = "Pilates is a low-impact fitness class that focuses on developing core strength, flexibility, and balance.",
                             Duration = 60,
                             Image = "https://www.clubpilates.com/hubfs/11_studio_reformer-1.jpg",
@@ -362,6 +346,10 @@ namespace PVGym.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Coach")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CoachId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -491,14 +479,17 @@ namespace PVGym.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("MemberId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<bool?>("IsRead")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("NotificationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Subject")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 

@@ -166,16 +166,8 @@ namespace PVGym.Controllers
                 {
                     user.UserName = model.UserName;
                     user.Email = model.Email;
-                    if (!string.IsNullOrEmpty(model.Password))
-                    {
-                        var newPassword = _userManager.PasswordHasher.HashPassword(user, model.Password);
-                        var newResult = await _userManager.ChangePasswordAsync(user, user.PasswordHash, newPassword);
-                        if (!newResult.Succeeded)
-                        {
-                            return BadRequest(newResult.Errors);
-                        }
-                    }
-
+                    var newPassword = _userManager.PasswordHasher.HashPassword(user, model.Password);
+                    user.PasswordHash = newPassword;
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
                     {

@@ -12,7 +12,7 @@ using PVGym.Data;
 namespace PVGym.Migrations
 {
     [DbContext(typeof(PVGymContext))]
-    [Migration("20230407125614_PVGymMigration")]
+    [Migration("20230422230133_PVGymMigration")]
     partial class PVGymMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,21 @@ namespace PVGym.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("ClassMember", b =>
+                {
+                    b.Property<Guid>("ClassesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MembersMemberId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ClassesId", "MembersMemberId");
+
+                    b.HasIndex("MembersMemberId");
+
+                    b.ToTable("MemberClass", (string)null);
+                });
 
             modelBuilder.Entity("ExerciseWorkout", b =>
                 {
@@ -37,21 +52,6 @@ namespace PVGym.Migrations
                     b.HasIndex("WorkoutsWorkoutId");
 
                     b.ToTable("ExerciseWorkout", (string)null);
-                });
-
-            modelBuilder.Entity("MemberPlan", b =>
-                {
-                    b.Property<Guid>("MemberId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PlansPlanId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("MemberId", "PlansPlanId");
-
-                    b.HasIndex("PlansPlanId");
-
-                    b.ToTable("MemberPlan", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -278,6 +278,7 @@ namespace PVGym.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Duration")
@@ -301,16 +302,16 @@ namespace PVGym.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0e195222-0d54-4565-a232-fc79454d361e"),
+                            Id = new Guid("1fb25ec6-3094-429e-91fd-64096d6b5c22"),
                             Description = "The class is designed to provide a full-body workout while also keeping participants engaged and motivated. Zumba is suitable for people of all fitness levels, as the routines can be modified to suit individual needs.",
                             Duration = 60,
                             Image = "https://imgmedia.lbb.in/media/2021/01/5ffc657c8cb26612da74e667_1610376572334.jpg",
-                            Limit = 30,
+                            Limit = 1,
                             Name = "Zumba"
                         },
                         new
                         {
-                            Id = new Guid("91e5cd64-aee9-4bbf-92e9-b5e0b2277131"),
+                            Id = new Guid("88b8e775-fe0b-42bd-8349-3a69715c332a"),
                             Description = "Body Combat is a high-intensity, cardio-based fitness class that combines various martial arts techniques such as karate, boxing, and kickboxing.",
                             Duration = 30,
                             Image = "https://www.fitnessfirst.co.uk/media/l2yngpvt/web-version-bodycombat-launch-kit-image-2.jpg?width=1200&height=1200&rnd=132955692406170000",
@@ -319,7 +320,7 @@ namespace PVGym.Migrations
                         },
                         new
                         {
-                            Id = new Guid("013b1733-a4ec-4f28-82b2-de07e088b394"),
+                            Id = new Guid("10f3073b-0ab2-4970-84c3-914f0b9aa435"),
                             Description = "The class is designed to increase flexibility, strength, and balance while also reducing stress and improving mental clarity.",
                             Duration = 60,
                             Image = "https://i2-prod.nottinghampost.com/whats-on/whats-on-news/article1239433.ece/ALTERNATES/s1200c/yoga-GettyImages-846236570.jpg",
@@ -328,7 +329,7 @@ namespace PVGym.Migrations
                         },
                         new
                         {
-                            Id = new Guid("90c9df59-7a20-4854-b246-f3629ece56cf"),
+                            Id = new Guid("3a3f9d33-3f0b-4a2c-be16-86b894d68760"),
                             Description = "Pilates is a low-impact fitness class that focuses on developing core strength, flexibility, and balance.",
                             Duration = 60,
                             Image = "https://www.clubpilates.com/hubfs/11_studio_reformer-1.jpg",
@@ -339,17 +340,35 @@ namespace PVGym.Migrations
 
             modelBuilder.Entity("PVGym.Models.Class", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AvailableClassId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Coach")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CoachId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Duration")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("AvailableClassId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CoachId")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -370,6 +389,9 @@ namespace PVGym.Migrations
 
                     b.Property<decimal>("BodyFat")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("EvaluationDate")
                         .HasColumnType("datetime2");
@@ -430,10 +452,10 @@ namespace PVGym.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("ClassId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("PlanId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("PlanType")
+                    b.Property<int?>("PlanType")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -445,7 +467,7 @@ namespace PVGym.Migrations
 
                     b.HasKey("MemberId");
 
-                    b.HasIndex("ClassId");
+                    b.HasIndex("PlanId");
 
                     b.ToTable("Member");
                 });
@@ -459,14 +481,17 @@ namespace PVGym.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("MemberId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<bool?>("IsRead")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("NotificationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Subject")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -542,6 +567,21 @@ namespace PVGym.Migrations
                     b.ToTable("Workout");
                 });
 
+            modelBuilder.Entity("ClassMember", b =>
+                {
+                    b.HasOne("PVGym.Models.Class", null)
+                        .WithMany()
+                        .HasForeignKey("ClassesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PVGym.Models.Member", null)
+                        .WithMany()
+                        .HasForeignKey("MembersMemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ExerciseWorkout", b =>
                 {
                     b.HasOne("PVGym.Models.Exercise", null)
@@ -553,21 +593,6 @@ namespace PVGym.Migrations
                     b.HasOne("PVGym.Models.Workout", null)
                         .WithMany()
                         .HasForeignKey("WorkoutsWorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MemberPlan", b =>
-                {
-                    b.HasOne("PVGym.Models.Member", null)
-                        .WithMany()
-                        .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PVGym.Models.Plan", null)
-                        .WithMany()
-                        .HasForeignKey("PlansPlanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -649,19 +674,21 @@ namespace PVGym.Migrations
 
             modelBuilder.Entity("PVGym.Models.Member", b =>
                 {
-                    b.HasOne("PVGym.Models.Class", null)
-                        .WithMany("Members")
-                        .HasForeignKey("ClassId");
-                });
+                    b.HasOne("PVGym.Models.Plan", "Plan")
+                        .WithMany("Member")
+                        .HasForeignKey("PlanId");
 
-            modelBuilder.Entity("PVGym.Models.Class", b =>
-                {
-                    b.Navigation("Members");
+                    b.Navigation("Plan");
                 });
 
             modelBuilder.Entity("PVGym.Models.Member", b =>
                 {
                     b.Navigation("Evaluations");
+                });
+
+            modelBuilder.Entity("PVGym.Models.Plan", b =>
+                {
+                    b.Navigation("Member");
                 });
 #pragma warning restore 612, 618
         }

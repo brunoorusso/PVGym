@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PVGym.Migrations
 {
-    public partial class Initial : Migration
+    public partial class PVGymMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -71,6 +71,7 @@ namespace PVGym.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AvailableClassId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Coach = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CoachId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -100,28 +101,15 @@ namespace PVGym.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Member",
-                columns: table => new
-                {
-                    MemberId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    VAT = table.Column<int>(type: "int", nullable: false),
-                    PlanType = table.Column<int>(type: "int", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Member", x => x.MemberId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Notification",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    MemberId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     NotificationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Subject = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsRead = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -286,75 +274,23 @@ namespace PVGym.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Evaluation",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    MemberId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EvaluationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Height = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Weight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BMI = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BodyFat = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Evaluation", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Evaluation_Member_MemberId",
-                        column: x => x.MemberId,
-                        principalTable: "Member",
-                        principalColumn: "MemberId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MemberClass",
-                columns: table => new
-                {
-                    ClassesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    MembersMemberId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MemberClass", x => new { x.ClassesId, x.MembersMemberId });
-                    table.ForeignKey(
-                        name: "FK_MemberClass_Class_ClassesId",
-                        column: x => x.ClassesId,
-                        principalTable: "Class",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MemberClass_Member_MembersMemberId",
-                        column: x => x.MembersMemberId,
-                        principalTable: "Member",
-                        principalColumn: "MemberId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MemberPlan",
+                name: "Member",
                 columns: table => new
                 {
                     MemberId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PlansPlanId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    VAT = table.Column<int>(type: "int", nullable: false),
+                    PlanType = table.Column<int>(type: "int", nullable: true),
+                    PlanId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MemberPlan", x => new { x.MemberId, x.PlansPlanId });
+                    table.PrimaryKey("PK_Member", x => x.MemberId);
                     table.ForeignKey(
-                        name: "FK_MemberPlan_Member_MemberId",
-                        column: x => x.MemberId,
-                        principalTable: "Member",
-                        principalColumn: "MemberId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MemberPlan_Plan_PlansPlanId",
-                        column: x => x.PlansPlanId,
+                        name: "FK_Member_Plan_PlanId",
+                        column: x => x.PlanId,
                         principalTable: "Plan",
-                        principalColumn: "PlanId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "PlanId");
                 });
 
             migrationBuilder.CreateTable(
@@ -405,15 +341,63 @@ namespace PVGym.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Evaluation",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MemberId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EvaluationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Height = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Weight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    BMI = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    BodyFat = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Evaluation", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Evaluation_Member_MemberId",
+                        column: x => x.MemberId,
+                        principalTable: "Member",
+                        principalColumn: "MemberId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MemberClass",
+                columns: table => new
+                {
+                    ClassesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MembersMemberId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MemberClass", x => new { x.ClassesId, x.MembersMemberId });
+                    table.ForeignKey(
+                        name: "FK_MemberClass_Class_ClassesId",
+                        column: x => x.ClassesId,
+                        principalTable: "Class",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MemberClass_Member_MembersMemberId",
+                        column: x => x.MembersMemberId,
+                        principalTable: "Member",
+                        principalColumn: "MemberId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AvailableClass",
                 columns: new[] { "Id", "Description", "Duration", "Image", "Limit", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("2b3b6224-7d30-4abf-ab83-7d362d1db585"), "Body Combat is a high-intensity, cardio-based fitness class that combines various martial arts techniques such as karate, boxing, and kickboxing.", 30, "https://www.fitnessfirst.co.uk/media/l2yngpvt/web-version-bodycombat-launch-kit-image-2.jpg?width=1200&height=1200&rnd=132955692406170000", 20, "Body Combat" },
-                    { new Guid("46cb6be8-40f3-43ff-885d-7d1f0f293c04"), "The class is designed to provide a full-body workout while also keeping participants engaged and motivated. Zumba is suitable for people of all fitness levels, as the routines can be modified to suit individual needs.", 60, "https://imgmedia.lbb.in/media/2021/01/5ffc657c8cb26612da74e667_1610376572334.jpg", 30, "Zumba" },
-                    { new Guid("4988085b-43de-4b22-9d3e-de6282f1fb8e"), "Pilates is a low-impact fitness class that focuses on developing core strength, flexibility, and balance.", 60, "https://www.clubpilates.com/hubfs/11_studio_reformer-1.jpg", 40, "Pilates" },
-                    { new Guid("9807c75d-052e-43c5-b163-58ce1baeae7f"), "The class is designed to increase flexibility, strength, and balance while also reducing stress and improving mental clarity.", 60, "https://i2-prod.nottinghampost.com/whats-on/whats-on-news/article1239433.ece/ALTERNATES/s1200c/yoga-GettyImages-846236570.jpg", 30, "Yoga" }
+                    { new Guid("10f3073b-0ab2-4970-84c3-914f0b9aa435"), "The class is designed to increase flexibility, strength, and balance while also reducing stress and improving mental clarity.", 60, "https://i2-prod.nottinghampost.com/whats-on/whats-on-news/article1239433.ece/ALTERNATES/s1200c/yoga-GettyImages-846236570.jpg", 30, "Yoga" },
+                    { new Guid("1fb25ec6-3094-429e-91fd-64096d6b5c22"), "The class is designed to provide a full-body workout while also keeping participants engaged and motivated. Zumba is suitable for people of all fitness levels, as the routines can be modified to suit individual needs.", 60, "https://imgmedia.lbb.in/media/2021/01/5ffc657c8cb26612da74e667_1610376572334.jpg", 1, "Zumba" },
+                    { new Guid("3a3f9d33-3f0b-4a2c-be16-86b894d68760"), "Pilates is a low-impact fitness class that focuses on developing core strength, flexibility, and balance.", 60, "https://www.clubpilates.com/hubfs/11_studio_reformer-1.jpg", 40, "Pilates" },
+                    { new Guid("88b8e775-fe0b-42bd-8349-3a69715c332a"), "Body Combat is a high-intensity, cardio-based fitness class that combines various martial arts techniques such as karate, boxing, and kickboxing.", 30, "https://www.fitnessfirst.co.uk/media/l2yngpvt/web-version-bodycombat-launch-kit-image-2.jpg?width=1200&height=1200&rnd=132955692406170000", 20, "Body Combat" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -466,14 +450,14 @@ namespace PVGym.Migrations
                 column: "WorkoutsWorkoutId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Member_PlanId",
+                table: "Member",
+                column: "PlanId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MemberClass_MembersMemberId",
                 table: "MemberClass",
                 column: "MembersMemberId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MemberPlan_PlansPlanId",
-                table: "MemberPlan",
-                column: "PlansPlanId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlanWorkout_WorkoutsWorkoutId",
@@ -511,9 +495,6 @@ namespace PVGym.Migrations
                 name: "MemberClass");
 
             migrationBuilder.DropTable(
-                name: "MemberPlan");
-
-            migrationBuilder.DropTable(
                 name: "Notification");
 
             migrationBuilder.DropTable(
@@ -541,10 +522,10 @@ namespace PVGym.Migrations
                 name: "Member");
 
             migrationBuilder.DropTable(
-                name: "Plan");
+                name: "Workout");
 
             migrationBuilder.DropTable(
-                name: "Workout");
+                name: "Plan");
         }
     }
 }
