@@ -42,24 +42,30 @@
                 </div>
               </form>
             </app-modal>
-            <div class="d-flex justify-content-between text-center mt-5 mb-2">
+            <div *ngIf="memberInfo" class="d-flex justify-content-between text-center mt-5 mb-2">
               <div>
-                <p class="mb-2 h5">8471</p>
-                <p class="text-muted mb-0">Wallets Balance</p>
+                <p class="mb-2 h5" style="color: black">{{ memberInfo.height }} cm</p>
+                <p class="text-muted mb-0" style="color: black">Height</p>
               </div>
               <div class="px-3">
-                <p class="mb-2 h5">8512</p>
-                <p class="text-muted mb-0">Income amounts</p>
-              </div>
-              <div>
-                <p class="mb-2 h5">4751</p>
-                <p class="text-muted mb-0">Total Transactions</p>
+                <p class="mb-2 h5" style="color: black">{{ memberInfo.weight }} kg</p>
+                <p class="text-muted mb-0" style="color: black">Weight</p>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
 </section>
+
+<div *ngIf="service.isMember() && memberInfo" class="container d-flex flex-column align-items-center py-4 py-xl-5">
+  <div class="row gy-4 row-cols-1 row-cols-md-2 w-100" style="max-width: 800px">
+    <div class="col order-md-first">
+      <canvasjs-chart [options]="chartOptionsBMI" [styles]="{width: '100%', height:'360px'}" (chartInstance)="getChartInstanceBMI($event)"></canvasjs-chart>
+    </div>
+    <div class="col order-md-first">
+      <canvasjs-chart [options]="chartOptionsFat" [styles]="{width: '100%', height:'360px'}" (chartInstance)="getChartInstanceFat($event)"></canvasjs-chart>
+    </div>
+  </div>
+</div>

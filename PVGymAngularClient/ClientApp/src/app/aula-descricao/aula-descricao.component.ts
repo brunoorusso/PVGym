@@ -143,8 +143,12 @@ export class AulaDescricaoComponent implements OnInit {
     return false;
   }
 
-  showRemoveButton(a: Aula) {
+  showRemoveButton() {
     return this.userService.isAdmin() || this.userService.isStaff();
+  }
+
+  isLoggedIn() {
+    return this.userService.isLoggedIn();
   }
 
 }

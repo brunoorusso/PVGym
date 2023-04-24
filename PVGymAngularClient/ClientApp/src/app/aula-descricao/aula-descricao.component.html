@@ -30,7 +30,7 @@
 
 <div *ngIf="!aula; then aulasDisponiveis"></div>
 <div *ngIf="aula && createComponent; then create"></div>
-<div *ngIf="aula && !createComponent; then list"></div>
+<div *ngIf="aula && !createComponent && isLoggedIn(); then list"></div>
 
 <ng-template #create>
   <div class="col-md-8 col-xl-6 text-center mx-auto">
@@ -81,7 +81,7 @@
         <td>
           <a *ngIf="showJoinButton(a)" (click)="joinClass(a.id)" class="btn btn-info">Join</a>
           <a *ngIf="showLeaveButton(a)" (click)="leaveClass(a.id)" class="btn btn-outline-danger">Leave</a>
-          <a *ngIf="showRemoveButton(a)" (click)="deleteClass(a.id)" class="btn btn-outline-warning">Remove</a>
+          <a *ngIf="showRemoveButton()" (click)="deleteClass(a.id)" class="btn btn-outline-warning">Remove</a>
           <!--<a (click)="onStudentsClick(a.members)" class="btn btn-info">Students</a>-->
         </td>
       </tr>
