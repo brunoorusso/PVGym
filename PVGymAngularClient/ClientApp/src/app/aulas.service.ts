@@ -13,7 +13,8 @@ export class AulasService {
   constructor(private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) { }
 
   getTomorrowClasses(): Observable<Class[]> {
-    return this.http.get<Class[]>(this.baseUrl + "/api/Class/Tomorrow");
+    return this.http.get<Class[]>(this.baseUrl + "api/Class/Tomorrow")
+      .pipe(catchError(this.handleError));
   }
 
   getClasses(name: string): Observable<Aula[]> {
@@ -54,6 +55,10 @@ export class AulasService {
   deleteClass(classId: string): Observable<Class> {
     return this.http.delete<Class>('/api/Class/' + classId)
       .pipe(catchError(this.handleError));
+  }
+
+  updateClass(id: number, classToUpdate: Class): Observable<Class> {
+    return this.http.put<Class>(this.baseUrl + "api/Class/" + id, classToUpdate );
   }
 
   addMemberToClass(member: Member, classId: string): Observable<Class> {
@@ -97,5 +102,6 @@ export interface Class {
   name: string,
   description: string,
   duration: string,
-  image: string
+  image: string,
+  notificationSend: boolean,
 }

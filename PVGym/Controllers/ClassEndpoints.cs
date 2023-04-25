@@ -17,7 +17,7 @@ public static class ClassEndpoints
         routes.MapGet("/api/Class/Tomorrow", async (PVGymContext db) =>
         {
             var tomorrow = DateTime.Today.AddDays(1);
-            return await db.Class.Where(m => m.StartDate >= tomorrow).ToListAsync();
+            return await db.Class.Include(c => c.Members).Where(m => m.StartDate >= tomorrow && m.NotificationSend == false).ToListAsync();
         })
         .WithName("GetAllTomorrowClasss")
         .Produces<List<Class>>(StatusCodes.Status200OK);
@@ -75,7 +75,11 @@ public static class ClassEndpoints
                 return Results.NotFound();
             }
 
-            db.Update(@class);
+            db.Entry(foundModel).State = EntityState.Detached;
+
+            foundModel.NotificationSend = @class.NotificationSend;
+
+            db.Class.Update(foundModel);
 
             await db.SaveChangesAsync();
 

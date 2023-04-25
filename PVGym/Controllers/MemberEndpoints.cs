@@ -16,10 +16,25 @@ public static class MemberEndpoints
         .WithName("GetAllMembers")
         .Produces<List<Member>>(StatusCodes.Status200OK);
 
+        routes.MapGet("/api/Member/{id}", async (Guid Id, PVGymContext db) =>
+        {
+            return await db.Member.FindAsync(Id)
+                is Member model
+                    ? Results.Ok(model)
+                    : Results.NotFound();
+        })
+        .WithName("GetMemberById")
+        .Produces<Member>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound);
+
         routes.MapGet("/api/Member/UserId/{UserId}", async (Guid UserId, PVGymContext db) =>
         {
-            return await db.Member.FirstOrDefaultAsync(m => m.UserId == UserId.ToString())
-            is Member model
+            return await db.Member
+            .Where(m => m.UserId == UserId.ToString())
+            .Include(m => m.Plan)
+            .ThenInclude(p => p.Workouts)
+            .ThenInclude(w => w.Exercises).FirstAsync()
+                is Member model
                     ? Results.Ok(model)
                     : Results.NotFound();
         })

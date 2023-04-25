@@ -27,6 +27,7 @@ namespace PVGym.Models
         public int Duration { get; set; }
         [Required]
         public string Image { get; set; }
-
+        [Required]
+        public bool NotificationSend { get; set; }
     }
 }

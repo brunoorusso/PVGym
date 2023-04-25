@@ -54,6 +54,7 @@ export class AulaDescricaoComponent implements OnInit {
     this.userService.getUserDataByEmail()?.subscribe(user => {
       aulaForm.value.coachId = user.id;
       aulaForm.value.coach = user.userName;
+      aulaForm.value.notificationSend = false;
       this.aulasService.createAulaForm(aulaForm.value, aulaDisponivel).subscribe(aula => {
         aulaForm.reset();
         aula.members = [];

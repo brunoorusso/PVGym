@@ -8,42 +8,52 @@
             <form #physicalEvaluationForm="ngForm" (ngSubmit)="onSubmit(physicalEvaluationForm)">
               <div class="d-flex align-items-center mb-3 input-container">
                 <label for="memberId" class="form-label" style="width: 115px;">Member</label>
-                <input class="form-control" type="text" required [(ngModel)]="searchTerm" #member="ngModel" id="memberId" name="memberId" (keyup)="filterSuggestions()" placeholder="Member" style="height: 40px;">
-                <div class="suggestion-container" *ngIf="showSuggestions">
-                  <div *ngFor="let member of suggestions" (click)="selectSuggestion(member)">
-                    {{ member.user?.userName }}
+                <div>
+                  <input class="form-control" type="text" required [(ngModel)]="searchTerm" #member="ngModel" id="memberId" name="memberId" (keyup)="filterSuggestions()" placeholder="Member" style="height: 40px;">
+                  <div class="suggestion-container" *ngIf="showSuggestions">
+                    <div *ngFor="let member of suggestions" (click)="selectSuggestion(member)">
+                      {{ member.user?.userName }}
+                    </div>
                   </div>
-                </div>
-                <div class="alert alert-danger" *ngIf="member.touched && !member.valid">
-                  <div *ngIf="member.errors?.['required']">Member is required</div>
+                  <div class="alert alert-danger" *ngIf="member.touched && !member.valid" style="padding: 2px; margin-top: 10px;">
+                    <div *ngIf="member.errors?.['required']">Member is required</div>
+                  </div>
                 </div>
               </div>
               <div class="d-flex align-items-center mb-3">
                 <label for="height" class="form-label" style="width: 115px;">Height</label>
-                <input class="form-control" type="number" required ngModel #height="ngModel" placeholder="Height (cm)" id="height" name="height" style="height: 40px;">
-                <div class="alert alert-danger" *ngIf="height.touched && !height.valid">
-                  <div *ngIf="height.errors?.['required']">Height is required</div>
+                <div>
+                  <input class="form-control" type="number" required ngModel #height="ngModel" placeholder="Height (cm)" id="height" name="height" style="height: 40px;">
+                  <div class="alert alert-danger" *ngIf="height.touched && !height.valid" style="padding: 2px; margin-top: 10px;">
+                    <div *ngIf="height.errors?.['required']">Height is required</div>
+                  </div>
                 </div>
               </div>
               <div class="d-flex align-items-center mb-3">
                 <label for="weight" class="form-label" style="width: 115px;">Weight</label>
-                <input class="form-control" type="number" required ngModel #weight="ngModel" placeholder="Weight (kg)" id="weight" name="weight" style="height: 40px;">
-                <div class="alert alert-danger" *ngIf="weight.touched && !weight.valid">
-                  <div *ngIf="weight.errors?.['required']">Weight is required</div>
+                <div>
+                  <input class="form-control" type="number" required ngModel #weight="ngModel" placeholder="Weight (kg)" id="weight" name="weight" style="height: 40px;">
+                  <div class="alert alert-danger" *ngIf="weight.touched && !weight.valid" style="padding: 2px; margin-top: 10px;">
+                    <div *ngIf="weight.errors?.['required']">Weight is required</div>
+                  </div>
                 </div>
               </div>
               <div class="d-flex align-items-center mb-3">
                 <label for="bmi" class="form-label" style="width: 115px;">BMI</label>
-                <input class="form-control" type="number" required ngModel #bmi="ngModel" placeholder="Body Mass Indicator" id="bmi" name="bmi" style="height: 40px;">
-                <div class="alert alert-danger" *ngIf="bmi.touched && !bmi.valid">
-                  <div *ngIf="bmi.errors?.['required']">BMI is required</div>
+                <div>
+                  <input class="form-control" type="number" required ngModel #bmi="ngModel" placeholder="Body Mass Indicator" id="bmi" name="bmi" style="height: 40px;">
+                  <div class="alert alert-danger" *ngIf="bmi.touched && !bmi.valid" style="padding: 2px; margin-top: 10px;">
+                    <div *ngIf="bmi.errors?.['required']">BMI is required</div>
+                  </div>
                 </div>
               </div>
               <div class="d-flex align-items-center mb-3">
                 <label for="bodyFat" class="form-label" style="width: 115px;">Body Fat</label>
-                <input class="form-control" type="number" required ngModel #bodyFat="ngModel" placeholder="Body Fat (%)" id="bodyFat" name="bodyFat" style="height: 40px;">
-                <div class="alert alert-danger" *ngIf="bodyFat.touched && !bodyFat.valid">
-                  <div *ngIf="bodyFat.errors?.['required']">Body Fat is required</div>
+                <div>
+                  <input class="form-control" type="number" required ngModel #bodyFat="ngModel" placeholder="Body Fat (%)" id="bodyFat" name="bodyFat" style="height: 40px;">
+                  <div class="alert alert-danger" *ngIf="bodyFat.touched && !bodyFat.valid" style="padding: 2px; margin-top: 10px;">
+                    <div *ngIf="bodyFat.errors?.['required']">Body Fat is required</div>
+                  </div>
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-center mb-3">

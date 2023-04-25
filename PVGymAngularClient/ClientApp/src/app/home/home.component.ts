@@ -16,7 +16,7 @@ export class HomeComponent {
     userId: "",
     notificationDate: new Date(),
     subject: "Class Tomorrow",
-    content: "Tomorrow you have a class.",
+    content: "Tomorrow you have a class of ",
     isRead: false
   };
 
@@ -42,7 +42,11 @@ export class HomeComponent {
           if (member.memberId == currentMember.memberId) {
             this.notification.userId = currentMember.userId.toString();
             this.notification.notificationDate = new Date();
-            this.notificationService.createNotification(this.notification).subscribe();
+            this.notification.content += classElement.name + " with the coach " + classElement.coach + ".";
+            this.notificationService.createNotification(this.notification).subscribe(() => {
+              classElement.notificationSend = true;
+              this.service.updateClass(classElement.id, classElement).subscribe();
+            });
           }
         })
       })
