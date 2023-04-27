@@ -1,5 +1,9 @@
 /**
  * Author: Ismael Lourenço
+ * This component represents a list of workout plans in a workout application.
+ * It provides functionality for fetching, displaying, and creating workout plans.
+ * The component utilizes the TreinosService to interact with the backend, and manages
+ * loading state and visibility of the modal for creating new workout plans.
  */
 import { Component, OnInit } from '@angular/core';
 import { Plan, TreinosService } from '../services/treinos.service';
@@ -30,10 +34,16 @@ export class PlanosComponent implements OnInit {
     });
   }
 
+  /*
+  * This method toggles the visibility of the modal for creating new workout plans.
+  */
   modalVisibleChange(visible: boolean) {
     this.modalVisible = visible;
   }
 
+  /*
+   * This method saves a new workout plan to the backend.
+   */
   savePlan() {
     if (this.form?.valid) {
       const newPlan: Partial<Plan> = { name: this.form.value.name, workouts: [] };

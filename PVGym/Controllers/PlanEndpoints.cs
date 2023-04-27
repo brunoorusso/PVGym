@@ -17,6 +17,7 @@ public static class PlanEndpoints
         .WithName("GetAllPlans")
         .Produces<List<Plan>>(StatusCodes.Status200OK);
 
+        //Gets plan by member id
         routes.MapGet("/api/PlanByMemberId/{UserId}", async (string UserId, PVGymContext db) =>
         { 
         
