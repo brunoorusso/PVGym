@@ -40,6 +40,9 @@
                 <div class="mb-3 form-group required">
                   <input type="password" class="form-control" placeholder="Confirm Password">
                 </div>
+                <p *ngIf="service.passwordError" class="text-danger">
+                  Your passwords dont match.
+                </p>
               </form>
             </app-modal>
             <div *ngIf="memberInfo" class="d-flex justify-content-between text-center mt-5 mb-2">

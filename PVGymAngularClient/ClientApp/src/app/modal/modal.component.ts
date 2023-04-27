@@ -19,7 +19,6 @@ export class ModalComponent {
 
   saveModal() {
     this.save.emit();
-    this.closeModal();
   }
 
 }

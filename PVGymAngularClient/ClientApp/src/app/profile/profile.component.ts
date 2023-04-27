@@ -89,6 +89,7 @@ export class ProfileComponent implements OnInit {
   save() {
     this.service.updateUser()?.subscribe();
     this.userData = this.service.formModel.value;
+    this.modalVisibleChange(false);
   }
 
   private updateFormValues(data: any): void {
