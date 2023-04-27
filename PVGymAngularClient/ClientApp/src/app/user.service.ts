@@ -7,9 +7,14 @@ import jwt_decode from 'jwt-decode';
 @Injectable({
   providedIn: 'root'
 })
+
+  /*
+   *  Autor: Bruno Russo 202001410
+   */
 export class UserService {
   
   private roles: string[] = [];
+  passwordError = false;
 
   constructor(private fb: FormBuilder, private http: HttpClient) {
 
@@ -104,6 +109,7 @@ export class UserService {
   }
 
   updateUser() {
+
     var user = {
       UserName: this.formModel.value.userName,
       Email: this.formModel.value.email,
@@ -111,9 +117,9 @@ export class UserService {
       ConfirmPassword: this.formModel.value.confirmPassword
     };
 
-    /*if (user.Password !== user.ConfirmPassword) {
-      return throwError("Passwords not the same");
-    }*/
+    if (user.Password !== user.ConfirmPassword) {
+      this.passwordError = true;
+    }
 
     const token = localStorage.getItem('token');  
     if (token) {

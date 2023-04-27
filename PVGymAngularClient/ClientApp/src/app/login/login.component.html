@@ -30,7 +30,9 @@
                 <div class="mb-3"><input class="form-control" formControlName="Email" type="email" name="email" placeholder="Email"></div>
                 <div class="mb-3"><input class="form-control" formControlName="Password" type="password" name="password" placeholder="Password"></div>
                 <div class="mb-3"><button class="btn btn-primary shadow d-block w-100" type="submit">Log in</button></div>
-                <p class="text-muted">Forgot your password?</p>
+                <p *ngIf="loginError" class="text-danger">
+                  Please check your email and password.
+                </p>
               </form>
             </div>
           </div>
