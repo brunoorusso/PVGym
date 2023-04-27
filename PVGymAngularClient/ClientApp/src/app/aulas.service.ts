@@ -76,11 +76,6 @@ export class AulasService {
       .pipe(catchError(this.handleError));
   }
 
-  getStudents(classId: string): Observable<Class[]> {
-    return this.http.get<Class[]>('/api/Class/' + classId + '/Members')
-      .pipe(catchError(this.handleError));
-  }
-
   getMemberFutureClasses(memberId: string): Observable<Aula[]> {
     return this.http.get<Aula[]>('/api/Class/Member/' + memberId)
       .pipe(catchError(this.handleError));

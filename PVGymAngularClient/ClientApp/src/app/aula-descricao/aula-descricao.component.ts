@@ -16,10 +16,6 @@ import { NotificationService } from '../services/notification.service';
 
 export class AulaDescricaoComponent implements OnInit {
 
-  //private aulasService: AulasService;
-  //private userService: UserService;
-  //private memberService: MemberService;
-
   @Input() aula: AulaDisponivel | undefined;
   @Input() aulas: Aula[] = [];
   @Input() isInClass: Map<string, boolean> = new Map<string, boolean>();
@@ -42,9 +38,7 @@ export class AulaDescricaoComponent implements OnInit {
    */
 
   constructor(public aulasService: AulasService, public userService: UserService, public memberService: MemberService, private notificationService: NotificationService) {
-    //this.aulasService = aulasService;
-    //this.userService = userService;
-    //this.memberService = memberService;
+
   }
 
   ngOnInit(): void {
@@ -67,15 +61,6 @@ export class AulaDescricaoComponent implements OnInit {
         this.createComponent = false;
       });
     });
-  }
-
-  onStudentsClick(students: Member[]): void {
-    this.studentsVisible = true;
-    this.students = students;
-    //this.aulasService.getStudents(classId).subscribe(students => {
-    //  //this.students = students;
-    //  console.log(students)
-    //});
   }
 
   modalVisibleChange(visible: boolean) {
