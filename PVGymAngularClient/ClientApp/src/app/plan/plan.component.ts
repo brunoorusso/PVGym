@@ -1,7 +1,7 @@
 /**
  * Author: Ismael Lourenco
  * Co-author: Bernardo Botelho
- * Description: This component represents a workout plan in a workout application.
+ * Represents a workout plan in a workout application.
  * It provides functionality for creating, searching, and managing workouts, as well as assigning
  * workout plans to specific users. The component also supports modifying and deleting workout plans.
  * It utilizes the TreinosService, UserService, and NotificationService to interact with the backend.
