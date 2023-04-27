@@ -1,3 +1,9 @@
+/*
+   *  Author: Bruno Russo
+   *  Co-author: Bernardo Botelho
+   *  Description: This service provides methods for handling user-related tasks in a web-app.
+   *  It includes methods for registering, logging in, logging out, updating user data, and checking if the user is logged in.
+   */
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -7,11 +13,6 @@ import jwt_decode from 'jwt-decode';
 @Injectable({
   providedIn: 'root'
 })
-
-  /*
-   *  Autor: Bruno Russo
-   *  Co-autor: Bernardo Botelho
-   */
 
 export class UserService {
   
@@ -47,7 +48,11 @@ export class UserService {
     administrator: ['', Validators.required]
   });
 
-
+  /*
+   * Register method
+   * This method allow us to register a new member in the database.
+   * In this method, after a new user is created, a new member is also created in the database.
+   */
   register() {
     var user = {
       UserName: this.formModel.value.userName,
@@ -77,10 +82,11 @@ export class UserService {
 
   }
 
-  confirmPassword(password: string, confirmPassword: string) {
-    return password === confirmPassword ? true : false;
-  }
-
+  /*
+   * Add Staff Method
+   * This method allow us to register a new member in the database.
+   * In this method, after a new user is created, a new staff is also created in the database.
+   */
   addStaff() {
     var user = {
       UserName: this.staffFormModel.value.userName,
@@ -110,6 +116,10 @@ export class UserService {
 
   }
 
+  /*
+   * Update User Method
+   * This method allow a user to update his personal data like username and password.
+   */ 
   updateUser() {
 
     var user = {
@@ -132,6 +142,11 @@ export class UserService {
     return null;
   }
 
+
+  /*
+   * Login Method
+   * This method allow a user to login in the web-app.
+   */ 
   login() {
     var user = {
       Email: this.loginFormModel.value.Email,
@@ -141,10 +156,19 @@ export class UserService {
     return this.http.post(this.BaseURI + '/ApplicationUser/Login', user);
   }
 
+  /*
+   * Logout Method
+   * This method allow a user to logout in the web-app.
+   * This logout is done by removing the token associate to the user when he logs in.
+   */ 
   logout() {
     localStorage.removeItem('token');
   }
 
+  /*
+   * Logged In Method
+   * This method check if a user is logged in the web-app.
+   */ 
   isLoggedIn(): boolean {
     if (localStorage.getItem('token')) {
       return true;
@@ -152,6 +176,10 @@ export class UserService {
     return false;
   }
 
+  /*
+   * Is Admin Method
+   * This method check if the user logged in the web-app is an admin.
+   */ 
   isAdmin() {
     const token = localStorage.getItem('token');
 
@@ -168,6 +196,10 @@ export class UserService {
     return false;
   }
 
+  /*
+   * Is Member Method
+   * This method check if the user logged in the web-app is a member.
+   */ 
   isMember() {
     const token = localStorage.getItem('token');
 
@@ -183,6 +215,10 @@ export class UserService {
     return false;
   }
 
+  /*
+   * Is Staff Method
+   * This method check if the user logged in the web-app is a staff.
+   */ 
   isStaff() {
     const token = localStorage.getItem('token');
 
@@ -202,6 +238,10 @@ export class UserService {
     return this.http.get<any[]>(this.BaseURI + '/ApplicationUser/GetAllUsers');
   }
 
+  /* Get User Data By Email Method
+   * This method return the user data by email.
+   * This email can be provided as parameter or can be obtained from the token, to get the data from current logged in user.
+   */
   getUserDataByEmail(email?: string) {
     if (email) {
       return this.http.get<any>(this.BaseURI + `/ApplicationUser/GetUserByEmail/${email}`);
@@ -215,9 +255,17 @@ export class UserService {
     }
   }
 
+
+  /* Get Staff By Id
+   * This method return the staff data by id.
+   */ 
   getStaffById(id: string) {
     return this.http.get<any[]>(this.BaseURI + `/Staff/UserId/${id}`);
   }
+
+  /* Get User By Id
+   * This method return the user data by id.
+   */
   getUser(id: number): Observable<ApplicationUserModel> {
     return this.http.get<ApplicationUserModel>(this.BaseURI + `/ApplicationUser/GetUser/${id}`);
   }

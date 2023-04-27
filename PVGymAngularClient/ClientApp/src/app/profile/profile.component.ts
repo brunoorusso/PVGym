@@ -1,5 +1,10 @@
-// ts-nocheck
-
+/*
+   * Author: Bruno Russo
+   * Co-author: Alexandre Oliveira
+   * Description: This component is responsible for the profile page.
+   * Here the user can see his information and update it.
+   * He also can see his statistics displayed in charts.
+   */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -13,11 +18,6 @@ import { Member, MemberService } from '../services/member.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-
-  /*
-   * Autor: Bruno Russo
-   * Co-autor: Alexandre Oliveira
-   */
 
   userData: any;
   staffData: any;
@@ -68,9 +68,12 @@ export class ProfileComponent implements OnInit {
   constructor(public service: UserService, public evaluationService: PhysicalEvaluationService, public memberService: MemberService) { }
 
   
-
+  /*
+   * On Init Method
+   * When the component is initialized, the user data is retrieved from the database.
+   * This method also verify if a user is a staff or a member and retrieve the respective data.
+   */ 
   ngOnInit(): void {
-
     this.service.getUserDataByEmail()?.subscribe(data => {
       this.userData = data;
       this.updateFormValues(this.userData);
@@ -91,18 +94,28 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  /*
+   * Modal Visible Change Method
+   * This method change the modal visibility.
+   */ 
   modalVisibleChange(visible: boolean) {
     this.modalVisible = visible;
   }
 
+  /*
+   * Save Method
+   * This method is called when the user clicks on the save button and update the user data.
+   */ 
   save() {
     this.service.updateUser()?.subscribe();
-    
     this.userData = this.service.formModel.value;
-
     this.modalVisibleChange(false);
   }
 
+  /*
+   * Update Form Values Method
+   * This method update the modal form values with the user data.
+   */ 
   private updateFormValues(data: any): void {
     this.service.formModel.patchValue({
       userName: data.userName,
