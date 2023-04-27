@@ -7,7 +7,9 @@ import { UserService } from '../user.service';
   styleUrls: ['./add-staff.component.css']
 })
 export class AddStaffComponent implements OnInit {
-
+  /*
+   * Autor: Bruno Russo
+   */
   constructor(public service: UserService) { }
 
   ngOnInit(): void {

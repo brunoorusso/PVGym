@@ -10,6 +10,10 @@ import { UserService } from '../user.service';
 })
 export class RegisterComponent implements OnInit {
 
+  /*
+   * Autor: Bruno Russo
+   */
+
   constructor(public service: UserService) {
   }
 

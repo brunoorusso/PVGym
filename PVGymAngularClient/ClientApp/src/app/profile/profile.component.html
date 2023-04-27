@@ -26,10 +26,7 @@
                   </p>
                 </div>
                 <div class="mb-3 form-group required">
-                  <input class="form-control" formControlName="email" placeholder="Email">
-                  <p *ngIf="service.formModel.get('email')?.touched && service.formModel.get('email')?.hasError('required')" class="text-danger">
-                    Email is required
-                  </p>
+                  <input class="form-control" readonly="readonly" formControlName="email" placeholder="Email">
                 </div>
                 <div class="mb-3 form-group required">
                   <input type="password" formControlName="password" class="form-control" placeholder="Password">

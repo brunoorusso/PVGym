@@ -9,7 +9,8 @@ import jwt_decode from 'jwt-decode';
 })
 
   /*
-   *  Autor: Bruno Russo 202001410
+   *  Autor: Bruno Russo
+   *  Co-autor: Bernardo Botelho
    */
 export class UserService {
   
