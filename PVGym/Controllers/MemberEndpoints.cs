@@ -5,6 +5,9 @@ using PVGym.Data;
 using PVGym.Models;
 namespace PVGym.Controllers;
 
+/*
+ * Autor: Bruno Russo
+ */
 public static class MemberEndpoints
 {
     public static void MapMemberEndpoints (this IEndpointRouteBuilder routes)

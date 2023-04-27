@@ -4,6 +4,9 @@ using PVGym.Models;
 
 namespace PVGym.Controllers
 {
+    /*
+     * Autor: Bruno Russo
+     */
     public class RolesController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;

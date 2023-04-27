@@ -26,10 +26,7 @@
                   </p>
                 </div>
                 <div class="mb-3 form-group required">
-                  <input class="form-control" formControlName="email" placeholder="Email">
-                  <p *ngIf="service.formModel.get('email')?.touched && service.formModel.get('email')?.hasError('required')" class="text-danger">
-                    Email is required
-                  </p>
+                  <input class="form-control" readonly="readonly" formControlName="email" placeholder="Email">
                 </div>
                 <div class="mb-3 form-group required">
                   <input type="password" formControlName="password" class="form-control" placeholder="Password">
@@ -40,6 +37,9 @@
                 <div class="mb-3 form-group required">
                   <input type="password" class="form-control" placeholder="Confirm Password">
                 </div>
+                <p *ngIf="service.passwordError" class="text-danger">
+                  Your passwords dont match.
+                </p>
               </form>
             </app-modal>
             <div *ngIf="memberInfo" class="d-flex justify-content-between text-center mt-5 mb-2">

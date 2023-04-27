@@ -14,6 +14,11 @@ import { Member, MemberService } from '../services/member.service';
 })
 export class ProfileComponent implements OnInit {
 
+  /*
+   * Autor: Bruno Russo
+   * Co-autor: Alexandre Oliveira
+   */
+
   userData: any;
   staffData: any;
   public modalVisible = false;
@@ -65,13 +70,17 @@ export class ProfileComponent implements OnInit {
   
 
   ngOnInit(): void {
+
     this.service.getUserDataByEmail()?.subscribe(data => {
       this.userData = data;
       this.updateFormValues(this.userData);
-      this.service.getStaffById(this.userData.id)?.subscribe(data => {
-        this.staffData = data;
-      });
 
+      if (this.service.isStaff()) {
+        this.service.getStaffById(this.userData.id)?.subscribe(data => {
+          this.staffData = data;
+        });
+      }
+      
       if (this.service.isMember()) {
         this.memberService.getMemberByUserId(data.id).subscribe((member: Member) => {
           console.log(member)
@@ -88,7 +97,10 @@ export class ProfileComponent implements OnInit {
 
   save() {
     this.service.updateUser()?.subscribe();
+    
     this.userData = this.service.formModel.value;
+
+    this.modalVisibleChange(false);
   }
 
   private updateFormValues(data: any): void {

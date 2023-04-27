@@ -9,6 +9,8 @@ import { UserService } from '../user.service';
 })
 export class LoginComponent implements OnInit {
 
+  loginError = false;
+
   constructor(public service: UserService, private router: Router) { }
 
   ngOnInit(): void {
@@ -26,7 +28,7 @@ export class LoginComponent implements OnInit {
         });
       },
       (error) => {
-        console.log(error.error);
+        this.loginError = true;
       }
     );
   }
