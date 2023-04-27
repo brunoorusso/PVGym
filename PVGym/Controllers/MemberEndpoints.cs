@@ -86,7 +86,30 @@ public static class MemberEndpoints
         .WithName("DeleteMember")
         .Produces<Member>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
+
+        routes.MapPost("/api/AssignMemberToPlan", async (AssignMemberToPlanRequest request, PVGymContext db, UserManager<ApplicationUser> userManager) =>
+        {
+            var user = await userManager.FindByEmailAsync(request.Email);
+            var member = await db.Member.Where(m => m.UserId == user.Id).FirstOrDefaultAsync();
+            var plan = await db.Plan.FindAsync(request.PlanId);
+
+            if (member is null || plan is null)
+            {
+                return Results.NotFound();
+            }
+
+            member.Plan = plan;
+            db.Update(member);
+            await db.SaveChangesAsync();
+
+            return Results.NoContent();
+        })
+        .WithName("AssignMemberToPlan")
+        .Produces(StatusCodes.Status404NotFound)
+        .Produces(StatusCodes.Status204NoContent);
     }
+
+
 
      public static Plantype GetPlanTypeFromString(int value)
         {
@@ -100,4 +123,10 @@ public static class MemberEndpoints
                     throw new ArgumentException("Invalid plan type string.");
             }
         }
+}
+
+public class AssignMemberToPlanRequest
+{
+    public string Email { get; set; }
+    public Guid PlanId { get; set; }
 }

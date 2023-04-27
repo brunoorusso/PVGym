@@ -67,6 +67,11 @@ export class TreinosService {
       .pipe(catchError(this.handleError));
   }
 
+  assignMember(email: string, planId: string): Observable<any> {
+    return this.http.post('/api/AssignMemberToPlan', { email, planId })
+      .pipe(catchError(this.handleError));
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
       // A client-side or network error occurred. Handle it accordingly.

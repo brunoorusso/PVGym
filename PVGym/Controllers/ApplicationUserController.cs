@@ -53,7 +53,7 @@ namespace PVGym.Controllers
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
-            if(!result.Succeeded)
+            if (!result.Succeeded)
             {
                 return BadRequest("Login request inválido.");
             }

@@ -1,10 +1,10 @@
 <div style="margin-top: 30px;margin-bottom: 30px;">
   <h4 style="margin-bottom: 20px;">{{plan.name}}</h4>
   <button class="btn btn-link p-0" (click)="modalVisible = true">+ Add Workout</button>
+  <button class="btn btn-link p-0" (click)="assignMemberModalVisible = true">+ Assign Member</button>
   <div class="row" style="margin-top: 15px;">
     <app-workout class="col" *ngFor="let workout of plan.workouts" [workout]="workout" [eliminate]="eliminateWorkout"></app-workout>
   </div>
-
   <app-modal [(visible)]="modalVisible"
              (visibleChange)="modalVisibleChange($event)"
              (save)="saveWorkout()"
@@ -35,6 +35,18 @@
           </li>
         </ul>
       </ng-container>
+    </form>
+  </app-modal>
+
+  <app-modal [(visible)]="assignMemberModalVisible"
+             (visibleChange)="assignMemberModalVisibleChange($event)"
+             (save)="assignMember()"
+             title="Assign Member">
+    <form [formGroup]="memberForm">
+      <div class="mb-3">
+        <label for="memberEmail" class="form-label">Member Email</label>
+        <input type="email" class="form-control" id="memberEmail" formControlName="email" required />
+      </div>
     </form>
   </app-modal>
 </div>
