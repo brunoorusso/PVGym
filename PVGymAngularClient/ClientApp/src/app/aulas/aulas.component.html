@@ -25,12 +25,12 @@
   </table>
 </div>
 
-<div class="col-md-8 col-xl-6 text-center mx-auto">
+<div class="col-md-8 col-xl-6 text-center mx-auto" style="padding-top: 50px">
   <h2 class="fw-bold">Past Classes</h2>
 </div>
 
 <div *ngIf="pastNameClassesMap.size == 0">
-  <label>You don't have classes history.</label>
+  <label style="padding-bottom: 30px">You don't have classes history.</label>
 </div>
 <div *ngFor="let className of pastNameClassesMap | keyvalue">
   <h4>{{ className.key }}</h4>
