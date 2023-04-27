@@ -2,7 +2,7 @@
  * Author: Ismael Lourenço
  */
 import { Component } from '@angular/core';
-import { TreinosService } from '../treinos.service';
+import { TreinosService } from '../services/treinos.service';
 import { UserService } from '../user.service';
 
 @Component({

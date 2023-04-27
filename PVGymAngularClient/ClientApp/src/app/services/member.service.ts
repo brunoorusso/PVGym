@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Evaluation } from '../physical-evaluation/physical-evaluation.component';
-import { Plan } from '../treinos.service';
+import { Plan } from '../services/treinos.service';
 import { ApplicationUserModel } from '../user.service';
 
 @Injectable({
