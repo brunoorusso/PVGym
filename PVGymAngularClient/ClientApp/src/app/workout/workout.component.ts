@@ -7,7 +7,7 @@
  * TreinosService to interact with the backend for fetching, creating, and updating
  * workouts and exercises.
  */
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Exercise, TreinosService, Workout } from '../services/treinos.service';
@@ -17,7 +17,7 @@ import { Exercise, TreinosService, Workout } from '../services/treinos.service';
   templateUrl: './workout.component.html',
   styleUrls: ['./workout.component.css']
 })
-export class WorkoutComponent implements OnInit {
+export class WorkoutComponent {
 
   @Input('workout') workout!: Workout;
   @Input('eliminateWorkout') eliminateWorkout!: ((param: any) => void);
@@ -38,9 +38,6 @@ export class WorkoutComponent implements OnInit {
       bodyPart: [''],
       equipment: ['']
     });
-  }
-
-  ngOnInit(): void {
   }
 
   /*

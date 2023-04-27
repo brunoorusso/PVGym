@@ -1,3 +1,7 @@
+/*
+ * Autor: Alexandre Oliveira
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { AulasService } from '../aulas.service';
 import { AulaDisponivel, Aula } from '../aulas-disponiveis.service';
@@ -27,6 +31,10 @@ export class AulasComponent implements OnInit {
     return -1;
   }
 
+  /*
+   * getFutureClasses Method
+   * Populates a map that indicates which classes the user is enrolled.
+   */
   async getFutureClasses(): Promise<void> {
     this.userService.getUserDataByEmail()?.subscribe(user => {
       this.aulasService.getMemberFutureClasses(user.id).subscribe(async futureClasses => {
@@ -56,11 +64,14 @@ export class AulasComponent implements OnInit {
           this.futureNameClassesMap.set(response?.name || "", this.futureClassesMap.get(response?.id || "") || []);
         });
 
-        console.log(this.futureNameClassesMap)
       });
     });
   }
 
+  /*
+   * getFutureClasses Method
+   * Populates a map that indicates which classes the user was enrolled (in the past).
+   */
   async getPastClasses(): Promise<void> {
     this.userService.getUserDataByEmail()?.subscribe(user => {
       this.aulasService.getMemberPastClasses(user.id).subscribe(async pastClasses => {
@@ -90,7 +101,6 @@ export class AulasComponent implements OnInit {
           this.pastNameClassesMap.set(response?.name || "", this.pastClassesMap.get(response?.id || "") || []);
         });
 
-        console.log(this.pastNameClassesMap)
       });
     });
   }

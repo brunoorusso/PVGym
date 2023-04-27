@@ -1,3 +1,7 @@
+/*
+ * Autor: Alexandre Oliveira
+ */
+
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
@@ -10,6 +14,10 @@ export class AulasDisponiveisService {
 
   constructor(private http: HttpClient) { }
 
+  /*
+   * getAvailableClasses Method
+   * Returns an array of all available classes (AulaDisponivel)
+   */
   getAvailableClasses(): Observable<AulaDisponivel[]> {
     return this.http.get<AulaDisponivel[]>('/api/AvailableClass')
       .pipe(catchError(this.handleError));

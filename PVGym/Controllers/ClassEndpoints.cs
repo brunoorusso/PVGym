@@ -131,12 +131,8 @@ public static class ClassEndpoints
             {
                 return Results.NotFound();
             }
-            Console.WriteLine("ADICIONADO ----------------");
             await db.SaveChangesAsync();
             return Results.Created($"/Class/{request.ClassId}", aula);
-            //var classSend = db.Class.Include(c => c.Members).Where(c => c.Id == aula.Id).FirstOrDefault();
-            //Console.WriteLine("ADICIONADO ----------------");
-            //return Results.Created($"/Class/{request.ClassId}", classSend);
         })
         .WithName("CreateExistingMemberWithClassId")
         .Produces<Class>(StatusCodes.Status201Created)
@@ -155,7 +151,6 @@ public static class ClassEndpoints
             {
                 return Results.NotFound();
             }
-            Console.WriteLine("REMOVIDO ----------------");
             await db.SaveChangesAsync();
             return Results.NoContent();
         })
