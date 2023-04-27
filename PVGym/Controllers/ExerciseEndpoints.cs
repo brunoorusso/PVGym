@@ -11,6 +11,7 @@ public static class ExerciseEndpoints
 {
     public static void MapExerciseEndpoints (this IEndpointRouteBuilder routes)
     {
+        //Search for exercises by name
         routes.MapGet("/api/Exercise/search", async (String searchTerm, PVGymContext db) =>
         {
             return await db.Exercise.Where(e => e.Name.Contains(searchTerm)).Take(10).Select(e => e).ToListAsync() ;
@@ -55,6 +56,7 @@ public static class ExerciseEndpoints
         .Produces(StatusCodes.Status404NotFound)
         .Produces(StatusCodes.Status204NoContent);
 
+        //Creates a new exercise and adds it to a workout
         routes.MapPost("/api/ExerciseWorkout/", async (ExerciseWorkoutRequest resquest, PVGymContext db) =>
         {
             resquest.Exercise.ExerciseId = Guid.NewGuid();
@@ -82,6 +84,7 @@ public static class ExerciseEndpoints
         .Produces<Exercise>(StatusCodes.Status201Created)
         .Produces(StatusCodes.Status404NotFound);
 
+        //Adds an existing exercise to a workout
         routes.MapPost("/api/ExistingExerciseWorkout/", async (ExerciceIdWorkoutIdRequest request, PVGymContext db) =>
         {
             Console.WriteLine(request.ToString());
@@ -105,6 +108,7 @@ public static class ExerciseEndpoints
         .Produces<Exercise>(StatusCodes.Status201Created)
         .Produces(StatusCodes.Status404NotFound);
 
+        //Removes an exercise from a workout
         routes.MapPost("/api/DeleteExerciseFromWorkout/", async (ExerciceIdWorkoutIdRequest request, PVGymContext db) =>
         {
             var workout = db.Workout.Include(p => p.Exercises).Where(p => p.WorkoutId == Guid.Parse(request.WorkoutId)).FirstOrDefault();

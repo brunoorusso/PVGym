@@ -5,6 +5,10 @@ namespace PVGym.Controllers;
 
 public static class EvaluationEndpoints
 {
+
+    /*
+     * Autor: Bernardo Botelho
+    */
     public static void MapEvaluationEndpoints (this IEndpointRouteBuilder routes)
     {
         routes.MapGet("/api/Evaluation", async (PVGymContext db) =>
