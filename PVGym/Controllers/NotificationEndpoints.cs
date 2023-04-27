@@ -5,6 +5,9 @@ namespace PVGym.Controllers;
 
 public static class NotificationEndpoints
 {
+    /*
+     * Autor: Bernardo Botelho
+    */
     public static void MapNotificationEndpoints(this IEndpointRouteBuilder routes)
     {
         routes.MapGet("/api/Notification", async (PVGymContext db) =>
