@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿/*
+ * Authors: All team
+ */
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PVGym.Areas.Identity.Data;
@@ -11,7 +14,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using PVGym.Models;
 using System.Threading;
-
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using PVGym.Models;
@@ -23,14 +25,17 @@ var connectionString = builder.Configuration.GetConnectionString("PVGymContextCo
 builder.Services.AddDbContext<PVGymContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+/*
+ * Add Identity and Identity Roles.
+ */ 
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<PVGymContext>()
     .AddDefaultTokenProviders();
 
 
 // Add services to the container.
-builder.Services.AddControllersWithViews().AddJsonOptions(options => // Modify this line
+builder.Services.AddControllersWithViews().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
 });
@@ -41,6 +46,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors();
 
+/* 
+ * Add Identity Core to the services that allow us to create users.
+ * Here are defined the password requirements.
+ */ 
 builder.Services.AddIdentityCore<IdentityUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
@@ -52,6 +61,9 @@ builder.Services.AddIdentityCore<IdentityUser>(options =>
     options.Password.RequireLowercase = false;
 }).AddEntityFrameworkStores<PVGymContext>();
 
+/* 
+ * Add JWT Authentication to the services that allow us to assign tokens to users.
+ */ 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -67,15 +79,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-//builder.Logging.ClearProviders();
-//builder.Logging.AddDebug();
-
 var app = builder.Build();
 
+
 /*
- * Garante a existência do utilizador Admin e a existência de 3 roles sempre que a aplicação é iniciada
- * Atribui também, de forma instantânea, a role admin ao utilizador admin.
- */
+ * In this scope we make sure that always exist an Admin user and 3 roles when the application is started.
+ * It also assigns the admin role to the admin user. 
+ */ 
 using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
@@ -109,7 +119,6 @@ using (var scope = app.Services.CreateScope())
         await userManager.AddToRoleAsync(newAdminUser, "admin");
     }
 
-    //Author: Ismael Lourenço
     // Check if the table is empty and execute the code
     var context = scope.ServiceProvider.GetService<PVGymContext>();
     var isTableEmpty = await context.IsTableEmptyAsync();
