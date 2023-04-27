@@ -10,4 +10,5 @@ export class ExerciseComponent {
   @Input('target') target: any;
   @Input('name') name: any;
   @Input('gif') gif: any;
+  @Input('desc') desc: any;
 }

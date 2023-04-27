@@ -1,22 +1,28 @@
-
-<div class="row mb-5" *ngIf="!isLoading; else loading">
+<div class="row mb-5" *ngIf="!isLoading && plan; else noPlanOrLoading">
   <div class="col-md-8 col-xl-6 text-center mx-auto">
-    <h2 class="fw-bold">{{ plan.name }}</h2>
-    <p class="text-muted">Curae hendrerit donec commodo hendrerit egestas tempus, turpis facilisis nostra nunc. Vestibulum dui eget ultrices.</p>
+    <h2 class="fw-bold">Your workout plan</h2>
+    <p class="text-muted">{{ plan.name }}</p>
   </div>
 </div>
-<tab-group *ngIf="!isLoading">
+<tab-group *ngIf="!isLoading && plan">
   <tab *ngFor="let workout of plan.workouts" [tabTitle]="workout.name">
     <div class="row row-cols-1 row-cols-md-2 mx-auto" style="max-width: 900px;">
-      <app-exercise *ngFor="let exercise of workout.exercises" [name]="exercise.name" [target]="exercise.target" [gif]="exercise.gifUrl"></app-exercise>
+      <app-exercise *ngFor="let exercise of workout.exercises" [desc]="exercise.description" [name]="exercise.name" [target]="exercise.target" [gif]="exercise.gifUrl"></app-exercise>
     </div>
   </tab>
 </tab-group>
 
-<ng-template #loading>
-  <div class="d-flex justify-content-center">
-    <div class="spinner-border text-primary" role="status">
-      <span class="sr-only">Loading...</span>
+<ng-template #noPlanOrLoading>
+  <ng-container *ngIf="!isLoading; else loading">
+    <div class="d-flex justify-content-center">
+      <h3>No plan for you yet</h3>
     </div>
-  </div>
+  </ng-container>
+  <ng-template #loading>
+    <div class="d-flex justify-content-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </ng-template>
 </ng-template>

@@ -15,15 +15,30 @@ import { TabComponent } from './tab.component';
 @Component({
   selector: 'tab-group',
   template: `
+  <div class="tabs-wrapper">
     <ul class="nav nav-tabs">
-      <li *ngFor="let tab of tabs" (click)="selectTab(tab)" [class.active]="tab.active">
-        <p class="tab-text">{{tab.title}}</p>
-      </li>
+     <ng-container *ngFor="let tab of tabs; let isLast=last">
+          <li (click)="selectTab(tab)" [class.active]="tab.active">
+            <p [class.tab-bold]="tab.active" style="margin: 10px">{{tab.title}}</p>
+          </li>
+          <span *ngIf="!isLast" class="tab-divider"></span>
+      </ng-container>
     </ul>
+    </div>
     <ng-content></ng-content>
   `,
   styles: [
     `
+    .tabs-wrapper {
+      display: flex;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 10px;
+    }
+    .nav-tabs {
+      display: flex;
+      border-bottom: none;
+    }
     .tab-close {
       color: gray;
       text-align: right;
@@ -31,6 +46,15 @@ import { TabComponent } from './tab.component';
     }
     .tab-text {
       margin: 10;
+    }
+
+    .tab-bold {
+      font-weight: bold;
+    }
+    .tab-divider { 
+      width: 1px;
+      background-color: #ccc;
+      margin: 0 5px;
     }
     `
   ]
