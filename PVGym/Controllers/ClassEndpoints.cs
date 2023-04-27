@@ -5,6 +5,11 @@ namespace PVGym.Controllers;
 
 public static class ClassEndpoints
 {
+
+    /*
+     * Autor: Alexandre Oliveira
+     * Co-autor: Bernardo Botelho
+    */
     public static void MapClassEndpoints(this IEndpointRouteBuilder routes)
     {
         routes.MapGet("/api/Class", async (PVGymContext db) =>

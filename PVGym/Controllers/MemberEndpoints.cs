@@ -7,6 +7,7 @@ namespace PVGym.Controllers;
 
 /*
  * Autor: Bruno Russo
+ * Co-Autor: Bernardo Botelho
  */
 public static class MemberEndpoints
 {
