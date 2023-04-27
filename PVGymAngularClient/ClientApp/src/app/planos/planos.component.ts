@@ -2,7 +2,7 @@
  * Author: Ismael Lourenço
  */
 import { Component, OnInit } from '@angular/core';
-import { Plan, TreinosService } from '../treinos.service';
+import { Plan, TreinosService } from '../services/treinos.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({

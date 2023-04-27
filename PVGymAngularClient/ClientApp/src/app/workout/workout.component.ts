@@ -4,7 +4,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Exercise, TreinosService, Workout } from '../treinos.service';
+import { Exercise, TreinosService, Workout } from '../services/treinos.service';
 
 @Component({
   selector: 'app-workout',
@@ -35,7 +35,6 @@ export class WorkoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.eliminateWorkout)
   }
 
   modalVisibleChange(visible: boolean) {
