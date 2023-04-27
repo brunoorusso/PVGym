@@ -10,6 +10,11 @@ import { AulaDisponivel, Aula } from './aulas-disponiveis.service';
 })
 export class AulasService {
 
+  /*
+   * Autor: Alexandre Oliveira
+   * Co-autor: Bernardo Botelho
+   */
+
   constructor(private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) { }
 
   getTomorrowClasses(): Observable<Class[]> {

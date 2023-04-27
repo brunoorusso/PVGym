@@ -10,6 +10,10 @@ import { ApplicationUserModel } from '../user.service';
 })
 export class MemberService {
 
+  /*
+   * Autor: Bernardo Botelho
+   */
+
   constructor(private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) { }
 
   getMembers(): Observable<Member[]> {

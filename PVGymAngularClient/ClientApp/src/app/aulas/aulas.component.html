@@ -3,7 +3,7 @@
 </div>
 
 <div *ngIf="futureNameClassesMap.size == 0">
-  <label>It seems you're not enrolled on any class! Join <a [routerLink]="['/aulasDisponiveis']">here</a>.</label>
+  <label>It seems you're not enrolled on any class! Join <a [routerLink]="['/aulasDisponiveis']" style="color: #198754;">here</a>.</label>
 </div>
 <div *ngFor="let className of futureNameClassesMap | keyvalue">
   <h4>{{ className.key }}</h4>

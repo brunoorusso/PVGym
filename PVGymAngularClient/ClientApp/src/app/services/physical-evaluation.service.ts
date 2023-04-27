@@ -10,6 +10,10 @@ import { Evaluation } from '../physical-evaluation/physical-evaluation.component
 })
 export class PhysicalEvaluationService {
 
+  /*
+   * Autor: Bernardo Botelho
+   */
+
   constructor(private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) { }
 
   getPhysicalEvaluations(): Observable<Evaluation[]> {

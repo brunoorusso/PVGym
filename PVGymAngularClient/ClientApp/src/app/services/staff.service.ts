@@ -7,6 +7,10 @@ import { Observable } from 'rxjs';
 })
 export class StaffService {
 
+  /*
+   * Autor: Bernardo Botelho
+   */
+
   constructor(private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) { }
 
   getStaffs(): Observable<Staff[]> {

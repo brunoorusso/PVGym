@@ -33,6 +33,11 @@ export class PlanComponent {
     isRead: false
   };
 
+  /*
+   * Autor: Ismael Lourenço
+   * Co-autor: Bernardo Botelho
+   */
+
   constructor(private formBuilder: FormBuilder, private service: TreinosService, private notificationService: NotificationService, private userService: UserService) {
     this.workoutForm = this.formBuilder.group({
       name: ['', Validators.required],

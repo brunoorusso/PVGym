@@ -8,6 +8,10 @@ import { Notification } from "../notification/notification.component"
 })
 export class NotificationService {
 
+  /*
+   * Autor: Bernardo Botelho
+   */
+
   constructor(private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) { }
 
   getNotifications(): Observable<Notification[]> {
