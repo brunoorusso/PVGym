@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿/**
+ * Author: Ismael Lourenço
+ */
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
 using System.Text.Json.Serialization;
@@ -18,7 +21,7 @@ namespace PVGym.Models
 
         public override string? ToString()
         {
-            return WorkoutId + " -> " + Name;
+            return WorkoutId + " -> " + Name ;
         }
     }
 }

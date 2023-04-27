@@ -1,3 +1,6 @@
+/**
+ * Author: Ismael Lourenço
+ */
 import { Component, OnInit } from '@angular/core';
 
 @Component({

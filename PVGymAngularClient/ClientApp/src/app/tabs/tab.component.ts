@@ -2,6 +2,8 @@
  * A single tab page. It renders the passed template
  * via the @Input properties by using the ngTemplateOutlet
  * and ngTemplateOutletContext directives.
+ *
+ * Author: Ismael Lourenço
  */
 
 import { Component, Input } from '@angular/core';

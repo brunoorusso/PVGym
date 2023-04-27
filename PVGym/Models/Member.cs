@@ -1,4 +1,7 @@
-﻿using PVGym.Areas.Identity.Data;
+﻿/**
+ * Author: Ismael Lourenço
+ */
+using PVGym.Areas.Identity.Data;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -12,7 +15,7 @@ namespace PVGym.Models
         public Guid MemberId { get; set; }
 
         [Required]
-        [RegularExpression(@"^[1-9]\d{8}$", ErrorMessage = "Please enter a valid VAT number.")]
+        [RegularExpression(@"^[1-9]\d{9}$", ErrorMessage = "Please enter a valid VAT number.")]
         public int VAT { get; set; }
 
         [EnumDataType(typeof(Plantype))]

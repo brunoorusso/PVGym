@@ -1,3 +1,6 @@
+/**
+ * Author: Ismael Lourenço
+ */
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
@@ -25,8 +28,23 @@ export class TreinosService {
       .pipe(catchError(this.handleError));
   }
 
+  updatePlan(plan: Plan): Observable<Plan> {
+    return this.http.put<Plan>('/api/Plan/' + plan.planId, plan )
+      .pipe(catchError(this.handleError));
+  }
+
+  deletePlan(plan: Plan): Observable<Plan> {
+    return this.http.delete<Plan>('/api/Plan/' + plan.planId)
+      .pipe(catchError(this.handleError));
+  }
+
   addWorkout(workout: Partial<Workout>, id: string): Observable<Workout> {
     return this.http.post<Workout>('/api/WorkoutPlan', { workout, id })
+      .pipe(catchError(this.handleError));
+  }
+
+  updateWorkout(workout: Workout): Observable<Workout> {
+    return this.http.put<Workout>('/api/Workout/' + workout.workoutId, workout)
       .pipe(catchError(this.handleError));
   }
 
@@ -41,8 +59,6 @@ export class TreinosService {
   }
 
   addExistingExerciseToWorkout(exercise: Exercise, id: string): Observable<Exercise> {
-    console.log(id)
-    console.log(exercise.exerciseId)
     return this.http.post<Exercise>('/api/ExistingExerciseWorkout', { workoutId: id, exerciseId: exercise.exerciseId })
       .pipe(catchError(this.handleError));
   }

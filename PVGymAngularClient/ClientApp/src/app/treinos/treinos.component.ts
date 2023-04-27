@@ -1,3 +1,6 @@
+/**
+ * Author: Ismael Lourenço
+ */
 import { Component } from '@angular/core';
 import { TreinosService } from '../treinos.service';
 import { UserService } from '../user.service';

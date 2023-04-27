@@ -1,6 +1,7 @@
 /**
  * The main component that renders single TabComponent
  * instances.
+ * Author: Ismael Lourenço
  */
 
 import {

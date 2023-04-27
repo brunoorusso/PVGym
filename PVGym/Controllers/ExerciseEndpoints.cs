@@ -1,4 +1,7 @@
-﻿using System.Numerics;
+﻿/**
+ * Author: Ismael Lourenço
+ */
+using System.Numerics;
 using Microsoft.EntityFrameworkCore;
 using PVGym.Data;
 using PVGym.Models;

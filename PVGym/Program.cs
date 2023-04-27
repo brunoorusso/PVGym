@@ -109,6 +109,10 @@ using (var scope = app.Services.CreateScope())
         await userManager.AddToRoleAsync(newAdminUser, "admin");
     }
 
+
+    /**
+    * Author: Ismael Lourenço
+    */
     // Check if the table is empty and execute the code
     var context = scope.ServiceProvider.GetService<PVGymContext>();
     var isTableEmpty = await context.IsTableEmptyAsync();

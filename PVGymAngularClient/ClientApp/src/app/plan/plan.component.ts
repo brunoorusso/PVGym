@@ -1,3 +1,6 @@
+/**
+ * Author: Ismael Lourenço
+ */
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Plan, TreinosService, Workout } from '../treinos.service';
@@ -17,6 +20,8 @@ export class PlanComponent {
   assignMemberModalVisible = false;
   memberForm: FormGroup;
 
+  public editingPlan = false;
+
   constructor(private formBuilder: FormBuilder, private service: TreinosService) {
     this.workoutForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -26,6 +31,8 @@ export class PlanComponent {
       email: ['', [Validators.required, Validators.email]], 
     });
   }
+
+  public boundedEliminateWorkout = this.eliminateWorkout.bind(this);
 
   modalVisibleChange(visible: boolean) {
     this.modalVisible = visible;
@@ -37,7 +44,7 @@ export class PlanComponent {
       this.service.addWorkout(newWorkout, this.plan.planId).subscribe(resWorkout => {
         this.plan.workouts.push(resWorkout);
         this.workoutForm.reset();
-        this.modalVisible = false;
+        this.modalVisibleChange(false);
       });
     }
   }
@@ -73,8 +80,8 @@ export class PlanComponent {
     });
   }
 
-  eliminateWorkout(workout: Workout) {
-    this.service.removeWorkoutFromPlan(workout.workoutId, this.plan.planId).subscribe(() => {
+  public eliminateWorkout(workout: Workout) {
+    this.service.removeWorkoutFromPlan(this.plan.planId, workout.workoutId).subscribe(() => {
       this.plan.workouts.splice(this.plan.workouts.findIndex((item) => item.workoutId === workout.workoutId), 1);
     });
   }
@@ -91,5 +98,24 @@ export class PlanComponent {
         this.assignMemberModalVisible = false;
       });
     }
+  }
+
+  changeWorkoutEdit() {
+    this.editingPlan = true;
+  }
+
+  updatePlanName(newName: string) {
+    this.plan.name = newName;
+    this.service.updatePlan(this.plan).subscribe(updatedPlan => {
+      this.plan = updatedPlan;
+    });
+  }
+
+  deletePlan() {
+    this.service.deletePlan(this.plan).subscribe(plan => {
+      if(plan !== null) {
+        window.location.reload();
+      }
+    });
   }
 }

@@ -1,3 +1,6 @@
+/**
+ * Author: Ismael Lourenço
+ */
 import { Component, OnInit } from '@angular/core';
 import { Plan, TreinosService } from '../treinos.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -36,6 +39,7 @@ export class PlanosComponent implements OnInit {
       const newPlan: Partial<Plan> = { name: this.form.value.name, workouts: [] };
       this.service.addPlan(newPlan).subscribe(addedPlan => {
         this.plans.push(addedPlan);
+        this.modalVisibleChange(false);
       });
     }
   }

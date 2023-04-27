@@ -1,3 +1,6 @@
+/**
+ * Author: Ismael Lourenço
+ */
 import { Component, Input } from '@angular/core';
 
 @Component({

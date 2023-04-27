@@ -1,5 +1,6 @@
-﻿using System.Linq;
-using System.Numerics;
+﻿/**
+ * Author: Ismael Lourenço
+ */
 using Microsoft.EntityFrameworkCore;
 using PVGym.Data;
 using PVGym.Models;
@@ -39,41 +40,54 @@ public static class PlanEndpoints
         .Produces<Plan>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
-        routes.MapPut("/api/Plan/{id}", async (Guid PlanId, Plan plan, PVGymContext db) =>
+        routes.MapPut("/api/Plan/{id}", async (Guid id, Plan plan, PVGymContext db) =>
         {
-            var foundModel = await db.Plan.FindAsync(PlanId);
+            var foundModel = await db.Plan.FindAsync(id);
 
             if (foundModel is null)
             {
                 return Results.NotFound();
             }
 
-            db.Update(plan);
+            db.Entry(foundModel).State = EntityState.Detached;
+
+            foundModel.Name = plan.Name;
+
+            db.Plan.Update(foundModel);
 
             await db.SaveChangesAsync();
 
-            return Results.NoContent();
+            return Results.Created($"/Workouts/{plan.PlanId}", plan);
         })
         .WithName("UpdatePlan")
         .Produces(StatusCodes.Status404NotFound)
-        .Produces(StatusCodes.Status204NoContent);
+        .Produces<Plan>(StatusCodes.Status200OK);
 
         routes.MapPost("/api/Plan/", async (Plan plan, PVGymContext db) =>
         {
-            db.Plan.Add(plan);
+            db.Plan?.Add(plan);
             await db.SaveChangesAsync();
             return Results.Created($"/Plans/{plan.PlanId}", plan);
         })
         .WithName("CreatePlan")
         .Produces<Plan>(StatusCodes.Status201Created);
 
-        routes.MapDelete("/api/Plan/{id}", async (Guid PlanId, PVGymContext db) =>
+        routes.MapDelete("/api/Plan/{id}", async (Guid id, PVGymContext db) =>
         {
-            if (await db.Plan.FindAsync(PlanId) is Plan plan)
+            var foundModel = db.Plan?
+            .Where(p => p.PlanId == id)
+            .Include(m => m.Member)
+            .FirstOrDefault();
+
+            if (foundModel != null)
             {
-                db.Plan.Remove(plan);
+                foundModel.Member?.ForEach(async m =>
+                {
+                    m.Plan = null;
+                });
+                db.Plan.Remove(foundModel);
                 await db.SaveChangesAsync();
-                return Results.Ok(plan);
+                return Results.Ok(foundModel);
             }
 
             return Results.NotFound();

@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿/**
+ * Author: Ismael Lourenço
+ */
+using Microsoft.EntityFrameworkCore;
 using PVGym.Data;
 using PVGym.Models;
 namespace PVGym.Controllers;
@@ -32,24 +35,28 @@ public static class WorkoutEndpoints
         .Produces<Workout>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
-        routes.MapPut("/api/Workout/{id}", async (Guid WorkoutId, Workout workout, PVGymContext db) =>
+        routes.MapPut("/api/Workout/{id}", async (Guid id, Workout workout, PVGymContext db) =>
         {
-            var foundModel = await db.Workout.FindAsync(WorkoutId);
+            Console.WriteLine(workout.ToString());
+            var foundModel = await db.Workout.FindAsync(id);
 
             if (foundModel is null)
             {
                 return Results.NotFound();
             }
 
-            db.Update(workout);
+            db.Entry(foundModel).State = EntityState.Detached;
+            foundModel.Name = workout.Name;
+
+            db.Workout.Update(foundModel);
 
             await db.SaveChangesAsync();
 
-            return Results.NoContent();
+            return Results.Created($"/Workouts/{workout.WorkoutId}", workout);
         })
         .WithName("UpdateWorkout")
         .Produces(StatusCodes.Status404NotFound)
-        .Produces(StatusCodes.Status204NoContent);
+        .Produces<Workout>(StatusCodes.Status201Created);
 
         routes.MapPost("/api/Workout/", async (Workout workout, PVGymContext db) =>
         {
@@ -111,8 +118,9 @@ public static class WorkoutEndpoints
 
         routes.MapPost("/api/DeleteWorkoutFromPlan/", async (WorkoutIdPlanIdRequest request, PVGymContext db) =>
         {
-            var workout = db.Workout.Include(p => p.Plans).Where(p => p.WorkoutId == Guid.Parse(request.WorkoutId)).FirstOrDefault();
+            var workout = db.Workout.Include(p => p.Plans).Where(w => w.WorkoutId == Guid.Parse(request.WorkoutId)).FirstOrDefault();
             var plan = db.Plan.Include(p => p.Workouts).Where(p => p.PlanId == Guid.Parse(request.PlanId)).FirstOrDefault();
+
             if (plan != null && workout != null)
             {
                 workout.Plans.Remove(plan);
@@ -120,15 +128,15 @@ public static class WorkoutEndpoints
             }
             else
             {
-                return Results.NotFound();
+                return Results.BadRequest();
             }
 
             await db.SaveChangesAsync();
-            return Results.CreatedAtRoute();
+            return Results.NoContent();
         })
         .WithName("DeleteWorkoutFromPlan")
-        .Produces(StatusCodes.Status201Created)
-        .Produces(StatusCodes.Status404NotFound);
+        .Produces(StatusCodes.Status204NoContent)
+        .Produces(StatusCodes.Status400BadRequest);
 
         routes.MapDelete("/api/Workout/{id}", async (Guid WorkoutId, PVGymContext db) =>
         {
@@ -157,4 +165,9 @@ public class WorkoutIdPlanIdRequest
 {
     public string? WorkoutId { get; set; }
     public string? PlanId { get; set; }
+
+    public override string? ToString()
+    {
+        return WorkoutId + " " + PlanId;
+    }
 }

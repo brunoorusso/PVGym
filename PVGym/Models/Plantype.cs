@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿/**
+ * Author: Ismael Lourenço
+ */
+using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
 namespace PVGym.Models

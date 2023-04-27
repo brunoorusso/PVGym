@@ -1,3 +1,6 @@
+/**
+ * Author: Ismael Lourenço
+ */
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
@@ -19,7 +22,6 @@ export class ModalComponent {
 
   saveModal() {
     this.save.emit();
-    this.closeModal();
   }
 
 }

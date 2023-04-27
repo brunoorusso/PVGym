@@ -1,4 +1,6 @@
-// workout.component.ts
+/**
+ * Author: Ismael Lourenço
+ */
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -12,12 +14,14 @@ import { Exercise, TreinosService, Workout } from '../treinos.service';
 export class WorkoutComponent implements OnInit {
 
   @Input('workout') workout!: Workout;
-  @Input('eliminate') eliminateWorkout!: (args: any) => void;
+  @Input('eliminateWorkout') eliminateWorkout!: ((param: any) => void);
 
   public modalVisible = false;
   public form: FormGroup;
   toggleState: 'create' | 'search' = 'create';
   public searchResults: Exercise[] = [];
+
+  public editingWorkout = false;
 
   constructor(private formBuilder: FormBuilder, private service: TreinosService) {
     this.form = this.formBuilder.group({
@@ -30,7 +34,9 @@ export class WorkoutComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    console.log(this.eliminateWorkout)
+  }
 
   modalVisibleChange(visible: boolean) {
     this.modalVisible = visible;
@@ -50,7 +56,7 @@ export class WorkoutComponent implements OnInit {
         console.log(resExercise);
         this.workout.exercises.push(resExercise);
         this.form.reset();
-        this.modalVisible = false;
+        this.modalVisibleChange(false);
       });
     }
   }
@@ -68,7 +74,7 @@ export class WorkoutComponent implements OnInit {
     this.service.addExistingExerciseToWorkout(exercise, this.workout.workoutId).subscribe(resWorkout => {
       this.workout.exercises.push(resWorkout);
       this.form.reset();
-      this.modalVisible = false;
+      this.modalVisibleChange(false);
     });
   }
 
@@ -78,6 +84,19 @@ export class WorkoutComponent implements OnInit {
     });
   }
 
-  
+  eliminate() {
+    this.eliminateWorkout(this.workout);
+  }
+
+  changeWorkoutEdit() {
+    this.editingWorkout = true;
+  }
+
+  updateWorkoutName(newName: string): void {
+    this.workout.name = newName;
+    this.service.updateWorkout(this.workout).subscribe(updatedWorkout => {
+      this.workout = updatedWorkout;
+    });
+  }
 
 }

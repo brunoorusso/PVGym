@@ -1,0 +1,5 @@
+<div [ngSwitch]="elementType" *ngIf="!editing">
+  <p *ngSwitchCase="'p'" (click)="toggleEdit()">{{text}}</p>
+  <h4 *ngSwitchCase="'h4'" (click)="toggleEdit()">{{text}}</h4>
+</div>
+<input *ngIf="editing" [(ngModel)]="editedText" (blur)="save()" />

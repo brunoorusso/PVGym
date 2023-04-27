@@ -32,6 +32,7 @@ import { AddStaffComponent } from './add-staff/add-staff.component';
 import { ProfileComponent } from './profile/profile.component';
 
 import * as CanvasJSAngularChart from '../assets/canvasjs.angular.component';
+import { TextEditComponent } from './text-edit/text-edit.component';
 var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
 @NgModule({
@@ -60,7 +61,8 @@ var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
     AulasComponent,
     AulasDisponiveisComponent,
     AulaDescricaoComponent,
-    CanvasJSChart
+    CanvasJSChart,
+    TextEditComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
