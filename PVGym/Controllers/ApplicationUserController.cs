@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿/*
+ * Author: Bruno Russo
+ * Description: This controller is responsible for the user endpoints.
+ */
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +18,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PVGym.Controllers
 {
-    
-    /*
-     * Autor: Bruno Russo
-     */
 
     [Route("api/[controller]")]
     [ApiController]
@@ -40,6 +40,10 @@ namespace PVGym.Controllers
             _passwordHasher = passwordHasher;
         }
 
+        /*
+         * This method is responsible for authenticate a user.
+         * It also retrieve a token to the user.
+         */ 
         [HttpPost]
         [Route("Login")]
         //POST: /api/ApplicationUser/Login
@@ -90,6 +94,9 @@ namespace PVGym.Controllers
 
         }
 
+        /*
+         * This method is responsible for registering a new user.
+         */ 
         [HttpPost]
         [Route("Register")]
         //POST: /api/ApplicationUser/Register
@@ -158,6 +165,10 @@ namespace PVGym.Controllers
             return Ok(result);
         }
 
+        /*
+         *  This method is responsible for updating user.
+         *  Receive the user email, look for the user in the database and update the user.
+         */ 
         [HttpPut]
         [Route("UpdateUser/{email}")]
         //PUT: /api/ApplicationUser/UpdateUser

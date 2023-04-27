@@ -89,65 +89,6 @@
   </table>
 </ng-template>
 
-<app-modal [(visible)]="studentsVisible"
-           (visibleChange)="modalVisibleChange($event)"
-           title="Students">
-  <div>
-    <table class='table' aria-labelledby="tableLabel" *ngIf="students != null">
-    <!--<thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Limit</th>
-        <th>Duration</th>
-        <th>Image</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{ aula.id }}</td>
-        <td>{{ aula.name }}</td>
-        <td>{{ aula.description }}</td>
-        <td>{{ aula.limit }}</td>
-        <td>{{ aula.duration }}</td>
-        <td class="container">
-          <img class="rounded img-fluid shadow w-100 fit-cover" [src]="aula.image">
-          <div class="middle">{{ aula.name }}</div>
-        </td>
-      </tr>
-    </tbody>-->
-  </table>
-    </div>
-  </app-modal>
-
   <ng-template #aulasDisponiveis>
     <app-aulas-disponiveis></app-aulas-disponiveis>
   </ng-template>
-
-  <!--<mwl-calendar-month-view>
-  </mwl-calendar-month-view>-->
-    <!--<table class='table' aria-labelledby="tableLabel" *ngIf="aula != null">
-    <thead>
-      <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Limit</th>
-        <th>Duration</th>
-        <th>Image</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{ aula.id }}</td>
-        <td>{{ aula.name }}</td>
-        <td>{{ aula.description }}</td>
-        <td>{{ aula.limit }}</td>
-        <td>{{ aula.duration }}</td>
-        <td class="container">
-          <img class="rounded img-fluid shadow w-100 fit-cover" [src]="aula.image">
-          <div class="middle">{{ aula.name }}</div>
-        </td>
-      </tr>
-    </tbody>
-  </table>-->
