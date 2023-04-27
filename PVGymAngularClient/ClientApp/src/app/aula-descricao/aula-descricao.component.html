@@ -51,7 +51,7 @@
       </div>
     </div>
     <div class="form-group">
-      <button type="submit" class="btn-primary btn" [disabled]="!createAulaForm.valid">Create</button>
+      <button type="submit" class="btn-success btn" [disabled]="!createAulaForm.valid">Create</button>
     </div>
   </form>
 </ng-template>
@@ -79,9 +79,9 @@
         <td>{{ a.coach }}</td>
         <td>{{ a.members.length }}</td>
         <td>
-          <a *ngIf="showJoinButton(a)" (click)="joinClass(a.id)" class="btn btn-info">Join</a>
+          <a *ngIf="showJoinButton(a)" (click)="joinClass(a.id)" class="btn btn-outline-success">Join</a>
           <a *ngIf="showLeaveButton(a)" (click)="leaveClass(a.id)" class="btn btn-outline-danger">Leave</a>
-          <a *ngIf="showRemoveButton()" (click)="deleteClass(a.id)" class="btn btn-outline-warning">Remove</a>
+          <a *ngIf="showRemoveButton()" (click)="deleteClass(a.id)" class="btn btn-outline-danger">Remove</a>
           <!--<a (click)="onStudentsClick(a.members)" class="btn btn-info">Students</a>-->
         </td>
       </tr>

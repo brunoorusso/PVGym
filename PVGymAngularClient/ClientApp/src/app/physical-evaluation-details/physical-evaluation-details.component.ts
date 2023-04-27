@@ -15,6 +15,10 @@ export class PhysicalEvaluationDetailsComponent implements OnInit {
   @Input() evaluationId: number | undefined;
   physicalEvaluation: Evaluation = { id: 0, memberId: 0, createdBy: 0, memberName: "", staffName: "", evaluationDate: new Date(), height: 0, weight: 0, bmi: 0, bodyFat: 0 };
 
+  /*
+   * Autor: Bernardo Botelho
+   */
+
   constructor(private service: PhysicalEvaluationService, private memberService: MemberService, private userService: UserService, private staffService: StaffService) { }
 
   ngOnInit(): void {

@@ -16,6 +16,10 @@ export class NavMenuComponent implements OnDestroy {
   private subscription: Subscription = new Subscription;
   private user: any;
 
+  /*
+   * Autor: Bernardo Botelho
+   */
+
   constructor(public service: UserService, public notificationService: NotificationService, private router: Router) {
     this.service.getUserDataByEmail()?.subscribe(data => {
       this.user = data;

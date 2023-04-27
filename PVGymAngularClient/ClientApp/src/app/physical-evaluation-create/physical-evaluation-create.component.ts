@@ -30,6 +30,10 @@ export class PhysicalEvaluationCreateComponent implements OnInit {
     isRead: false
   };
 
+  /*
+   * Autor: Bernardo Botelho
+   */
+
   constructor(private service: PhysicalEvaluationService, private memberService: MemberService, private userService: UserService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {

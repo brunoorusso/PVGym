@@ -18,7 +18,11 @@ export class PhysicalEvaluationComponent implements OnInit {
   public showBack: boolean = false;
   private user: any;
   private member: Member = { evaluations: [], memberId: 0, plans: [], planType: "", user: { email: "", password: "", userName: "" }, userId: 0, vat: 0};
-  public staff: Staff = { id: 0, isAdmin: false, specialization: "", userId: 0};
+  public staff: Staff = { id: 0, isAdmin: false, specialization: "", userId: 0 };
+
+  /*
+  * Autor: Bernardo Botelho
+  */
 
   constructor(private service: PhysicalEvaluationService, public userService: UserService, private memberService: MemberService, private staffService: StaffService) { }
 

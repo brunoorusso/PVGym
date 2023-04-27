@@ -16,6 +16,10 @@ export class NotificationComponent implements OnInit {
   public showBack: boolean = false;
   private user: any;
 
+  /*
+   * Autor: Bernardo Botelho
+   */
+
   constructor(private service: NotificationService, public userService: UserService) { }
 
   ngOnInit(): void {

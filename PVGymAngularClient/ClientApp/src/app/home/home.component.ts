@@ -20,6 +20,10 @@ export class HomeComponent {
     isRead: false
   };
 
+  /*
+   * Autor: Bernardo Botelho
+   */
+
   constructor(private userService: UserService, private service: AulasService, private notificationService: NotificationService, private memberService: MemberService) { }
 
   ngOnInit(): void {
