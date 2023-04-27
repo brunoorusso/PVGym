@@ -22,6 +22,9 @@ export class PlanComponent {
   searchResults: any[] = [];
   assignMemberModalVisible = false;
   memberForm: FormGroup;
+
+  editingPlan = false;
+
   private notification: Notification = {
     userId: "",
     notificationDate: new Date(),
@@ -111,7 +114,7 @@ export class PlanComponent {
           this.assignMemberModalVisible = false;
         });
       });
-    }
+    
       this.service.assignMember(email, this.plan.planId).subscribe(() => {
         this.memberForm.reset();
         this.assignMemberModalVisible = false;
