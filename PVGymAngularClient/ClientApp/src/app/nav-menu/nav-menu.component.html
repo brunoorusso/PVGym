@@ -3,7 +3,7 @@
     class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
   >
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">PVGymAngularClient</a>
+      <a class="navbar-brand" [routerLink]="['/']"><img width="201" height="75" src="../../assets/img/gym-logo.png"/></a>
       <button
         class="navbar-toggler"
         type="button"
@@ -22,37 +22,37 @@
         <ul class="navbar-nav flex-grow">
 
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="service.isMember()" >
-            <a class="nav-link text-dark" [routerLink]="['/treinos']">Meu treino</a>
+            <a class="nav-link text-dark" [routerLink]="['/treinos']" style="font-size: 20px;">Meu treino</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="service.isAdmin() || service.isStaff()">
-            <a class="nav-link text-dark" [routerLink]="['/planos']">Planos</a>
+            <a class="nav-link text-dark" [routerLink]="['/planos']" style="font-size: 20px;">Planos</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="service.isMember() || service.isStaff()">
-            <a class="nav-link text-dark" [routerLink]="['/physicalEvaluation']">Physical Evaluations</a>
+            <a class="nav-link text-dark" [routerLink]="['/physicalEvaluation']" style="font-size: 20px;">Physical Evaluations</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="service.isMember() || service.isStaff()">
-            <a class="nav-link text-dark" [routerLink]="['/notification']">Notifications <img *ngIf="newNotifications?.length !== 0" src="../../assets/img/alerta.png" alt="New Notifications" style="width: 16px; height: 16px;"></a>
+            <a class="nav-link text-dark" [routerLink]="['/notification']" style="font-size: 20px;">Notifications <img *ngIf="newNotifications?.length !== 0" src="../../assets/img/alerta.png" alt="New Notifications" style="width: 16px; height: 16px;"></a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="service.isLoggedIn()">
-            <a class="nav-link text-dark" [routerLink]="['/profile']">Profile</a>
+            <a class="nav-link text-dark" [routerLink]="['/profile']" style="font-size: 20px;">Profile</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="service.isMember()">
-            <a class="nav-link text-dark" [routerLink]="['/aulas']">My Classes</a>
+            <a class="nav-link text-dark" [routerLink]="['/aulas']" style="font-size: 20px;">My Classes</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/aulasDisponiveis']">Available Classes</a>
+            <a class="nav-link text-dark" [routerLink]="['/aulasDisponiveis']" style="font-size: 20px;">Available Classes</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="service.isAdmin() || service.isStaff()">
-            <a class="nav-link text-dark" [routerLink]="['/register']">Add Member</a>
+            <a class="nav-link text-dark" [routerLink]="['/register']" style="font-size: 20px;">Add Member</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="service.isAdmin()">
-            <a class="nav-link text-dark" [routerLink]="['/add-staff']">Add Staff</a>
+            <a class="nav-link text-dark" [routerLink]="['/add-staff']" style="font-size: 20px;">Add Staff</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="!service.isLoggedIn()">
-            <a class="nav-link text-dark" [routerLink]="['/login']">Login</a>
+            <a class="nav-link text-dark" [routerLink]="['/login']" style="font-size: 20px;">Login</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="service.isLoggedIn()">
-            <a class="nav-link text-dark" [routerLink]="['/']" (click)="service.logout()">Logout</a>
+            <a class="nav-link text-dark" [routerLink]="['/']" (click)="service.logout()" style="font-size: 20px;">Logout</a>
           </li>
         </ul>
       </div>
