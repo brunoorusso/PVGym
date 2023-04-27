@@ -10,6 +10,11 @@ import { AulaDisponivel, Aula } from './aulas-disponiveis.service';
 })
 export class AulasService {
 
+  /*
+   * Autor: Alexandre Oliveira
+   * Co-autor: Bernardo Botelho
+   */
+
   constructor(private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) { }
 
   getTomorrowClasses(): Observable<Class[]> {
@@ -68,11 +73,6 @@ export class AulasService {
 
   removeMemberFromClass(member: Member, classId: string): Observable<Class> {
     return this.http.post<Class>('/api/RemoveMemberFromClass', { memberId: member.memberId, classId: classId })
-      .pipe(catchError(this.handleError));
-  }
-
-  getStudents(classId: string): Observable<Class[]> {
-    return this.http.get<Class[]>('/api/Class/' + classId + '/Members')
       .pipe(catchError(this.handleError));
   }
 

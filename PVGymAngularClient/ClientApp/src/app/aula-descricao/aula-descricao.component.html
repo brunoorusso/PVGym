@@ -41,8 +41,8 @@
     <a (click)="onCreateClick()" class="btn btn-success">Create</a>
   </div>
   <form #createAulaForm="ngForm" (ngSubmit)="onSubmit(createAulaForm, aula)">
-    <div class="form-group">
-      <label for="startDate">Start Date:</label>
+    <div class="form-group" style="padding-bottom: 30px; padding-top: 30px">
+      <label for="startDate" style="padding-right: 10px">Start Date:</label>
       <input required ngModel #startDate="ngModel" type="datetime-local" id="startDate" name="startDate"
              min="{{today | date:'yyyy-MM-ddTHH:mm:ss'}}" />
       <div class="alert alert-danger" *ngIf="startDate.touched && !startDate.valid">
@@ -50,7 +50,7 @@
         <div *ngIf="startDate.errors?.['min']">Start date and time cannot be before now</div>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" style="padding-bottom: 30px">
       <button type="submit" class="btn-success btn" [disabled]="!createAulaForm.valid">Create</button>
     </div>
   </form>
@@ -63,7 +63,7 @@
   <div>
     <a *ngIf="showCreateButton()" (click)="onCreateClick()" class="btn btn-success">Create</a>
   </div>
-  <label *ngIf="aulas.length == 0">There are no scheduled classes.</label>
+  <label *ngIf="aulas.length == 0" style="padding-bottom: 30px; padding-top: 30px">There are no scheduled classes.</label>
   <table *ngIf="aula && aulas.length != 0" class="table" aria-labelledby="tableLabel">
     <thead>
       <tr>
