@@ -1,8 +1,10 @@
+/*
+ * Autor: Alexandre Oliveira
+ */
+
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { AulasDisponiveisService, AulaDisponivel, Aula } from '../aulas-disponiveis.service';
 import { AulasService } from '../aulas.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
 
 @Component({
@@ -22,6 +24,11 @@ export class AulasDisponiveisComponent implements OnInit {
   public selectedAula: AulaDisponivel | undefined;
   public isInClass: Map<string, boolean> = new Map<string, boolean>();
 
+  /*
+   * AulasDisponiveisComponent constructor
+   * Initializes all services and gets available classes using AulasDisponiveisService
+   * Populates "aulasDisponiveis" array
+   */
   constructor(aulasDisponiveisService: AulasDisponiveisService, aulasService: AulasService, userService: UserService) {
     this.aulasDisponiveisService = aulasDisponiveisService;
     this.aulasService = aulasService;
@@ -29,6 +36,11 @@ export class AulasDisponiveisComponent implements OnInit {
     this.aulasDisponiveisService.getAvailableClasses().subscribe(aulasDisponiveis => this.aulasDisponiveis = aulasDisponiveis);
   }
 
+  /*
+   * getAulas Method
+   * Gets all classes for a selected AulaDisponivel and indicates which classes the user is in.
+   * Populates "aulas" array and "isInClass" map.
+   */
   getAulas(aula: AulaDisponivel): void {
     this.selectedAula = aula;
     this.aulasService.getClasses(aula.name).subscribe(aulas => {
@@ -49,11 +61,15 @@ export class AulasDisponiveisComponent implements OnInit {
         } else {
           this.aulas = [];
         }
-        console.log(aulas);
       });
     });
   }
 
+  /*
+   * populateInClassMap Method
+   * Populates a map that indicates which classes the user is in.
+   * Populates "isInClass" map on component initialization.
+   */
   populateInClassMap() {
     this.userService.getUserDataByEmail()?.subscribe(user => {
       for (var aula of this.aulas) {

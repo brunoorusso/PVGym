@@ -1,3 +1,8 @@
+/*
+ * Autor: Alexandre Oliveira
+ * Co-autor: Bernardo Botelho
+ */
+
 import { Component, Input, OnInit } from '@angular/core';
 import { AulaDisponivel, Aula } from '../aulas-disponiveis.service';
 import { Member } from '../services/member.service';
@@ -32,11 +37,6 @@ export class AulaDescricaoComponent implements OnInit {
     isRead: false
   };
 
-  /*
-   * Autor: Alexandre Oliveira
-   * Co-autor: Bernardo Botelho
-   */
-
   constructor(public aulasService: AulasService, public userService: UserService, public memberService: MemberService, private notificationService: NotificationService) {
 
   }
@@ -45,10 +45,20 @@ export class AulaDescricaoComponent implements OnInit {
 
   }
 
+  /*
+   * onCreateClick Method
+   * Changes the shown HTML for a Staff (or Admin) to create a new class.
+   * Changes the boolean variable "createComponent".
+   */
   onCreateClick(): void {
     this.createComponent = true;
   }
 
+  /*
+   * onSubmit Method
+   * Creates a new class of a given type (AulaDisponivel) on a given date (info on aulaForm)
+   * Changes the "aulas" array in case of success (adds the newly created class).
+   */
   onSubmit(aulaForm: NgForm, aulaDisponivel: AulaDisponivel | undefined) {
     this.userService.getUserDataByEmail()?.subscribe(user => {
       aulaForm.value.coachId = user.id;
@@ -63,10 +73,11 @@ export class AulaDescricaoComponent implements OnInit {
     });
   }
 
-  modalVisibleChange(visible: boolean) {
-    this.studentsVisible = visible;
-  }
-
+  /*
+   * joinClass Method
+   * Receives the class id in which the user will join
+   * Changes the "aula.members" array of that class in case of success (adds the newly added user).
+   */
   joinClass(classId: string): void {
     this.userService.getUserDataByEmail()?.subscribe(user => {
       this.memberService.getMemberByUserId(user.id).subscribe(member => {
@@ -89,6 +100,11 @@ export class AulaDescricaoComponent implements OnInit {
     });
   }
 
+  /*
+   * leaveClass Method
+   * Receives the class id in which the user will leave
+   * Changes the "aula.members" array of that class in case of success (removes the logged in user).
+   */
   leaveClass(classId: string): void {
     this.userService.getUserDataByEmail()?.subscribe(user => {
       this.memberService.getMemberByUserId(user.id).subscribe(member => {
@@ -105,6 +121,11 @@ export class AulaDescricaoComponent implements OnInit {
     });
   }
 
+  /*
+   * deleteClass Method
+   * Receives the class id which will be deleted
+   * Changes the "aulas" array in case of success (removes the deleted class).
+   */
   deleteClass(classId: string): void {
     this.aulasService.deleteClass(classId).subscribe(res => {
       for (var aula of this.aulas) {
@@ -116,10 +137,18 @@ export class AulaDescricaoComponent implements OnInit {
     });
   }
 
+  /*
+   * showCreateButton Method
+   * Return a boolean value indicating if the current user has access to the "create class" button
+   */
   showCreateButton() {
     return this.userService.isAdmin() || this.userService.isStaff();
   }
 
+  /*
+   * showJoinButton Method
+   * Return a boolean value indicating if the current user has access to the "join class" button
+   */
   showJoinButton(a: Aula) {
     if (this.aula && !this.userService.isAdmin() && !this.userService.isStaff()) {
       return !this.isInClass.get(a.id) || this.aula.limit < a.members.length;
@@ -127,6 +156,10 @@ export class AulaDescricaoComponent implements OnInit {
     return false;
   }
 
+  /*
+   * showLeaveButton Method
+   * Return a boolean value indicating if the current user has access to the "leave class" button
+   */
   showLeaveButton(a: Aula) {
     if (!this.userService.isAdmin() && !this.userService.isStaff()) {
       return this.isInClass.get(a.id);
@@ -134,10 +167,18 @@ export class AulaDescricaoComponent implements OnInit {
     return false;
   }
 
+  /*
+   * showRemoveButton Method
+   * Return a boolean value indicating if the current user has access to the "remove class" button
+   */
   showRemoveButton() {
     return this.userService.isAdmin() || this.userService.isStaff();
   }
 
+  /*
+   * isLoggedIn Method
+   * Return a boolean value indicating if the current user is logged in
+   */
   isLoggedIn() {
     return this.userService.isLoggedIn();
   }
