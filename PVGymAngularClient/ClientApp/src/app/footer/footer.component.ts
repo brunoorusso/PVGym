@@ -1,4 +1,5 @@
 /**
+ * Footer Component
  * Author: Ismael Lourenço
  */
 import { Component, OnInit } from '@angular/core';

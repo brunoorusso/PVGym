@@ -1,4 +1,5 @@
 ﻿/**
+ * Exercise Model
  * Author: Ismael Lourenço
  */
 using System.ComponentModel.DataAnnotations;

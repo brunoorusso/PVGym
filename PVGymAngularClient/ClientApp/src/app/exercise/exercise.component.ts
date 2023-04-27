@@ -1,4 +1,5 @@
 /**
+ * This component represents an individual exercise in a workout application.
  * Author: Ismael Lourenço
  */
 import { Component, Input } from '@angular/core';

@@ -109,10 +109,7 @@ using (var scope = app.Services.CreateScope())
         await userManager.AddToRoleAsync(newAdminUser, "admin");
     }
 
-
-    /**
-    * Author: Ismael Lourenço
-    */
+    //Author: Ismael Lourenço
     // Check if the table is empty and execute the code
     var context = scope.ServiceProvider.GetService<PVGymContext>();
     var isTableEmpty = await context.IsTableEmptyAsync();
@@ -130,6 +127,8 @@ using (var scope = app.Services.CreateScope())
             { "X-RapidAPI-Host", "exercisedb.p.rapidapi.com" },
         },
         };
+
+        //Get the response from the API
         using (var response = await client.SendAsync(request))
         {
             response.EnsureSuccessStatusCode();
@@ -137,6 +136,7 @@ using (var scope = app.Services.CreateScope())
 
             JArray jArray = JArray.Parse(body);
 
+            //Adds to the database for each object in the array
             foreach (var obj in jArray)
             {
                 var exercise = new Exercise
