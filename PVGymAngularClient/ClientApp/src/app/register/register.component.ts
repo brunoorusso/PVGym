@@ -19,6 +19,8 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.service.formModel.reset();
+    this.service.formModel.get('planType')?.setValue('normal');
+    
   }
 
   onSubmit() {
