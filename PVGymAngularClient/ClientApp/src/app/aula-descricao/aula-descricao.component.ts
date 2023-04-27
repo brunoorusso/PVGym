@@ -36,6 +36,11 @@ export class AulaDescricaoComponent implements OnInit {
     isRead: false
   };
 
+  /*
+   * Autor: Alexandre Oliveira
+   * Co-autor: Bernardo Botelho
+   */
+
   constructor(public aulasService: AulasService, public userService: UserService, public memberService: MemberService, private notificationService: NotificationService) {
     //this.aulasService = aulasService;
     //this.userService = userService;
