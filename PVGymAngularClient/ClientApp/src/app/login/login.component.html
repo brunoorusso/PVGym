@@ -13,8 +13,8 @@
     <div class="container py-5">
       <div class="row mb-4 mb-lg-5">
         <div class="col-md-8 col-xl-6 text-center mx-auto">
-          <p class="fw-bold text-success mb-2">Login</p>
-          <h2 class="fw-bold">Welcome back</h2>
+          <p class="fw-bold text-success mb-2" style="font-size: 30px;">Login</p>
+          <h2 class="fw-bold" style="font-size: 40px;">Welcome back</h2>
         </div>
       </div>
       <div class="row d-flex justify-content-center">
@@ -29,7 +29,7 @@
               <form [formGroup]="service.loginFormModel" autocomplete="off" (submit)="onSubmit()">
                 <div class="mb-3"><input class="form-control" formControlName="Email" type="email" name="email" placeholder="Email"></div>
                 <div class="mb-3"><input class="form-control" formControlName="Password" type="password" name="password" placeholder="Password"></div>
-                <div class="mb-3"><button class="btn btn-primary shadow d-block w-100" type="submit">Log in</button></div>
+                <div class="mb-3"><button class="btn btn-primary shadow d-block w-100 btn-success" type="submit">Log in</button></div>
                 <p *ngIf="loginError" class="text-danger">
                   Please check your email and password.
                 </p>

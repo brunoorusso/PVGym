@@ -19,7 +19,7 @@
       </svg>
     </div>
   </div>
-  <button class="btn btn-link p-0" (click)="modalVisible = true">+ Add Workout</button>
+  <button class="btn btn-link p-0" style="color: #198754;" (click)="modalVisible = true">+ Add Workout</button>
   <div class="row" style="margin-top: 15px;">
     <app-workout class="col" *ngFor="let workout of plan.workouts" [workout]="workout" [eliminateWorkout]="boundedEliminateWorkout"></app-workout>
   </div>

@@ -11,7 +11,7 @@
             <h4 class="mb-2" style="color: black">{{userData.userName}}</h4>
             <p class="text-muted mb-4">{{userData.email}}</p>
             <p *ngIf="service.isStaff()" class="text-muted mb-4">{{staffData.specialization}}</p>
-            <button type="button" class="btn btn-primary btn-rounded btn-lg" (click)="modalVisible = true">
+            <button type="button" class="btn btn-success btn-rounded btn-lg" (click)="modalVisible = true">
               Settings
             </button>
             <app-modal [(visible)]="modalVisible"

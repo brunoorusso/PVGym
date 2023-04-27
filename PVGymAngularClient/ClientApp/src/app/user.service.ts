@@ -215,7 +215,7 @@ export class UserService {
   }
 
   getStaffById(id: string) {
-    return this.http.get<any[]>(this.BaseURI + `/Staff/GetStaffByUserId/${id}`);
+    return this.http.get<any[]>(this.BaseURI + `/Staff/UserId/${id}`);
   }
   getUser(id: number): Observable<ApplicationUserModel> {
     return this.http.get<ApplicationUserModel>(this.BaseURI + `/ApplicationUser/GetUser/${id}`);
