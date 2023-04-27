@@ -200,13 +200,17 @@ export class UserService {
     return this.http.get<any[]>(this.BaseURI + '/ApplicationUser/GetAllUsers');
   }
 
-  getUserDataByEmail() {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decodedToken: any = jwt_decode(token);
-      return this.http.get<any>(this.BaseURI + `/ApplicationUser/GetUserByEmail/${decodedToken.sub}`);
+  getUserDataByEmail(email?: string) {
+    if (email) {
+      return this.http.get<any>(this.BaseURI + `/ApplicationUser/GetUserByEmail/${email}`);
+    } else {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const decodedToken: any = jwt_decode(token);
+        return this.http.get<any>(this.BaseURI + `/ApplicationUser/GetUserByEmail/${decodedToken.sub}`);
+      }
+      return null;
     }
-    return null;
   }
 
   getStaffById(id: string) {

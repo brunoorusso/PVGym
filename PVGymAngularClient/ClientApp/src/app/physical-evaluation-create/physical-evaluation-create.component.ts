@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Member, MemberService } from '../services/member.service';
 import { NotificationService } from '../services/notification.service';
-import { Notification } from "../notification/notification.component"
+import { Notification } from "../notification/notification.component";
 import { PhysicalEvaluationService } from '../services/physical-evaluation.service';
 import { ApplicationUserModel, UserService } from '../user.service';
 

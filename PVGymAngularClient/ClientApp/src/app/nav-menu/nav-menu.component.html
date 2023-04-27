@@ -22,10 +22,10 @@
         <ul class="navbar-nav flex-grow">
 
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="service.isMember()" >
-            <a class="nav-link text-dark" [routerLink]="['/treinos']" style="font-size: 20px;">Meu treino</a>
+            <a class="nav-link text-dark" [routerLink]="['/treinos']" style="font-size: 20px;">My Training</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="service.isAdmin() || service.isStaff()">
-            <a class="nav-link text-dark" [routerLink]="['/planos']" style="font-size: 20px;">Planos</a>
+            <a class="nav-link text-dark" [routerLink]="['/planos']" style="font-size: 20px;">Plans</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="service.isMember() || service.isStaff()">
             <a class="nav-link text-dark" [routerLink]="['/physicalEvaluation']" style="font-size: 20px;">Physical Evaluations</a>
