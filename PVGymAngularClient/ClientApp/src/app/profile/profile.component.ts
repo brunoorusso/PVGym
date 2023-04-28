@@ -123,6 +123,10 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  /*
+   * Get Member Evaluations Method
+   * This method populates the chart objects (dataBMI & dataFat) with the physical evaluations info
+   */ 
   getMemberEvaluations(memberId: number) {
     let dataBMI: Data = {
       type: "line", //change type to bar, line, area, pie, etc
@@ -168,14 +172,26 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  /*
+   * Get Chart Instance BMI Method
+   * This method update the chartInstanceBMI object when the BMI chart is updated
+   */ 
   getChartInstanceBMI(event: any) {
     this.chartInstanceBMI = event;
   }
 
+  /*
+   * Get Chart Instance Fat Method
+   * This method update the chartInstanceFat object when the fat chart is updated
+   */ 
   getChartInstanceFat(event: any) {
     this.chartInstanceFat = event;
   }
 
+  /*
+   * Format Date Method
+   * This method formats a given Date object to a string of type "dd/MM/yyyy"
+   */ 
   formatDate(date: Date) {
     let evaluationDate = new Date(date);
     return evaluationDate.getDate() + "/" + (evaluationDate.getMonth() + 1).toString().padStart(2, "0") + "/" + evaluationDate.getFullYear();
