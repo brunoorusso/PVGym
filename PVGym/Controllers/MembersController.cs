@@ -25,9 +25,8 @@ namespace PVGym.Controllers
         
         public async Task<IActionResult> Index()
         {
-              return _context.Member != null ? 
-                          View(await _context.Member.ToListAsync()) :
-                          Problem("Entity set 'PVGymContext.Member'  is null.");
+            var members = _context.Member.Include(m => m.Plan);
+            return View(await members.ToListAsync());
         }
 
         // GET: Members/Details/5
@@ -39,7 +38,7 @@ namespace PVGym.Controllers
                 return NotFound();
             }
 
-            var member = await _context.Member
+            var member = await _context.Member.Include(m => m.Plan)
                 .FirstOrDefaultAsync(m => m.MemberId == id);
             if (member == null)
             {
@@ -53,6 +52,7 @@ namespace PVGym.Controllers
         
         public IActionResult Create()
         {
+            PopulateViewData();
             return View();
         }
 
@@ -71,6 +71,7 @@ namespace PVGym.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            PopulateViewData();
             return View(member);
         }
 
@@ -87,6 +88,7 @@ namespace PVGym.Controllers
             {
                 return NotFound();
             }
+            PopulateViewData();
             return View(member);
         }
 
@@ -123,6 +125,7 @@ namespace PVGym.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            PopulateViewData();
             return View(member);
         }
 
@@ -134,7 +137,7 @@ namespace PVGym.Controllers
                 return NotFound();
             }
 
-            var member = await _context.Member
+            var member = await _context.Member.Include(m => m.Plan)
                 .FirstOrDefaultAsync(m => m.MemberId == id);
             if (member == null)
             {
@@ -171,6 +174,7 @@ namespace PVGym.Controllers
         private void PopulateViewData()
         {
             ViewData["PlanType"] = new SelectList(Enum.GetValues<Plantype>().Select(c => new { Value = (int)c, Name = c.ToString() }), "Value", "Name");
+            ViewData["PlanList"] = new SelectList(_context.Plan, "PlanId", "Name");
         }
 
        

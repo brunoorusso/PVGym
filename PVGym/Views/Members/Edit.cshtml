@@ -20,8 +20,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="PlanType" class="control-label"></label>
-                <select asp-for="PlanType" class="form-control"></select>
+                <select asp-for="PlanType" asp-items="ViewBag.PlanType" class="form-control"></select>
                 <span asp-validation-for="PlanType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Plan.PlanId" class="control-label"></label>
+                <select asp-for="Plan.PlanId" asp-items="ViewBag.PlanList" class="form-control"></select>
+                <span asp-validation-for="Plan.PlanId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

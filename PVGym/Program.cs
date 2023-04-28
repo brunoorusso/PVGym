@@ -27,7 +27,7 @@ builder.Services.AddDbContext<PVGymContext>(options =>
 
 /*
  * Add Identity and Identity Roles.
- */ 
+ */
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<PVGymContext>()
@@ -49,7 +49,7 @@ builder.Services.AddCors();
 /* 
  * Add Identity Core to the services that allow us to create users.
  * Here are defined the password requirements.
- */ 
+ */
 builder.Services.AddIdentityCore<IdentityUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
@@ -63,7 +63,7 @@ builder.Services.AddIdentityCore<IdentityUser>(options =>
 
 /* 
  * Add JWT Authentication to the services that allow us to assign tokens to users.
- */ 
+ */
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -85,7 +85,7 @@ var app = builder.Build();
 /*
  * In this scope we make sure that always exist an Admin user and 3 roles when the application is started.
  * It also assigns the admin role to the admin user. 
- */ 
+ */
 using (var scope = app.Services.CreateScope())
 {
     var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
@@ -93,9 +93,9 @@ using (var scope = app.Services.CreateScope())
 
     string[] roles = { "admin", "member", "staff" };
 
-    foreach(var role in roles)
+    foreach (var role in roles)
     {
-        if(await roleManager.FindByNameAsync(role) == null)
+        if (await roleManager.FindByNameAsync(role) == null)
         {
             var newRole = new IdentityRole
             {
@@ -165,7 +165,9 @@ using (var scope = app.Services.CreateScope())
                 Console.WriteLine("Created Exercice: " + obj.GetValue<string>("name"));
             }
         }
-    } else {
+    }
+    else
+    {
         Console.WriteLine("Exercice already populated");
     }
 }
