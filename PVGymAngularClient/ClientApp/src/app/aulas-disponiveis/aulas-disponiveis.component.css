@@ -9,11 +9,10 @@ img {
   height: auto;
   transition: .5s ease;
   backface-visibility: hidden;
-  filter: grayscale(100%);
 }
 
 
-.container:hover img {
+.container:hover .image-container {
   filter: grayscale(0%);
 }
 
@@ -54,3 +53,17 @@ img {
   grid-column-gap: 20px;
   grid-row-gap: 20px;
 }
+
+.image-container {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(100%);
+}
+

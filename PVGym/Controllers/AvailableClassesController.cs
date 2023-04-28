@@ -56,7 +56,7 @@ namespace PVGym.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Limit,Duration")] AvailableClass availableClass)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Limit,Duration,Image")] AvailableClass availableClass)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace PVGym.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Description,Limit,Duration")] AvailableClass availableClass)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Description,Limit,Duration,Image")] AvailableClass availableClass)
         {
             if (id != availableClass.Id)
             {

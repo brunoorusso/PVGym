@@ -2,10 +2,10 @@
   <p>There are no available classes...</p>
 </div>
 
-<div *ngIf="aulasDisponiveis.length > 0 && selectedAula == undefined" class="grid">
+<div *ngIf="aulasDisponiveis.length > 0 && selectedAula == undefined" style="height:100%;" class="grid">
   <div class="box" *ngFor="let aula of aulasDisponiveis">
     <td class="container" (click)="getAulas(aula)" style="cursor: pointer;">
-      <img class="rounded img-fluid" [src]="aula.image">
+      <div class="container image-container rounded" [style.background-image]="'url(' + aula.image + ')'"></div>
       <div class="middle">{{ aula.name }}</div>
     </td>
   </div>
@@ -16,54 +16,3 @@
 <ng-template #details>
   <app-aula-descricao [aula]="selectedAula" [aulas]="aulas" [isInClass]="isInClass"></app-aula-descricao>
 </ng-template>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--<app-modal [(visible)]="modalVisible"
-           (visibleChange)="modalVisibleChange($event)"
-           (save)="createClass()"
-           title="Create New Plan">
-  <form [formGroup]="form">
-    <div class="mb-3">
-      <label for="planName" class="form-label">Plan Name</label>
-      <input type="text" class="form-control" id="planName" formControlName="name" required />
-    </div>
-  </form>
-</app-modal>-->
-
-
-<!--<table class='table' aria-labelledby="tableLabel" *ngIf="aulasDisponiveis">
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Limit</th>
-      <th>Duration</th>
-      <th>Image</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let aula of aulasDisponiveis">
-      <td>{{ aula.id }}</td>
-      <td>{{ aula.name }}</td>
-      <td>{{ aula.description }}</td>
-      <td>{{ aula.limit }}</td>
-      <td>{{ aula.duration }}</td>
-      <td class="container">
-        <img class="rounded img-fluid shadow w-100 fit-cover" [src]="aula.image">
-        <div class="middle">{{ aula.name }}</div>
-      </td>
-    </tr>
-  </tbody>
-</table>-->
