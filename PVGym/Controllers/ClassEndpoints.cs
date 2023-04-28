@@ -1,15 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿/*
+ * Autor: Alexandre Oliveira
+ * Co-autor: Bernardo Botelho
+*/
+
+using Microsoft.EntityFrameworkCore;
 using PVGym.Data;
 using PVGym.Models;
 namespace PVGym.Controllers;
 
 public static class ClassEndpoints
 {
-
-    /*
-     * Autor: Alexandre Oliveira
-     * Co-autor: Bernardo Botelho
-    */
     public static void MapClassEndpoints(this IEndpointRouteBuilder routes)
     {
         routes.MapGet("/api/Class", async (PVGymContext db) =>
@@ -38,6 +38,11 @@ public static class ClassEndpoints
         .Produces<Class>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
+        /*
+         * GetMembersOfClass Endpoint
+         * Receives the class id
+         * Returns an array with all the members of the given class
+         */
         routes.MapGet("/api/Class/{id}/Members", async (Guid Id, PVGymContext db) =>
         {
             var aulas = await db.Class
@@ -54,6 +59,11 @@ public static class ClassEndpoints
         .Produces<List<Member>>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status204NoContent);
 
+        /*
+         * GetClassByName Endpoint
+         * Receives the class name type
+         * Returns an array with all the classes of the given class type
+         */
         routes.MapGet("/api/Class/ByName/{name}", async (string name, PVGymContext db) =>
         {
             var classes = await db.Class
@@ -118,6 +128,12 @@ public static class ClassEndpoints
         .Produces<Class>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
+        /*
+         * CreateExistingMemberWithClassId Endpoint
+         * Receives an object with a class id and a member id
+         * This method adds the given member to the class, and vice-versa
+         * Returns the given class with the newly added member
+         */
         routes.MapPost("/api/ExistingMemberClass/", async (MemberIdClassIdRequest request, PVGymContext db) =>
         {
             var member = db.Member.Include(c => c.Classes).Where(m => m.MemberId == Guid.Parse(request.MemberId)).FirstOrDefault();
@@ -138,6 +154,12 @@ public static class ClassEndpoints
         .Produces<Class>(StatusCodes.Status201Created)
         .Produces(StatusCodes.Status404NotFound);
 
+        /*
+         * RemoveMemberFromClass Endpoint
+         * Receives an object with a class id and a member id
+         * This method removes the given member from the class, and vice-versa
+         * Returns code 204 (No Content)
+         */
         routes.MapPost("/api/RemoveMemberFromClass/", async (MemberIdClassIdRequest request, PVGymContext db) =>
         {
             var member = db.Member.Include(c => c.Classes).Where(m => m.MemberId == Guid.Parse(request.MemberId)).FirstOrDefault();
@@ -158,6 +180,11 @@ public static class ClassEndpoints
         .Produces(StatusCodes.Status204NoContent)
         .Produces(StatusCodes.Status404NotFound);
 
+        /*
+         * GetClassesByMemberId Endpoint
+         * Receives a member id
+         * Returns all the classes in which the given user is enrolled (future classes)
+         */
         routes.MapGet("/api/Class/Member/{id}", async (string Id, PVGymContext db) =>
         {
             var memberClasses = await db.Class
@@ -174,6 +201,11 @@ public static class ClassEndpoints
         .Produces<List<Class>>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status204NoContent);
 
+        /*
+         * GetOldClassesByMemberId Endpoint
+         * Receives a member id
+         * Returns all the classes in which the given user was enrolled (past classes)
+         */
         routes.MapGet("/api/Class/Old/Member/{id}", async (string Id, PVGymContext db) =>
         {
             var memberClasses = await db.Class
