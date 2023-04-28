@@ -21,7 +21,7 @@ export class PlanosComponent implements OnInit {
   public modalVisible = false;
   form!: FormGroup;
 
-  constructor(public service: TreinosService, private formBuilder: FormBuilder, private zone: NgZone) { }
+  constructor(public service: TreinosService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.service.getPlans().subscribe(plans => {
