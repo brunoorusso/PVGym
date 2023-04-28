@@ -21,6 +21,7 @@ export class WorkoutComponent {
 
   @Input('workout') workout!: Workout;
   @Input('eliminateWorkout') eliminateWorkout!: ((param: any) => void);
+  @Input('notifyWorkout') notifyWorkout!: ((modifyedWorkout: Workout) => void);
 
   public modalVisible = false;
   public form: FormGroup;
@@ -65,6 +66,7 @@ export class WorkoutComponent {
         this.workout.exercises.push(resExercise);
         this.form.reset();
         this.modalVisibleChange(false);
+        this.notifyWorkout(this.workout);
       });
     }
   }
@@ -89,6 +91,7 @@ export class WorkoutComponent {
       this.workout.exercises.push(resWorkout);
       this.form.reset();
       this.modalVisibleChange(false);
+      this.notifyWorkout(this.workout);
     });
   }
 
@@ -98,6 +101,7 @@ export class WorkoutComponent {
   eliminateExercise(exercise: Exercise) {
     this.service.removeExerciceFromWorkout(exercise.exerciseId, this.workout.workoutId).subscribe(() => {
       this.workout.exercises.splice(this.workout.exercises.findIndex((item) => item.exerciseId === exercise.exerciseId), 1);
+      this.notifyWorkout(this.workout);
     });
   }
 
@@ -123,6 +127,7 @@ export class WorkoutComponent {
     this.workout.name = newName;
     this.service.updateWorkout(this.workout).subscribe(updatedWorkout => {
       this.workout = updatedWorkout;
+      this.notifyWorkout(this.workout);
     });
   }
 

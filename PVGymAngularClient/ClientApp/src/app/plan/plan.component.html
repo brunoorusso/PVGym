@@ -21,7 +21,7 @@
   </div>
   <button class="btn btn-link p-0" style="color: #198754;" (click)="modalVisible = true">+ Add Workout</button>
   <div class="row" style="margin-top: 15px;">
-    <app-workout class="col" *ngFor="let workout of plan.workouts" [workout]="workout" [eliminateWorkout]="boundedEliminateWorkout"></app-workout>
+    <app-workout class="col" *ngFor="let workout of plan.workouts" [workout]="workout" [notifyWorkout]="notifyWorkout" [eliminateWorkout]="boundedEliminateWorkout"></app-workout>
   </div>
   <app-modal [(visible)]="modalVisible"
              (visibleChange)="modalVisibleChange($event)"
