@@ -150,8 +150,9 @@ export class AulaDescricaoComponent implements OnInit {
    * Return a boolean value indicating if the current user has access to the "join class" button
    */
   showJoinButton(a: Aula) {
+    console.log(a.members.length)
     if (this.aula && !this.userService.isAdmin() && !this.userService.isStaff()) {
-      return !this.isInClass.get(a.id) || this.aula.limit < a.members.length;
+      return !this.isInClass.get(a.id) && a.members.length < this.aula.limit;
     }
     return false;
   }
