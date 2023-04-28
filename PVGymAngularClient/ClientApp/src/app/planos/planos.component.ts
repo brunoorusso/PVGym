@@ -5,8 +5,8 @@
  * The component utilizes the TreinosService to interact with the backend, and manages
  * loading state and visibility of the modal for creating new workout plans.
  */
-import { Component, OnInit } from '@angular/core';
-import { Plan, TreinosService } from '../services/treinos.service';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { Plan, TreinosService, Workout } from '../services/treinos.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -21,7 +21,7 @@ export class PlanosComponent implements OnInit {
   public modalVisible = false;
   form!: FormGroup;
 
-  constructor(public service: TreinosService, private formBuilder: FormBuilder) { }
+  constructor(public service: TreinosService, private formBuilder: FormBuilder, private zone: NgZone) { }
 
   ngOnInit() {
     this.service.getPlans().subscribe(plans => {
@@ -54,5 +54,16 @@ export class PlanosComponent implements OnInit {
     }
   }
 
+  notifyWorkout(modifyedWorkout: Workout) {
+    for (var _i = 0; _i < this.plans.length; _i++) {
+      let plan = this.plans[_i];
+      for (var _j = 0; _j < plan.workouts.length; _j++) {
+        if (this.plans[_i].workouts[_j].workoutId === modifyedWorkout.workoutId) {
+          this.plans[_i].workouts[_j] = modifyedWorkout;
+        }
+      }
+    }
+  }
 
+  public notifyWorkoutBinded = this.notifyWorkout.bind(this);
 }

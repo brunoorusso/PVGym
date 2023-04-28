@@ -20,6 +20,7 @@ import { ApplicationUserModel, UserService } from '../user.service';
 })
 export class PlanComponent {
   @Input('plan') plan!: Plan;
+  @Input('notifyWorkout') notifyWorkout!: ((modifyedWorkout: Workout) => void);
 
   modalVisible = false;
   toggleState: 'create' | 'search' = 'create';
