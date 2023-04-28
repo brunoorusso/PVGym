@@ -1,3 +1,8 @@
+/*
+* Author: Bernardo Botelho
+* Description: Component responsible for displaying the details of a single notification.
+*/
+
 import { Component, Input, OnInit } from '@angular/core';
 import { Notification } from "../notification/notification.component"
 import { NotificationService } from '../services/notification.service';
@@ -12,12 +17,12 @@ export class NotificationDetailsComponent implements OnInit {
   @Input() notificationId: number | undefined;
   notification: Notification = { id: 0, userId: "", notificationDate: new Date(), subject: "", content: "", isRead: false };
 
-  /*
-   * Autor: Bernardo Botelho
-   */
-
   constructor(private service: NotificationService) { }
 
+  /*
+     * Description: Method to retrieve the details of a specific notification when the component is initialized.
+     * If the notification is successfully retrieved, mark it as read and update the notification object in the database.
+     */
   ngOnInit(): void {
     if (this.notificationId !== undefined) {
       this.service.getNotification(this.notificationId).subscribe((notification: Notification) => {

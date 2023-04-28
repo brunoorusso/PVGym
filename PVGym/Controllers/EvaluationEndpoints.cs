@@ -3,12 +3,11 @@ using PVGym.Data;
 using PVGym.Models;
 namespace PVGym.Controllers;
 
+/*
+ * Author: Bernardo Botelho
+ */
 public static class EvaluationEndpoints
 {
-
-    /*
-     * Autor: Bernardo Botelho
-    */
     public static void MapEvaluationEndpoints (this IEndpointRouteBuilder routes)
     {
         routes.MapGet("/api/Evaluation", async (PVGymContext db) =>
@@ -29,6 +28,13 @@ public static class EvaluationEndpoints
         .Produces<Evaluation>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
+        /**
+        * Description: This code sets up a route to retrieve a list of evaluations based on the staff member who created them.
+        * The route is a HTTP GET request to "/api/Evaluation/StaffId/{CreatedBy}" and is defined using the MapGet method of the route builder.
+        * It takes a Guid parameter called CreatedBy to specify the ID of the staff member who created the evaluations.
+        * The route retrieves all evaluations where the CreatedBy field matches the CreatedBy parameter passed in.
+        * The result is returned as a list of evaluations with a status code of 200 OK.
+        */
         routes.MapGet("api/Evaluation/StaffId/{CreatedBy}", async (Guid CreatedBy, PVGymContext db) =>
         {
             return await db.Evaluation.Where(m => m.CreatedBy == CreatedBy).ToListAsync();
@@ -36,6 +42,13 @@ public static class EvaluationEndpoints
         .WithName("GetEvaluationByCreatedBy")
         .Produces<List<Evaluation>>(StatusCodes.Status200OK);
 
+        /**
+        * Description: This code sets up a route to retrieve a list of evaluations for a specific member by their MemberId.
+        * The route is a HTTP GET request to "/api/Evaluation/MemberId/{MemberId}" and is defined using the MapGet method of the route builder.
+        * The MemberId is passed as a parameter in the route, and is used to filter the evaluations based on the matching MemberId in the database.
+        * The route returns a list of evaluations for the specified member, and is set to produce a HTTP response with a 200 OK status code
+        * and a content type of application/json that contains a list of Evaluation objects.
+        */
         routes.MapGet("api/Evaluation/MemberId/{MemberId}", async (Guid MemberId, PVGymContext db) =>
         {
             return await db.Evaluation.Where(m => m.MemberId == MemberId).ToListAsync();

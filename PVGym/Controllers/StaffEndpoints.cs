@@ -31,6 +31,13 @@ public static class StaffEndpoints
         .Produces<Staff>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
+        /**
+        * Description: This code sets up a route to retrieve a staff member by their user ID.
+        * The route is a HTTP GET request to "/api/Staff/UserId/{UserId}" and is defined using the MapGet method of the route builder.
+        * The route handler is an asynchronous lambda function that takes in the user ID and a database context as parameters.
+        * The function then searches for the staff member in the database with the given user ID using the FirstOrDefaultAsync method.
+        * If a staff member is found, it is returned as an Ok result with a status code of 200.
+        */
         routes.MapGet("/api/Staff/UserId/{UserId}", async (string UserId, PVGymContext db) =>
         {
             var staff = await db.Staff.FirstOrDefaultAsync(s => s.UserId == UserId.ToString());

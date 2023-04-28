@@ -1,3 +1,12 @@
+/**
+ * Author: Bernardo Botelho
+ * Description: This component represents the navigation menu of the application.
+ * It is responsible for retrieving and displaying new notifications for the current user, and collapsing/expanding the menu.
+ * It subscribes to the router events to update the notifications list after a navigation change.
+ * The user data is obtained by calling the UserService.
+ * The new notifications are retrieved from the NotificationService based on the user id.
+ */
+
 import { Component, OnDestroy } from '@angular/core';
 import { NotificationService } from '../services/notification.service';
 import { UserService } from '../user.service';
@@ -16,10 +25,13 @@ export class NavMenuComponent implements OnDestroy {
   private subscription: Subscription = new Subscription;
   private user: any;
 
-  /*
-   * Autor: Bernardo Botelho
+  /**
+   * Description: Constructs the NavMenuComponent class with the UserService, NotificationService, and Router injected.
+   * It retrieves the current user's data from the UserService and subscribes to the observable that is returned.
+   * When the user's data is received, it is assigned to the 'user' property and 'getNewNotifications()' is called.
+   * It also subscribes to the 'router.events' observable and checks if the event is an instance of NavigationEnd.
+   * If it is, it calls 'getNewNotifications()' again to update the notifications list.
    */
-
   constructor(public service: UserService, public notificationService: NotificationService, private router: Router) {
     this.service.getUserDataByEmail()?.subscribe(data => {
       this.user = data;
@@ -33,9 +45,14 @@ export class NavMenuComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
+    // Unsubscribe from router events to avoid memory leaks
     this.subscription.unsubscribe();
   }
 
+  /**
+   * Description: Retrieves the new notifications for the current user from the NotificationService.
+   * The notifications list is reversed to show the most recent first.
+   */
   getNewNotifications(): void {
 
     this.notificationService.getNewNotificationsOfUser(this.user.id)

@@ -31,6 +31,13 @@ public static class MemberEndpoints
         .Produces<Member>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound);
 
+        /**
+        * Description: This code sets up a route to retrieve a member object by their user id. The route is a
+        * HTTP GET request to "/api/Member/UserId/{UserId}" and is defined using the MapGet method of the route builder.
+        * The route takes a Guid UserId as input parameter and returns a member object. The method retrieves the member
+        * with the specified UserId from the database and includes the Plan, Workouts and Exercises related to the member.
+        * If the member object is found, it returns an Ok result with the member object, otherwise it returns a NotFound result.
+        */
         routes.MapGet("/api/Member/UserId/{UserId}", async (Guid UserId, PVGymContext db) =>
         {
             return await db.Member

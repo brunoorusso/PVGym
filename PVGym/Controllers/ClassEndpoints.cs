@@ -19,6 +19,11 @@ public static class ClassEndpoints
         .WithName("GetAllClasss")
         .Produces<List<Class>>(StatusCodes.Status200OK);
 
+        /**
+         * Description: This code sets up a route to retrieve a list of classes that are scheduled for tomorrow 
+         * and have not yet had a notification sent out about them. 
+         * The route is a HTTP GET request to "/api/Class/Tomorrow" and is defined using the MapGet method of the route builder.
+         */
         routes.MapGet("/api/Class/Tomorrow", async (PVGymContext db) =>
         {
             var tomorrow = DateTime.Today.AddDays(1);
@@ -80,7 +85,14 @@ public static class ClassEndpoints
         .Produces<List<Class>>(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status204NoContent);
 
-
+        /**
+         * Description: This code sets up a route to update an existing class in the database. The route is a HTTP PUT request
+         * to "/api/Class/{id}" and is defined using the MapPut method of the route builder. The Id of the class to be updated
+         * is passed in as a parameter, along with the updated class object. The method retrieves the existing class object from
+         * the database using the Id, and if the object is not found, returns a 404 Not Found status code. Otherwise, the object's
+         * NotificationSend property is updated with the value from the updated class object. The object is then marked as modified
+         * in the database context and saved using SaveChangesAsync. Finally, a 204 No Content status code is returned.
+         */
         routes.MapPut("/api/Class/{id}", async (Guid Id, Class @class, PVGymContext db) =>
         {
             var foundModel = await db.Class.FindAsync(Id);

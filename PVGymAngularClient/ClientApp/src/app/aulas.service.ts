@@ -17,6 +17,11 @@ export class AulasService {
 
   constructor(private http: HttpClient, @Inject("BASE_URL") private baseUrl: string) { }
 
+  /**
+  * Description: Returns an Observable of an array of Class objects that are scheduled for tomorrow from the API
+  * Endpoint: GET '/api/Class/Tomorrow'
+  * Returns: Observable of Class[]
+  */
   getTomorrowClasses(): Observable<Class[]> {
     return this.http.get<Class[]>(this.baseUrl + "api/Class/Tomorrow")
       .pipe(catchError(this.handleError));

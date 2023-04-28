@@ -3,11 +3,11 @@ using PVGym.Data;
 using PVGym.Models;
 namespace PVGym.Controllers;
 
+/*
+ * Author: Bernardo Botelho
+ */
 public static class NotificationEndpoints
 {
-    /*
-     * Autor: Bernardo Botelho
-    */
     public static void MapNotificationEndpoints(this IEndpointRouteBuilder routes)
     {
         routes.MapGet("/api/Notification", async (PVGymContext db) =>
@@ -17,6 +17,11 @@ public static class NotificationEndpoints
         .WithName("GetAllNotifications")
         .Produces<List<Notification>>(StatusCodes.Status200OK);
 
+        /**
+        * Description: This code sets up a route to retrieve a list of notifications for a given user ID.
+        * The route is a HTTP GET request to "/api/Notification/UserId/{UserId}" and is defined using the MapGet method of the route builder.
+        * The route takes in a user ID as a parameter and uses LINQ to query the database for notifications that have a matching user ID.
+        */
         routes.MapGet("api/Notification/UserId/{UserId}", async (Guid UserId, PVGymContext db) =>
         {
             return await db.Notification.Where(m => m.UserId == UserId).ToListAsync();
@@ -24,6 +29,11 @@ public static class NotificationEndpoints
         .WithName("GetNotificationByUserId")
         .Produces<List<Notification>>(StatusCodes.Status200OK);
 
+        /**
+        * Description: This code sets up a route to retrieve a list of unread notifications for a particular user.
+        * The route is a HTTP GET request to "/api/Notification/Unread/UserId/{UserId}" and is defined using the MapGet method of the route builder.
+        * The {UserId} placeholder is used to specify which user's notifications should be retrieved.
+        */
         routes.MapGet("api/Notification/Unread/UserId/{UserId}", async (Guid UserId, PVGymContext db) =>
         {
             return await db.Notification.Where(m => m.UserId == UserId && m.IsRead == false).ToListAsync();
